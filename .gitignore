@@ -1,0 +1,12 @@
+__pycache__
+.mypy_cache/
+.vscode/
+backup/
+testing/
+secrets/
+
+*.json
+*.log
+.env
+requirements.txt
+!configuration/*.json
