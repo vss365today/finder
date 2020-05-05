@@ -1,0 +1,48 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Finder (auto)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/finder.py",
+      "console": "internalConsole",
+      "env": {
+        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets"
+      },
+      "args": [
+        "--fetch"
+      ]
+    },
+    {
+      "name": "Finder (manual)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/finder.py",
+      "console": "internalConsole",
+      "env": {
+        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets"
+      },
+      "args": [
+        "--manual"
+      ]
+    },
+    {
+      "name": "Finder (schedule)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/finder.py",
+      "console": "internalConsole",
+      "env": {
+        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets",
+        "SCHEDULE_TIMES": "[\"0 5\", \"0 35\"]"
+      },
+      "args": [
+        "--schedule"
+      ]
+    }
+  ]
+}
