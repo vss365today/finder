@@ -59,7 +59,10 @@ if __name__ == "__main__":
 
     # Schedule finding the latest prompt
     elif args.schedule:
-        print("schedule")
+        from src.core import schedule
+
+        logging.info("Starting scheduler...")
+        schedule.main()
 
     # No arguments were passed
     else:
