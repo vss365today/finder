@@ -3,10 +3,6 @@ import logging
 import sys
 from typing import Dict
 
-import sys_vars
-
-# from apscheduler.schedulers.blocking import BlockingScheduler
-# from apscheduler.schedulers.background import BackgroundScheduler
 
 # Handle app arguments
 parser = argparse.ArgumentParser()
@@ -64,22 +60,6 @@ if __name__ == "__main__":
     # Schedule finding the latest prompt
     elif args.schedule:
         print("schedule")
-        # scheduler = BackgroundScheduler()
-        # Get the scheduled times
-        schedule_times = sys_vars.get_json("SCHEDULE_TIMES")
-        for time in schedule_times:
-            hour, minute = time.split()
-        #     scheduler.add_job(
-        #         (lambda: print("job")),
-        #         args=[],
-        #         trigger="cron",
-        #         hour=hour,
-        #         minute=minute,
-        #         day_of_week="*",
-        #     )
-        # scheduler.get_jobs()
-        # scheduler.start()
-        # raise SystemExit(0)
 
     # No arguments were passed
     else:
