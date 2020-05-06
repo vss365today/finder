@@ -56,7 +56,9 @@ if __name__ == "__main__":
 
     # Attempt to automatically find the latest prompt right now
     elif args.fetch:
-        print("fetch")
+        from src.core import fetch
+
+        fetch.main()
         raise SystemExit(0)
 
     # Schedule finding the latest prompt
