@@ -49,7 +49,9 @@ if __name__ == "__main__":
 
     # Manually enter a prompt
     if args.manual:
-        print("manual")
+        from src.core import manual
+
+        manual.main()
         raise SystemExit(0)
 
     # Attempt to automatically find the latest prompt right now
