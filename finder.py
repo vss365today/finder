@@ -40,8 +40,8 @@ if __name__ == "__main__":
     argument_values: Dict[str, bool] = vars(args)
     number_of_args_passed = len([v for v in argument_values.values() if v])
 
-    # All arguments were passed and that is not allowed
-    if number_of_args_passed >= 2:
+    # More than one arguments was passed and that is not allowed
+    if number_of_args_passed !== 1:
         print(
             f"{__file__}: error: cannot combine arguments. Only a single argument is permitted"
         )
