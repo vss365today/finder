@@ -5,7 +5,7 @@
 
 ## Required Configuration
 
-* Running instance of [#vss365 today API](https://github.com/le717/vss365-today-api/) (domain configurable)
+* Running instance of [#vss365 today API](https://github.com/le717/vss365today-api/) (domain configurable)
 * Twitter Consumer API keys
 * Twitter access token & access token secret
 
