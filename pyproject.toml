@@ -9,7 +9,7 @@ python = "^3.8"
 apscheduler = "^3.6.3"
 requests = "^2.23.0"
 tweepy = "^3.8.0"
-sys-vars = {url = "https://github.com/le717/sys-vars/releases/download/v1.0.0/sys_vars-1.0.0-py3-none-any.whl"}
+sys-vars = {url = "https://github.com/le717/sys-vars/releases/download/v3.0.0/sys_vars-3.0.0-py3-none-any.whl"}
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7.9"
