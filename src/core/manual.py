@@ -56,10 +56,10 @@ def main() -> bool:
     # Construct a tweet object
     prompt = {
         "id": tweet_id,
-        "date": str(prompt_tweet.created_at),
         "uid": prompt_tweet.author.id_str,
-        "content": escape(tweet_text),
+        "date": str(prompt_tweet.created_at),
         "word": find_prompt_word(tweet_text),
+        "content": escape(tweet_text),
         "media": tweet_media,
     }
     pprint(prompt)

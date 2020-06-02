@@ -127,10 +127,10 @@ def main():
     # Construct a dictionary with only the info we need
     prompt = {
         "id": prompt_tweet.id_str,
-        "date": str(tweet_date),
         "uid": prompt_tweet.author.id_str,
-        "content": escape(tweet_text),
+        "date": str(tweet_date),
         "word": prompt_word,
+        "content": escape(tweet_text),
         "media": tweet_media,
     }
     pprint(prompt)
