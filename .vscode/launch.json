@@ -22,7 +22,7 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/finder.py",
-      "console": "internalConsole",
+      "console": "externalTerminal",
       "env": {
         "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets"
       },
