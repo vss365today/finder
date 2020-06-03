@@ -1,7 +1,7 @@
 from html import escape
 from pprint import pprint
 from typing import Optional
-from urllib.parse import urlparse
+from urllib3.util.url import parse_url
 
 from requests.exceptions import HTTPError
 
@@ -20,10 +20,10 @@ __all__ = ["main"]
 
 def __get_tweet_id(url: str) -> Optional[str]:
     # Parse the URL into its components
-    parsed = urlparse(url.strip())
+    parsed = parse_url(url.strip())
 
-    # This is not a Twitter URL
-    if "twitter.com" not in parsed.netloc:
+    # This is not a Twitter URL or an individual tweet
+    if "twitter.com" not in parsed.host and "status" not in parsed.path:
         return None
 
     # Break up the URL path and pull out the tweet id

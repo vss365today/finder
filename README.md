@@ -15,7 +15,6 @@
 1. Set missing configuration keys in ??
 1. Create secret files in appropriate place (default: `/app/secrets`)
 1. `poetry install`
-1. `poetry run python finder.py`
 
 ## Build
 
