@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vss365today-finder"
-version = "0.1.0"
+version = "0.5.0"
 description = "#vss365 prompt tweet finder service for #vss365 today"
 authors = ["Caleb Ely <le717@users.noreply.github.com>"]
 

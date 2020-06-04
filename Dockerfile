@@ -14,6 +14,3 @@ RUN python3 -m pip install pip --upgrade && \
     python3 ./get-requirements.py && \
     pip3 install --no-cache-dir -r requirements.txt && \
     rm ./requirements.txt
-
-# Eun the app
-ENTRYPOINT [ "python", "finder.py" ]
