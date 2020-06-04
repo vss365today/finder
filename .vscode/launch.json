@@ -38,7 +38,7 @@
       "console": "internalConsole",
       "env": {
         "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets",
-        "SCHEDULE_TIMES": "[\"0 5\", \"0 35\"]"
+        "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
       },
       "args": [
         "--schedule"

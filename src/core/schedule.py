@@ -14,7 +14,7 @@ def main():
     # Get the scheduled times
     schedule_times: List[str] = sys_vars.get_json("SCHEDULE_TIMES")
     for time in schedule_times:
-        hour, minute = time.split()
+        minute, hour = time.split()
 
         # Create a job for each time
         scheduler.add_job(
@@ -27,4 +27,4 @@ def main():
         )
 
     # Start the scheduler
-    # scheduler.start()
+    scheduler.start()
