@@ -7,4 +7,4 @@ __all__ = ["load"]
 
 def load() -> dict:
     """Load the app config values from file."""
-    return loads((Path("config") / "config.json").read_text())
+    return loads((Path("configuration") / "default.json").read_text())

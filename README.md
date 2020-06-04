@@ -17,7 +17,7 @@
 
 ## Build
 
-1. Modify `config/config.json` as desired
+1. Modify `configuration/default.json` as desired
 1. `$ docker build -f "Dockerfile" -t vss365today-finder:latest .`
 
 ## License
