@@ -45,6 +45,7 @@ if __name__ == "__main__":
         print(
             f"{__file__}: error: cannot combine arguments. Only a single argument is permitted"
         )
+        parser.print_help()
         raise SystemExit(1)
 
     # Manually enter a prompt
