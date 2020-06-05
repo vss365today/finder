@@ -41,7 +41,7 @@ if __name__ == "__main__":
     number_of_args_passed = len([v for v in argument_values.values() if v])
 
     # More than one arguments was passed and that is not allowed
-    if number_of_args_passed != 1:
+    if number_of_args_passed >= 2:
         print(
             f"{__file__}: error: cannot combine arguments. Only a single argument is permitted"
         )
