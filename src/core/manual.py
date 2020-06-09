@@ -71,9 +71,7 @@ def main() -> bool:
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post(
-            "subscription", "broadcast", params={"date": create_datetime(tweet_date)}
-        )
+        api.post("broadcast", params={"date": create_datetime(tweet_date)})
 
     except HTTPError:
         print(f"Cannot add prompt for {tweet_date} to the database!")

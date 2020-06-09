@@ -142,7 +142,7 @@ def main():
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post("subscription", "broadcast", params={"date": tweet_date})
+        api.post("broadcast", params={"date": tweet_date})
 
     except HTTPError:
         print(f"Cannot add prompt for {tweet_date} to the database!")
