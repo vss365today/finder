@@ -4,13 +4,18 @@ import requests
 import sys_vars
 
 
-__all__ = ["get", "post"]
+__all__ = ["create_auth_token", "get", "post"]
 
 
 def __create_api_url(*args: str) -> str:
     """Construct a URL to the given API endpoint."""
     endpoint = "/".join(args)
     return f"{sys_vars.get('API_DOMAIN')}/{endpoint}/"
+
+
+def create_auth_token() -> dict:
+    """Create HTTP header for accessing protected API endpoints."""
+    return {"Authorization": f"Bearer {sys_vars.get('API_AUTH_TOKEN')}"}
 
 
 def get(*args: str, **kwargs: Any) -> Union[list, dict]:
