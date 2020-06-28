@@ -85,10 +85,14 @@ def main():
     # Start by searching for the Host for this day, and if that fails,
     # search for the Host for the whole month
     try:
-        CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
+        CURRENT_HOST = api.get(
+            "host", "date", headers=api.create_auth_token(), params={"date": TODAY}
+        )[0]
     except HTTPError:
         month_host = TODAY.replace(day=1)
-        CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
+        CURRENT_HOST = api.get(
+            "host", "date", headers=api.create_auth_token(), params={"date": month_host}
+        )[0]
 
     # Attempt to find the prompt
     prompt_tweet = process_tweets(CURRENT_HOST["id"])
@@ -143,11 +147,13 @@ def main():
     try:
         # Add the tweet to the database
         print("Adding tweet to database")
-        api.post("prompt", json=prompt)
+        api.post("prompt", headers=api.create_auth_token(), json=prompt)
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post("broadcast", params={"date": tweet_date})
+        api.post(
+            "broadcast", headers=api.create_auth_token(), params={"date": tweet_date}
+        )
 
     except HTTPError:
         print(f"Cannot add prompt for {tweet_date} to the database!")
