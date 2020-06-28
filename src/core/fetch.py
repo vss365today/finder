@@ -82,8 +82,13 @@ def main():
     # Get an initial round of tweets to search
     print("Searching for the latest prompt tweet")
 
-    # Get the Host for this month
-    CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
+    # Start by searching for the Host for this day, and if that fails,
+    # search for the Host for the whole month
+    try:
+        CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
+    except HTTPError:
+        month_date = TODAY.replace(day=1)
+        CURRENT_HOST = api.get("host", "date", params={"date": month_date})[0]
 
     # Attempt to find the prompt
     prompt_tweet = process_tweets(CURRENT_HOST["id"])
