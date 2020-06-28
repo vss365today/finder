@@ -87,8 +87,8 @@ def main():
     try:
         CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
     except HTTPError:
-        month_date = TODAY.replace(day=1)
-        CURRENT_HOST = api.get("host", "date", params={"date": month_date})[0]
+        month_host = TODAY.replace(day=1)
+        CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
 
     # Attempt to find the prompt
     prompt_tweet = process_tweets(CURRENT_HOST["id"])
