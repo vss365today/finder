@@ -1,15 +1,12 @@
 {
-  "identifiers": [
-    "#VSS365",
-    "#PROMPT"
-  ],
+  "identifiers": ["#VSS365", "#PROMPT"],
   "additionals": [
     "#VSS365A",
     "#WRITINGCOMMUNITY",
     "#FLASHDOGS",
     "#VSSPOEM",
     "#PROMPTS",
-    "#BIGALICE",
+    "#GREEK",
     "#SCIFIFRI",
     "#SCIFISAT"
   ],
