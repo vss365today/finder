@@ -34,8 +34,11 @@ def __get_tweet_id(url: str) -> Optional[str]:
 def main() -> bool:
     """Manually specify and record a Prompt."""
     # Get the tweet date and url info from the url
-    tweet_date = input("Enter the tweet date (YYYY-MM-DD): ")
-    tweet_url = input("Enter the tweet url: ")
+    tweet_date = input("Enter the Prompt date (YYYY-MM-DD): ")
+    tweet_url = input("Enter the Prompt url: ")
+    tweet_duplicate_date = input(
+        "Has a Prompt already been recored for this day? (y/N) "
+    ).strip()
     tweet_id = __get_tweet_id(tweet_url)
 
     # It's not a Twitter URL
@@ -53,6 +56,11 @@ def main() -> bool:
     media_url, tweet_media = get_tweet_media(prompt_tweet)
     tweet_text = get_tweet_text(prompt_tweet, media_url)
 
+    # Determine if this has been explictly marked as a duplicate Prompt
+    is_duplicate_date = (
+        tweet_duplicate_date.upper() == "Y" if tweet_duplicate_date else False
+    )
+
     # Construct a tweet object
     prompt = {
         "id": tweet_id,
@@ -61,6 +69,7 @@ def main() -> bool:
         "word": find_prompt_word(tweet_text),
         "content": escape(tweet_text),
         "media": tweet_media,
+        "is_duplicate_date": is_duplicate_date,
     }
     pprint(prompt)
 
