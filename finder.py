@@ -7,6 +7,12 @@ from typing import Dict
 # Handle app arguments
 parser = argparse.ArgumentParser()
 parser.add_argument(
+    "-a",
+    "--archive",
+    help="kick-off the word archive generator. Cannot be combined with other arguments",
+    action="store_true",
+)
+parser.add_argument(
     "-f",
     "--fetch",
     help="attempt to automatically record the latest prompt. Cannot be combined with other arguments",
@@ -52,22 +58,32 @@ if __name__ == "__main__":
     if args.manual:
         from src.core import manual
 
+        logging.info("Running manual...")
         manual.main()
         raise SystemExit(0)
 
     # Attempt to automatically find the latest prompt right now
-    elif args.fetch:
+    if args.fetch:
         from src.core import fetch
 
+        logging.info("Running fetch...")
         fetch.main()
         raise SystemExit(0)
 
     # Schedule finding the latest prompt
-    elif args.schedule:
+    if args.schedule:
         from src.core import schedule
 
         logging.info("Starting scheduler...")
         schedule.main()
+
+    # Manually kick-off the archive generation
+    if args.archive:
+        from src.core import archive
+
+        logging.info("Running archive...")
+        archive.main()
+        raise SystemExit(0)
 
     # No arguments were passed
     else:
