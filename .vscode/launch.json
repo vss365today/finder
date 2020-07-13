@@ -13,9 +13,7 @@
       "env": {
         "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets"
       },
-      "args": [
-        "--fetch"
-      ]
+      "args": ["--fetch"]
     },
     {
       "name": "Finder (manual)",
@@ -26,9 +24,7 @@
       "env": {
         "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets"
       },
-      "args": [
-        "--manual"
-      ]
+      "args": ["--manual"]
     },
     {
       "name": "Finder (schedule)",
@@ -40,9 +36,19 @@
         "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets",
         "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
       },
-      "args": [
-        "--schedule"
-      ]
+      "args": ["--schedule"]
+    },
+    {
+      "name": "Finder (archive)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/finder.py",
+      "console": "internalConsole",
+      "env": {
+        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets",
+        "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
+      },
+      "args": ["--archive"]
     }
   ]
 }
