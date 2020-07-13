@@ -26,11 +26,10 @@ def main():
             day_of_week="*",
         )
 
-    # Set the run time to be 5 minutes after the scheduled one
+    # Schedule the word archive generation to
+    # run time to be 5 minutes after the last scheduled one
     minute, hour = schedule_times[-1].split()
     minute = str(int(minute) + 5)
-
-    # Schedule the word archive generation
     scheduler.add_job(
         archive.main,
         args=[],

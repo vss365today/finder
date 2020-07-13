@@ -46,7 +46,7 @@
       "console": "internalConsole",
       "env": {
         "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets",
-        "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
+        "DOWNLOADS_PATH": "${workspaceFolder}/../static/downloads"
       },
       "args": ["--archive"]
     }

@@ -64,7 +64,7 @@ def process_tweets(
     return found_tweet
 
 
-def main():
+def main() -> bool:
     # Get the latest tweet in the database to see if we need to do anything
     LATEST_TWEET = api.get("prompt")[0]
     LATEST_TWEET["date"] = create_api_date(LATEST_TWEET["date"])
