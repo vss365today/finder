@@ -67,10 +67,8 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
             matched_variants.extend(variants)
 
     # Merge the filter sets then take out all the hashtags
-    hashtags_to_filter = (
-        matched_variants + CONFIG["identifiers"] + CONFIG["additionals"]
-    )
-    return tuple(filter(lambda ht: ht.upper() not in hashtags_to_filter, hashtags))
+    hashtags_to_filter = matched_variants + CONFIG["identifiers"]
+    return tuple(ht for ht in hashtags if ht.upper() not in hashtags_to_filter)
 
 
 def connect_to_twitter() -> tweepy.API:
