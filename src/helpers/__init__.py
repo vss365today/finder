@@ -57,7 +57,7 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
     matched_variants = []
     for word in month_words:
         # Build a regex that will match exact words and suffix variations
-        regex = re.compile(rf"#{word}\w*\b", re.I)
+        regex = re.compile(rf"#?{word}\w*\b", re.I)
 
         # Search the tweet's hashtags for the words
         variants = [match.upper() for match in filter(regex.search, hashtags) if match]

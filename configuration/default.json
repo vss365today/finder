@@ -1,15 +1,15 @@
 {
-  "identifiers": ["#vss365", "#prompt"],
+  "identifiers": ["#VSS365", "#PROMPT"],
   "additionals": [
-    "#vss365a",
-    "#writingcommunity",
-    "#flashdogs",
-    "#vsspoem",
-    "#prompts",
-    "#greek",
-    "#scififri",
-    "#scifisat",
-    "#writer"
+    "vss365a",
+    "writingcommunity",
+    "flashdogs",
+    "vsspoem",
+    "prompts",
+    "greek",
+    "scififri",
+    "scifisat",
+    "writer"
   ],
   "word_index": 0
 }
