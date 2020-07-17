@@ -40,6 +40,14 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
     except HTTPError:
         month_words = []
 
+    # Regardless if we have any previous words for the month, we need to add
+    # the additional hashtags to filter to the list and match them in a partial
+    # manner as well. This helps make the filter more flexible in its matching
+    # and futher prevents incorrect selection issues that can occurr when a
+    # Host uses a small, unfiltered variation of a filtered hashtag.
+    # Ex: if the filtered hashtag is "writer", we'll also fikter out "writers".
+    month_words.extend(CONFIG["additionals"])
+
     # Go through each word for the month and find variations
     # of it in the tweet. Ex: the word is "motif", so find
     # "motifs" if it exists. Of course, exact word duplications
