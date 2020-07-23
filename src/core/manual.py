@@ -1,4 +1,3 @@
-from html import escape
 from pprint import pprint
 from typing import Optional
 from urllib3.util.url import parse_url
@@ -67,7 +66,7 @@ def main() -> bool:
         "uid": prompt_tweet.author.id_str,
         "date": str(prompt_tweet.created_at),
         "word": find_prompt_word(tweet_text),
-        "content": escape(tweet_text),
+        "content": tweet_text,
         "media": tweet_media,
         "is_duplicate_date": is_duplicate_date,
     }
