@@ -104,7 +104,7 @@ def find_prompt_word(text: str) -> Optional[str]:
     # If there are any hashtags left, get the first one
     # and remove the prefixed pound sign
     if remaining:
-        prompt_word = remaining[CONFIG["word_index"]].replace("#", "")
+        prompt_word = remaining[CONFIG["word_index"]].replace("#", "").lower()
     return prompt_word
 
 
