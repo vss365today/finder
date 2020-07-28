@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from html import escape
 from pprint import pprint
 from typing import Optional
 
@@ -139,7 +138,7 @@ def main() -> bool:
         "uid": prompt_tweet.author.id_str,
         "date": str(tweet_date),
         "word": prompt_word,
-        "content": escape(tweet_text),
+        "content": tweet_text,
         "media": tweet_media,
     }
     pprint(prompt)
