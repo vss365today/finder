@@ -45,7 +45,7 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
     # manner as well. This helps make the filter more flexible in its matching
     # and futher prevents incorrect selection issues that can occurr when a
     # Host uses a small, unfiltered variation of a filtered hashtag.
-    # Ex: if the filtered hashtag is "writer", we'll also fikter out "writers".
+    # Ex: if the filtered hashtag is "writer", we'll also filter out "writers".
     month_words.extend(CONFIG["additionals"])
 
     # Go through each word for the month and find variations
@@ -60,7 +60,9 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
         regex = re.compile(rf"#?{word}\w*\b", re.I)
 
         # Search the tweet's hashtags for the words
-        variants = [match.upper() for match in filter(regex.search, hashtags) if match]
+        variants = [
+            match.upper() for match in filter(regex.search, hashtags) if match
+        ]  # noqa
 
         # Record all variants we find
         if variants:
