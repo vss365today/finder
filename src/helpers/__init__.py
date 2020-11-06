@@ -79,8 +79,7 @@ def connect_to_twitter() -> tweepy.API:
         sys_vars.get("TWITTER_APP_KEY"), sys_vars.get("TWITTER_APP_SECRET")
     )
     auth.set_access_token(sys_vars.get("TWITTER_KEY"), sys_vars.get("TWITTER_SECRET"))
-    twitter_api = tweepy.API(auth)
-    return twitter_api
+    return tweepy.API(auth)
 
 
 def find_prompt_tweet(text: str) -> bool:

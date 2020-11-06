@@ -2,12 +2,11 @@
 
 > #vss365 prompt tweet finder service for [#vss365 today](https://vss365today.com/)
 
-
 ## Required Configuration
 
-* Running instance of [#vss365 today API](https://github.com/le717/vss365today-api/) (domain configurable)
-* Twitter Consumer API secret keys
-* Twitter access token & access token secret keys
+- Running instance of [#vss365 today API](https://github.com/le717/vss365today-api/) (domain configurable)
+- Twitter Consumer API secret keys
+- Twitter access token & access token secret keys
 
 ## Install
 
