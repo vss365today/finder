@@ -10,7 +10,7 @@ __all__ = ["main"]
 def main() -> bool:
     # Generate a new archive file
     try:
-        api.post("archive", headers=api.create_auth_token())
+        api.post("archive")
     # The generation failed. We don't need to move on
     except HTTPError:
         return False

@@ -75,15 +75,11 @@ def main() -> bool:
     try:
         # Add the tweet to the database
         print("Adding tweet to database")
-        api.post("prompt", headers=api.create_auth_token(), json=prompt)
+        api.post("prompt", json=prompt)
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post(
-            "broadcast",
-            headers=api.create_auth_token(),
-            params={"date": create_datetime(tweet_date)},
-        )
+        api.post("broadcast", params={"date": create_datetime(tweet_date)})
 
     except HTTPError:
         print(f"Cannot add prompt for {tweet_date} to the database!")
