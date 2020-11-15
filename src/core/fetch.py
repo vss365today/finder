@@ -23,7 +23,7 @@ __all__ = ["main"]
 TWITTER_API = connect_to_twitter()
 
 
-def is_hosts_own_tweet(status: tweepy.Status) -> bool:
+def __is_hosts_own_tweet(status: tweepy.Status) -> bool:
     """Identify if this tweet is original to the prompter.
 
     Currently, this means removing both retweets and
@@ -46,7 +46,7 @@ def process_tweets(
     )
 
     # Start by collecting _only_ the prompter's original tweets
-    own_tweets = [status for status in statuses if is_hosts_own_tweet(status)]
+    own_tweets = [status for status in statuses if __is_hosts_own_tweet(status)]
 
     found_tweet = None
     for tweet in own_tweets:
