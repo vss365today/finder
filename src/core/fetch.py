@@ -63,7 +63,7 @@ def process_tweets(
     return found_tweet
 
 
-def _is_freewrite_day(today: datetime) -> bool:
+def __is_freewrite_day(today: datetime) -> bool:
     """Determine if today is a freewrite day."""
     # Every 31st day is a freewrite day
     if today.day == 31:
@@ -83,7 +83,7 @@ def main() -> bool:
     TODAY = datetime.now()
 
     # Before we do anything, check if today is a freewrite day
-    if _is_freewrite_day(TODAY):
+    if __is_freewrite_day(TODAY):
         return False
 
     # Get the latest recorded prompt to see if we need to do anything
