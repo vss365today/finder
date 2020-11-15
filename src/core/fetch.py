@@ -63,11 +63,32 @@ def process_tweets(
     return found_tweet
 
 
+def _is_freewrite_day(today: datetime) -> bool:
+    """Determine if today is a freewrite day."""
+    # Every 31st day is a freewrite day
+    if today.day == 31:
+        return True
+
+    # February 29th is always a freewrite day
+    if today.month == 2 and today.day == 29:
+        return True
+
+    # This is a normal day
+    return False
+
+
 def main() -> bool:
-    # Get the latest tweet in the database to see if we need to do anything
+    # Start by getting today's date because it's not surprising
+    # how often we actually need this info
+    TODAY = datetime.now()
+
+    # Before we do anything, check if today is a freewrite day
+    if _is_freewrite_day(TODAY):
+        return False
+
+    # Get the latest recorded prompt to see if we need to do anything
     LATEST_TWEET = api.get("prompt")[0]
     LATEST_TWEET["date"] = create_api_date(LATEST_TWEET["date"])
-    TODAY = datetime.now()
 
     # We already have latest tweet, don't do anything
     if (
