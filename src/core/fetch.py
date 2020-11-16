@@ -77,6 +77,23 @@ def __is_freewrite_day(today: datetime) -> bool:
     return False
 
 
+def __get_host_start_day(today: datetime) -> int:
+
+    # February is a special month... as it usually is
+    if today.month == 2:
+        # The first Host is from the 1st-14th
+        if 1 <= today.day <= 14:
+            return 1
+        # The second Host is from the 15th-28th
+        return 15
+
+    # During a normal month, the first Host is from the 1st-15th
+    if 1 <= today.day <= 15:
+        return 1
+    # The second Host is from the 16th-30th
+    return 16
+
+
 def main() -> bool:
     # Start by getting today's date because it's not surprising
     # how often we actually need this info
