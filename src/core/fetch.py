@@ -78,7 +78,7 @@ def __is_freewrite_day(today: datetime) -> bool:
 
 
 def __get_host_start_day(today: datetime) -> int:
-
+    """Determine the starting date for this hosting period."""
     # Hosts begin on the 1st and 16th
     START_DATES = [1, 16]
 
