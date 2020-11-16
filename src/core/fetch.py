@@ -117,16 +117,10 @@ def main() -> bool:
         print(f"Tweet for {TODAY} already found. Aborting...")
         return False
 
-    # Get an initial round of tweets to search
+    # Search for the Host for this hosting period
     print("Searching for the latest prompt tweet")
-
-    # Start by searching for the Host for this day, and if that fails,
-    # search for the Host for the whole month
-    try:
-        CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
-    except HTTPError:
-        month_host = TODAY.replace(day=1)
-        CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
+    hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
+    CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
 
     # Attempt to find the prompt
     prompt_tweet = process_tweets(CURRENT_HOST["id"])
