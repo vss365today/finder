@@ -79,19 +79,20 @@ def __is_freewrite_day(today: datetime) -> bool:
 
 def __get_host_start_day(today: datetime) -> int:
 
-    # February is a special month... as it usually is
-    if today.month == 2:
-        # The first Host is from the 1st-14th
-        if 1 <= today.day <= 14:
-            return 1
-        # The second Host is from the 15th-28th
-        return 15
+    # Hosts begin on the 1st and 16th
+    START_DATES = [1, 16]
 
-    # During a normal month, the first Host is from the 1st-15th
-    if 1 <= today.day <= 15:
-        return 1
-    # The second Host is from the 16th-30th
-    return 16
+    # ...Except for February. It's special. Hosts begin on the 1st and 15th
+    if today.month == 2:
+        START_DATES = [1, 15]
+
+    # If the current day is between the start and (exclusive) end,
+    # we are in the first Host's period
+    if START_DATES[0] <= today.day < START_DATES[1]:
+        return START_DATES[0]
+
+    # Except it's not in that first range, so we're in the second Host's period
+    return START_DATES[1]
 
 
 def main() -> bool:
