@@ -96,7 +96,7 @@ def __get_host_start_day(today: datetime) -> int:
 
 
 def main() -> bool:
-    # Start by getting today's date because it's not surprising
+    # Start by getting today's date because it's surprising
     # how often we actually need this info
     TODAY = datetime.now()
 
