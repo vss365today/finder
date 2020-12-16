@@ -85,7 +85,7 @@ def main() -> bool:
     # Start by getting today's date because it's surprising
     # how often we actually need this info
     TODAY = datetime.now()
-    is_2021 = TODAY.year == 2021
+    is_2021 = TODAY.year >= 2021
 
     # Get the latest recorded prompt to see if we need to do anything
     LATEST_TWEET = api.get("prompt")[0]
@@ -100,10 +100,24 @@ def main() -> bool:
         print(f"Tweet for {TODAY} already found. Aborting...")
         return False
 
-    # Search for the Host for this hosting period
+    # Starting in 2021, Hosts will serve for 15 days (2 Hosts/mo).
+    # This is incompatible with the existing 1 Host/mo format.
+    # To ensure a seamless transition, use the required Host IDing
+    # process for whatever the current year is and
+    # TODO Remove the pre-2021 code after NYD 2021!!!
     print("Identifying the current Host")
-    hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
-    CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
+    if is_2021:
+        # Search for the Host for this hosting period
+        hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
+        CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
+    else:
+        # Start by searching for the Host for this day, and if that fails,
+        # search for the Host for the whole month
+        try:
+            CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
+        except HTTPError:
+            month_host = TODAY.replace(day=1)
+            CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
 
     # Attempt to find the prompt
     print("Searching for the latest prompt tweet")
