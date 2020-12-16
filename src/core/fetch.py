@@ -63,20 +63,6 @@ def process_tweets(
     return found_tweet
 
 
-def __is_freewrite_day(today: datetime) -> bool:
-    """Determine if today is a freewrite day."""
-    # Every 31st day is a freewrite day
-    if today.day == 31:
-        return True
-
-    # February 29th is always a freewrite day
-    if today.month == 2 and today.day == 29:
-        return True
-
-    # This is a normal day
-    return False
-
-
 def __get_host_start_day(today: datetime) -> int:
     """Determine the starting date for this hosting period."""
     # Hosts begin on the 1st and 16th
@@ -99,10 +85,7 @@ def main() -> bool:
     # Start by getting today's date because it's surprising
     # how often we actually need this info
     TODAY = datetime.now()
-
-    # Before we do anything, check if today is a freewrite day
-    if __is_freewrite_day(TODAY):
-        return False
+    is_2021 = TODAY.year == 2021
 
     # Get the latest recorded prompt to see if we need to do anything
     LATEST_TWEET = api.get("prompt")[0]
