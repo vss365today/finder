@@ -125,7 +125,7 @@ def main() -> bool:
 
     # The tweet was not found at all :(
     if prompt_tweet is None:
-        print("Search limit reached without finding prompt! Aborting...")
+        print("Search limit reached without finding Prompt! Aborting...")
         return False
 
     # The found tweet date is yesterday's date, indicating a
