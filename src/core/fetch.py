@@ -97,7 +97,7 @@ def main() -> bool:
         and LATEST_TWEET["date"].month == TODAY.month
         and LATEST_TWEET["date"].day == TODAY.day
     ):
-        print(f"Tweet for {TODAY} already found. Aborting...")
+        print(f"Prompt for {TODAY} already found. Aborting...")
         return False
 
     # Starting in 2021, Hosts will serve for 15 days (2 Hosts/mo).
@@ -120,12 +120,12 @@ def main() -> bool:
             CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
 
     # Attempt to find the prompt
-    print("Searching for the latest prompt tweet")
+    print("Searching for the latest prompt")
     prompt_tweet = process_tweets(CURRENT_HOST["id"])
 
     # The tweet was not found at all :(
     if prompt_tweet is None:
-        print("Search limit reached without finding prompt tweet! Aborting...")
+        print("Search limit reached without finding prompt! Aborting...")
         return False
 
     # The found tweet date is yesterday's date, indicating a
@@ -145,7 +145,7 @@ def main() -> bool:
         and tweet_date.month == LATEST_TWEET["date"].month
         and tweet_date.day == LATEST_TWEET["date"].day
     ):
-        print(f"The latest tweet for {tweet_date} has already found. Aborting...")
+        print(f"The latest Prompt for {tweet_date} has already found. Aborting...")
         return False
 
     # Pull out the tweet media and text content
@@ -156,7 +156,7 @@ def main() -> bool:
     # Attempt to extract the prompt word and back out if we can't
     prompt_word = find_prompt_word(tweet_text)
     if prompt_word is None:
-        print(f"Cannot find prompt word in tweet {prompt_tweet.id_str}")
+        print(f"Cannot find Prompt word in tweet {prompt_tweet.id_str}")
         return False
 
     # Construct a dictionary with only the info we need
@@ -172,7 +172,7 @@ def main() -> bool:
 
     try:
         # Add the tweet to the database
-        print("Adding tweet to database")
+        print("Adding Prompt to database")
         api.post("prompt", json=prompt)
 
         # Send the email broadcast
@@ -180,5 +180,5 @@ def main() -> bool:
         api.post("broadcast", params={"date": tweet_date})
 
     except HTTPError:
-        print(f"Cannot add prompt for {tweet_date} to the database!")
+        print(f"Cannot add Prompt for {tweet_date} to the database!")
     return True
