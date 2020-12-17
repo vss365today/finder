@@ -23,7 +23,7 @@ __all__ = ["main"]
 TWITTER_API = connect_to_twitter()
 
 
-def is_hosts_own_tweet(status: tweepy.Status) -> bool:
+def __is_hosts_own_tweet(status: tweepy.Status) -> bool:
     """Identify if this tweet is original to the prompter.
 
     Currently, this means removing both retweets and
@@ -46,7 +46,7 @@ def process_tweets(
     )
 
     # Start by collecting _only_ the prompter's original tweets
-    own_tweets = [status for status in statuses if is_hosts_own_tweet(status)]
+    own_tweets = [status for status in statuses if __is_hosts_own_tweet(status)]
 
     found_tweet = None
     for tweet in own_tweets:
@@ -63,11 +63,33 @@ def process_tweets(
     return found_tweet
 
 
+def __get_host_start_day(today: datetime) -> int:
+    """Determine the starting date for this hosting period."""
+    # Hosts begin on the 1st and 16th
+    START_DATES = [1, 16]
+
+    # ...Except for February. It's special. Hosts begin on the 1st and 15th
+    if today.month == 2:
+        START_DATES = [1, 15]
+
+    # If the current day is between the start and (exclusive) end,
+    # we are in the first Host's period
+    if START_DATES[0] <= today.day < START_DATES[1]:
+        return START_DATES[0]
+
+    # Except it's not in that first range, so we're in the second Host's period
+    return START_DATES[1]
+
+
 def main() -> bool:
-    # Get the latest tweet in the database to see if we need to do anything
+    # Start by getting today's date because it's surprising
+    # how often we actually need this info
+    TODAY = datetime.now()
+    is_2021 = TODAY.year >= 2021
+
+    # Get the latest recorded prompt to see if we need to do anything
     LATEST_TWEET = api.get("prompt")[0]
     LATEST_TWEET["date"] = create_api_date(LATEST_TWEET["date"])
-    TODAY = datetime.now()
 
     # We already have latest tweet, don't do anything
     if (
@@ -75,26 +97,35 @@ def main() -> bool:
         and LATEST_TWEET["date"].month == TODAY.month
         and LATEST_TWEET["date"].day == TODAY.day
     ):
-        print(f"Tweet for {TODAY} already found. Aborting...")
+        print(f"Prompt for {TODAY} already found. Aborting...")
         return False
 
-    # Get an initial round of tweets to search
-    print("Searching for the latest prompt tweet")
-
-    # Start by searching for the Host for this day, and if that fails,
-    # search for the Host for the whole month
-    try:
-        CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
-    except HTTPError:
-        month_host = TODAY.replace(day=1)
-        CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
+    # Starting in 2021, Hosts will serve for 15 days (2 Hosts/mo).
+    # This is incompatible with the existing 1 Host/mo format.
+    # To ensure a seamless transition, use the required Host IDing
+    # process for whatever the current year is and
+    # TODO Remove the pre-2021 code after NYD 2021!!!
+    print("Identifying the current Host")
+    if is_2021:
+        # Search for the Host for this hosting period
+        hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
+        CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
+    else:
+        # Start by searching for the Host for this day, and if that fails,
+        # search for the Host for the whole month
+        try:
+            CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
+        except HTTPError:
+            month_host = TODAY.replace(day=1)
+            CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
 
     # Attempt to find the prompt
+    print("Searching for the latest prompt")
     prompt_tweet = process_tweets(CURRENT_HOST["id"])
 
     # The tweet was not found at all :(
     if prompt_tweet is None:
-        print("Search limit reached without finding prompt tweet! Aborting...")
+        print("Search limit reached without finding Prompt! Aborting...")
         return False
 
     # The found tweet date is yesterday's date, indicating a
@@ -114,7 +145,7 @@ def main() -> bool:
         and tweet_date.month == LATEST_TWEET["date"].month
         and tweet_date.day == LATEST_TWEET["date"].day
     ):
-        print(f"The latest tweet for {tweet_date} has already found. Aborting...")
+        print(f"The latest Prompt for {tweet_date} has already found. Aborting...")
         return False
 
     # Pull out the tweet media and text content
@@ -125,7 +156,7 @@ def main() -> bool:
     # Attempt to extract the prompt word and back out if we can't
     prompt_word = find_prompt_word(tweet_text)
     if prompt_word is None:
-        print(f"Cannot find prompt word in tweet {prompt_tweet.id_str}")
+        print(f"Cannot find Prompt word in tweet {prompt_tweet.id_str}")
         return False
 
     # Construct a dictionary with only the info we need
@@ -141,7 +172,7 @@ def main() -> bool:
 
     try:
         # Add the tweet to the database
-        print("Adding tweet to database")
+        print("Adding Prompt to database")
         api.post("prompt", json=prompt)
 
         # Send the email broadcast
@@ -149,5 +180,5 @@ def main() -> bool:
         api.post("broadcast", params={"date": tweet_date})
 
     except HTTPError:
-        print(f"Cannot add prompt for {tweet_date} to the database!")
+        print(f"Cannot add Prompt for {tweet_date} to the database!")
     return True
