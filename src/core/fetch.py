@@ -13,7 +13,7 @@ from src.helpers import (
     get_tweet_text,
 )
 from src.helpers import api
-from src.helpers.date import create_api_date
+from src.helpers.date import create_datetime
 
 
 __all__ = ["main"]
@@ -89,7 +89,7 @@ def main() -> bool:
 
     # Get the latest recorded prompt to see if we need to do anything
     LATEST_TWEET = api.get("prompt")[0]
-    LATEST_TWEET["date"] = create_api_date(LATEST_TWEET["date"])
+    LATEST_TWEET["date"] = create_datetime(LATEST_TWEET["date"])
 
     # We already have latest tweet, don't do anything
     if (
