@@ -163,7 +163,7 @@ def main() -> bool:
     prompt = {
         "id": prompt_tweet.id_str,
         "uid": prompt_tweet.author.id_str,
-        "date": str(tweet_date),
+        "date": tweet_date.isoformat(),
         "word": prompt_word,
         "content": tweet_text,
         "media": tweet_media,
@@ -177,7 +177,7 @@ def main() -> bool:
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post("broadcast", params={"date": tweet_date})
+        api.post("broadcast", params={"date": tweet_date.isoformat()})
 
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")

@@ -64,7 +64,7 @@ def main() -> bool:
     prompt = {
         "id": tweet_id,
         "uid": prompt_tweet.author.id_str,
-        "date": str(prompt_tweet.created_at),
+        "date": prompt_tweet.created_at.isoformat(),
         "word": find_prompt_word(tweet_text),
         "content": tweet_text,
         "media": tweet_media,
