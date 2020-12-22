@@ -9,25 +9,29 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "-a",
     "--archive",
-    help="kick-off the word archive generator. Cannot be combined with other arguments",
+    help="kick-off the word archive generator. "
+    "Cannot be combined with other arguments",
     action="store_true",
 )
 parser.add_argument(
     "-f",
     "--fetch",
-    help="attempt to automatically record the latest prompt. Cannot be combined with other arguments",
+    help="attempt to automatically record the latest prompt. "
+    "Cannot be combined with other arguments",
     action="store_true",
 )
 parser.add_argument(
     "-m",
     "--manual",
-    help="manually record a specific prompt. Cannot be combined with other arguments",
+    help="manually record a specific prompt. "
+    "Cannot be combined with other arguments",
     action="store_true",
 )
 parser.add_argument(
     "-s",
     "--schedule",
-    help="schedule recording the latest prompt according to ENV values. Cannot be combined with other arguments",
+    help="schedule recording the latest prompt according to ENV values. "
+    "Cannot be combined with other arguments",
     action="store_true",
 )
 args = parser.parse_args()
@@ -49,7 +53,8 @@ if __name__ == "__main__":
     # More than one arguments was passed and that is not allowed
     if number_of_args_passed >= 2:
         print(
-            f"{__file__}: error: cannot combine arguments. Only a single argument is permitted"
+            f"{__file__}: error: cannot combine arguments. "
+            "Only a single argument is permitted"
         )
         parser.print_help()
         raise SystemExit(1)
