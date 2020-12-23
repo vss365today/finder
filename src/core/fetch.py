@@ -101,9 +101,15 @@ def main() -> bool:
 
     # Hosts serve for 15 days (2 Hosts/mo)
     # Determine which one is hosting right now
+    # Start by searching for the Host for this exact day
     print("Identifying the current Host")
-    hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
-    CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
+    try:
+        CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
+
+    # If that fails, determine the Host for this hosting period
+    except HTTPError:
+        hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
+        CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
 
     # Attempt to find the prompt
     print("Searching for the latest prompt")
