@@ -100,22 +100,22 @@ def main() -> bool:
         print(f"Prompt for {TODAY} already found. Aborting...")
         return False
 
-    # Starting in 2021, Hosts will serve for 15 days (2 Hosts/mo).
-    # This is incompatible with the existing 1 Host/mo format.
-    # To ensure a seamless transition, use the required Host IDing
-    # process for whatever the current year is and
-    # TODO Remove the pre-2021 code after NYD 2021!!!
+    # Start by searching for the Host for this exact day
     print("Identifying the current Host")
-    if is_2021:
-        # Search for the Host for this hosting period
-        hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
-        CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
-    else:
-        # Start by searching for the Host for this day, and if that fails,
-        # search for the Host for the whole month
-        try:
-            CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
-        except HTTPError:
+    try:
+        CURRENT_HOST = api.get("host", "date", params={"date": TODAY})[0]
+
+    # If that fails, determine the Host for this hosting period
+    except HTTPError:
+        # Starting in 2021, Hosts will serve for 15 days (2 Hosts/mo).
+        # This is incompatible with the existing 1 Host/mo format.
+        # To ensure a seamless transition, use the required Host IDing
+        # process for whatever the current year is and
+        # TODO Remove the pre-2021 code after NYD 2021!!!
+        if is_2021:
+            hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
+            CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})[0]
+        else:
             month_host = TODAY.replace(day=1)
             CURRENT_HOST = api.get("host", "date", params={"date": month_host})[0]
 
