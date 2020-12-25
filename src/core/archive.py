@@ -13,6 +13,7 @@ def main() -> bool:
         api.post("archive")
     # The generation failed. We don't need to move on
     except HTTPError:
+        print("Unable to create archive file!")
         return False
 
     # Get the downloads directory content
@@ -29,4 +30,5 @@ def main() -> bool:
     # Delete all the old archive files
     for old_file in files_to_delete:
         old_file.unlink()
+    print("Archive file successfully created")
     return True
