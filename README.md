@@ -1,6 +1,6 @@
 # #vss365 today finder
 
-> #vss365 prompt tweet finder service for [#vss365 today](https://vss365today.com/)
+> [#vss365 today](https://vss365today.com/) prompt tweet finder service
 
 ## Required Configuration
 
