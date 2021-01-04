@@ -113,7 +113,7 @@ def main() -> bool:
 
     # Attempt to find the prompt
     print("Searching for the latest prompt")
-    prompt_tweet = process_tweets(CURRENT_HOST["id"])
+    prompt_tweet = process_tweets(CURRENT_HOST["uid"])
 
     # The tweet was not found at all :(
     if prompt_tweet is None:
