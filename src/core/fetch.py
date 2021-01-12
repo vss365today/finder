@@ -63,24 +63,6 @@ def process_tweets(
     return found_tweet
 
 
-def __get_host_start_day(today: datetime) -> int:
-    """Determine the starting date for this hosting period."""
-    # Hosts begin on the 1st and 16th
-    START_DATES = [1, 16]
-
-    # ...Except for February. It's special. Hosts begin on the 1st and 15th
-    if today.month == 2:
-        START_DATES = [1, 15]
-
-    # If the current day is between the start and (exclusive) end,
-    # we are in the first Host's period
-    if START_DATES[0] <= today.day < START_DATES[1]:
-        return START_DATES[0]
-
-    # Except it's not in that first range, so we're in the second Host's period
-    return START_DATES[1]
-
-
 def main() -> bool:
     # Start by getting today's date because it's surprising
     # how often we actually need this info
@@ -108,7 +90,8 @@ def main() -> bool:
 
     # If that fails, determine the Host for this hosting period
     except HTTPError:
-        hosting_period = datetime.now().replace(day=__get_host_start_day(TODAY))
+        host_start_date = api.get("settings", "hosting", params={"date": TODAY})[0]
+        hosting_period = datetime.now().replace(day=host_start_date)
         CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})
 
     # Attempt to find the prompt
