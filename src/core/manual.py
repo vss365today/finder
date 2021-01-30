@@ -57,7 +57,7 @@ def main() -> bool:
 
     # Determine if this has been explictly marked as a duplicate Prompt
     is_duplicate_date = (
-        tweet_duplicate_date.upper() == "Y" if tweet_duplicate_date else False
+        tweet_duplicate_date.lower() == "y" if tweet_duplicate_date else False
     )
 
     # Construct a tweet object

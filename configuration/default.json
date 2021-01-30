@@ -1,5 +1,8 @@
 {
-  "identifiers": ["#VSS365", "#PROMPT"],
+  "identifiers": [
+    "#vss365",
+    "#prompt"
+  ],
   "additionals": [
     "writingcommunity",
     "flashdogs",

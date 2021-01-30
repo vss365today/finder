@@ -61,7 +61,7 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
 
         # Search the tweet's hashtags for the words
         variants = [
-            match.upper() for match in filter(regex.search, hashtags) if match
+            match.lower() for match in filter(regex.search, hashtags) if match
         ]  # noqa
 
         # Record all variants we find
@@ -70,7 +70,7 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
 
     # Merge the filter sets then take out all the hashtags
     hashtags_to_filter = matched_variants + CONFIG["identifiers"]
-    return tuple(ht for ht in hashtags if ht.upper() not in hashtags_to_filter)
+    return tuple(ht for ht in hashtags if ht.lower() not in hashtags_to_filter)
 
 
 def connect_to_twitter() -> tweepy.API:
@@ -83,7 +83,7 @@ def connect_to_twitter() -> tweepy.API:
 
 
 def find_prompt_tweet(text: str) -> bool:
-    return all(hashtag in text.upper() for hashtag in CONFIG["identifiers"])
+    return all(hashtag in text.lower() for hashtag in CONFIG["identifiers"])
 
 
 def get_all_hashtags(text: str) -> Optional[tuple]:
