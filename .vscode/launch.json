@@ -11,9 +11,11 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "internalConsole",
       "env": {
-        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets"
+        "SYS_VARS_PATH": "${workspaceFolder}/secrets"
       },
-      "args": ["--fetch"]
+      "args": [
+        "--fetch"
+      ]
     },
     {
       "name": "Finder (manual)",
@@ -22,9 +24,11 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "externalTerminal",
       "env": {
-        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets"
+        "SYS_VARS_PATH": "${workspaceFolder}/secrets"
       },
-      "args": ["--manual"]
+      "args": [
+        "--manual"
+      ]
     },
     {
       "name": "Finder (schedule)",
@@ -33,10 +37,12 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "internalConsole",
       "env": {
-        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets",
+        "SYS_VARS_PATH": "${workspaceFolder}/secrets",
         "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
       },
-      "args": ["--schedule"]
+      "args": [
+        "--schedule"
+      ]
     },
     {
       "name": "Finder (archive)",
@@ -45,10 +51,12 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "internalConsole",
       "env": {
-        "DOCKER_SECRETS_PATH": "${workspaceFolder}/secrets",
+        "SYS_VARS_PATH": "${workspaceFolder}/secrets",
         "DOWNLOADS_PATH": "${workspaceFolder}/../static/downloads"
       },
-      "args": ["--archive"]
+      "args": [
+        "--archive"
+      ]
     }
   ]
 }
