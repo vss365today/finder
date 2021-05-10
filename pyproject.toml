@@ -12,7 +12,7 @@ tweepy = "^3.10.0"
 sys-vars = "^4.0.0"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^3.9.1"
+flake8 = "^3.9.2"
 mypy = "^0.812"
 black = "^21.5b0"
 
