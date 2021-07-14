@@ -11,7 +11,7 @@ from src.helpers import api
 
 
 __all__ = [
-    "connect_to_twitter",
+    "twitter_v1_api",
     "find_prompt_tweet",
     "find_prompt_word",
     "get_all_hashtags",
@@ -73,12 +73,11 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
     return tuple(ht for ht in hashtags if ht.lower() not in hashtags_to_filter)
 
 
-def connect_to_twitter() -> tweepy.API:
-    """Connect to the Twitter API."""
-    auth = tweepy.OAuthHandler(
+def twitter_v1_api() -> tweepy.API:
+    """Connect to Twitter API v1 using OAuth 2."""
+    auth = tweepy.AppAuthHandler(
         sys_vars.get("TWITTER_APP_KEY"), sys_vars.get("TWITTER_APP_SECRET")
     )
-    auth.set_access_token(sys_vars.get("TWITTER_KEY"), sys_vars.get("TWITTER_SECRET"))
     return tweepy.API(auth)
 
 

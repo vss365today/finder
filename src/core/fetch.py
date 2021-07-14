@@ -6,7 +6,7 @@ from requests.exceptions import HTTPError
 import tweepy
 
 from src.helpers import (
-    connect_to_twitter,
+    twitter_v1_api,
     find_prompt_tweet,
     find_prompt_word,
     get_tweet_media,
@@ -20,7 +20,7 @@ __all__ = ["main"]
 
 
 # Connect to the Twitter API
-TWITTER_API = connect_to_twitter()
+TWITTER_API = twitter_v1_api()
 
 
 def __is_hosts_own_tweet(status: tweepy.Status) -> bool:
