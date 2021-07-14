@@ -148,11 +148,11 @@ def main() -> bool:
     try:
         # Add the tweet to the database
         print("Adding Prompt to database")
-        api.post("prompt", json=prompt)
+        api.post("prompt/", json=prompt)
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post("broadcast", params={"date": tweet_date.isoformat()})
+        api.post("broadcast/", params={"date": tweet_date.isoformat()})
 
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
