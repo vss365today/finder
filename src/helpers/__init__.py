@@ -76,7 +76,7 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
 def twitter_v1_api() -> tweepy.API:
     """Connect to Twitter API v1 using OAuth 2."""
     auth = tweepy.AppAuthHandler(
-        sys_vars.get("TWITTER_APP_KEY"), sys_vars.get("TWITTER_APP_SECRET")
+        sys_vars.get("TWITTER_CONSUMER_KEY"), sys_vars.get("TWITTER_CONSUMER_SECRET")
     )
     return tweepy.API(auth)
 

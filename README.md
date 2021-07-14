@@ -6,13 +6,13 @@
 
 - Running instance of [#vss365 today API](https://github.com/le717/vss365today-api/) (`API_DOMAIN`)
   - API key for protected endpoint access (`API_AUTH_TOKEN`)
-- Twitter API v1 consumer key and consumer secret, read-only (`TWITTER_APP_KEY`, `TWITTER_APP_SECRET`)
+- Twitter API v1 consumer key and consumer secret, read-only (`TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`)
 
 ## Install
 
 1. Install Python 3.9+ and [Poetry](https://python-poetry.org/) 1.1.0+
 1. Create secret files in appropriate place (default: `secrets`)
-1. `$ poetry install`
+1. Run `poetry install`
 
 ## Build
 
