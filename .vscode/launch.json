@@ -11,7 +11,7 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "internalConsole",
       "env": {
-        "SYS_VARS_PATH": "${workspaceFolder}/secrets"
+        "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
       },
       "args": [
         "--fetch"
@@ -24,7 +24,7 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "externalTerminal",
       "env": {
-        "SYS_VARS_PATH": "${workspaceFolder}/secrets"
+        "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
       },
       "args": [
         "--manual"
@@ -37,7 +37,7 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "internalConsole",
       "env": {
-        "SYS_VARS_PATH": "${workspaceFolder}/secrets",
+        "SYS_VARS_PATH": "${workspaceFolder}/../secrets",
         "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
       },
       "args": [
@@ -51,7 +51,7 @@
       "program": "${workspaceFolder}/finder.py",
       "console": "internalConsole",
       "env": {
-        "SYS_VARS_PATH": "${workspaceFolder}/secrets",
+        "SYS_VARS_PATH": "${workspaceFolder}/../secrets",
         "DOWNLOADS_PATH": "${workspaceFolder}/../static/downloads"
       },
       "args": [
