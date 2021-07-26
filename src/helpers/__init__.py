@@ -86,7 +86,7 @@ def find_prompt_tweet(text: str) -> bool:
 
 
 def get_all_hashtags(text: str) -> Optional[tuple]:
-    matches = re.findall(r"(#\w+)", text, re.I)
+    matches = re.findall(r"#(\w+)", text, re.I)
     return tuple(matches) if matches else None
 
 
