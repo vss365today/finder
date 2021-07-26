@@ -5,14 +5,8 @@ from typing import Optional
 from requests.exceptions import HTTPError
 import tweepy
 
-from src.helpers import (
-    twitter_v1_api,
-    find_prompt_tweet,
-    find_prompt_word,
-    get_tweet_media,
-    get_tweet_text,
-)
-from src.helpers import api
+from src.helpers import twitter_v1_api, get_tweet_media, get_tweet_text
+from src.helpers import api, tweet
 from src.helpers.date import create_datetime
 
 
@@ -49,10 +43,10 @@ def process_tweets(
     own_tweets = [status for status in statuses if __is_hosts_own_tweet(status)]
 
     found_tweet = None
-    for tweet in own_tweets:
+    for twt in own_tweets:
         # Try to find the prompt tweet among the pulled tweets
-        if find_prompt_tweet(tweet.full_text):
-            found_tweet = tweet
+        if tweet.confirm_prompt(twt.entities["hashtags"]):
+            found_tweet = twt
             break
         continue
 
@@ -129,7 +123,7 @@ def main() -> bool:
     del media_url
 
     # Attempt to extract the prompt word and back out if we can't
-    prompt_word = find_prompt_word(tweet_text)
+    prompt_word = tweet.get_prompt(prompt_tweet)
     if prompt_word is None:
         print(f"Cannot find Prompt word in tweet {prompt_tweet.id_str}")
         return False

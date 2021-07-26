@@ -6,11 +6,10 @@ from requests.exceptions import HTTPError
 
 from src.helpers import (
     twitter_v1_api,
-    find_prompt_word,
     get_tweet_media,
     get_tweet_text,
 )
-from src.helpers import api
+from src.helpers import api, tweet
 from src.helpers.date import create_datetime
 
 
@@ -65,7 +64,7 @@ def main() -> bool:
         "id": tweet_id,
         "uid": prompt_tweet.author.id_str,
         "date": prompt_tweet.created_at.isoformat(),
-        "word": find_prompt_word(tweet_text),
+        "word": tweet.get_prompt(prompt_tweet),
         "content": tweet_text,
         "media": tweet_media,
         "is_duplicate_date": is_duplicate_date,
