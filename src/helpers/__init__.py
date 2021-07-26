@@ -3,7 +3,6 @@ import re
 from typing import Optional, Tuple
 
 from requests.exceptions import HTTPError
-import sys_vars
 import tweepy
 
 from src.core import config
@@ -11,8 +10,6 @@ from src.helpers import api
 
 
 __all__ = [
-    "twitter_v1_api",
-    "find_prompt_tweet",
     "find_prompt_word",
     "get_all_hashtags",
     "get_tweet_media",
@@ -71,18 +68,6 @@ def __filter_hashtags(hashtags: tuple) -> tuple:
     # Merge the filter sets then take out all the hashtags
     hashtags_to_filter = matched_variants + CONFIG["identifiers"]
     return tuple(ht for ht in hashtags if ht.lower() not in hashtags_to_filter)
-
-
-def twitter_v1_api() -> tweepy.API:
-    """Connect to Twitter API v1 using OAuth 2."""
-    auth = tweepy.AppAuthHandler(
-        sys_vars.get("TWITTER_CONSUMER_KEY"), sys_vars.get("TWITTER_CONSUMER_SECRET")
-    )
-    return tweepy.API(auth)
-
-
-def find_prompt_tweet(text: str) -> bool:
-    return all(hashtag in text.lower() for hashtag in CONFIG["identifiers"])
 
 
 def get_all_hashtags(text: str) -> Optional[tuple]:
