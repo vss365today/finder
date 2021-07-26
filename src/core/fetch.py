@@ -5,7 +5,7 @@ from typing import Optional
 from requests.exceptions import HTTPError
 import tweepy
 
-from src.helpers import twitter_v1_api, get_tweet_media, get_tweet_text
+from src.helpers import get_tweet_media, get_tweet_text
 from src.helpers import api, tweet
 from src.helpers.date import create_datetime
 
@@ -14,7 +14,7 @@ __all__ = ["main"]
 
 
 # Connect to the Twitter API
-TWITTER_API = twitter_v1_api()
+TWITTER_API = tweet.twitter_v1_api()
 
 
 def __is_hosts_own_tweet(status: tweepy.Status) -> bool:

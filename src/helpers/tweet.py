@@ -1,11 +1,12 @@
 from typing import NewType, Optional
 
-from tweepy import Status
+import tweepy
+import sys_vars
 
 from src.core import config
 
 
-__all__ = ["confirm_prompt", "get_prompt"]
+__all__ = ["confirm_prompt", "get_prompt", "twitter_v1_api"]
 
 
 CONFIG = config.load()
@@ -28,8 +29,16 @@ def confirm_prompt(hts: Hashtags) -> bool:
     )
 
 
-def get_prompt(tweet: Status) -> Optional[str]:
+def get_prompt(tweet: tweepy.Status) -> Optional[str]:
     hts = Hashtags(tweet.entities["hashtags"])
     if not confirm_prompt(hts):
         return None
     return __get_hashtags(hts)[2]
+
+
+def twitter_v1_api() -> tweepy.API:
+    """Connect to Twitter API v1 using OAuth 2."""
+    auth = tweepy.AppAuthHandler(
+        sys_vars.get("TWITTER_CONSUMER_KEY"), sys_vars.get("TWITTER_CONSUMER_SECRET")
+    )
+    return tweepy.API(auth)

@@ -5,7 +5,6 @@ from urllib3.util.url import parse_url
 from requests.exceptions import HTTPError
 
 from src.helpers import (
-    twitter_v1_api,
     get_tweet_media,
     get_tweet_text,
 )
@@ -44,7 +43,7 @@ def main() -> bool:
         return False
 
     # Connect to the Twitter API to get the tweet itself
-    twitter_api = twitter_v1_api()
+    twitter_api = tweet.twitter_v1_api()
     print("Successfully connected to the Twitter API")
     prompt_tweet = twitter_api.get_status(
         tweet_id, include_my_retweet=False, tweet_mode="extended"
