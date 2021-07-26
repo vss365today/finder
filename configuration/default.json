@@ -3,16 +3,11 @@
     "vss365",
     "prompt"
   ],
-  "additionals": [
+  "filter": [
     "writingcommunity",
     "flashdogs",
     "vsspoem",
-    "prompts",
-    "promptword",
-    "greek",
-    "scififri",
-    "scifisat",
-    "writer"
+    "promptword"
   ],
   "prompt_index": 0
 }

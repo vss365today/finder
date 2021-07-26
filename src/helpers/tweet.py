@@ -15,6 +15,11 @@ CONFIG = config.load()
 Hashtags = NewType("Hashtags", list[dict])
 
 
+def __filter_hashtags(hts: list[str]) -> list[str]:
+    """Filter out any hashtags that should not be considered a prompt."""
+    return [ht for ht in hts if ht not in CONFIG["filter"]]
+
+
 def __get_hashtags(hashtags: Hashtags) -> list[str]:
     """Extract all hashtags from the tweet."""
     return [ht["text"] for ht in hashtags]
@@ -33,7 +38,7 @@ def get_prompt(tweet: tweepy.Status) -> Optional[str]:
     hts = Hashtags(tweet.entities["hashtags"])
     if not confirm_prompt(hts):
         return None
-    return __get_hashtags(hts)[CONFIG["prompt_index"] + 2]
+    return __filter_hashtags(__get_hashtags(hts))[CONFIG["prompt_index"] + 2]
 
 
 def twitter_v1_api() -> tweepy.API:
