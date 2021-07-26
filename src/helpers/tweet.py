@@ -33,7 +33,7 @@ def get_prompt(tweet: tweepy.Status) -> Optional[str]:
     hts = Hashtags(tweet.entities["hashtags"])
     if not confirm_prompt(hts):
         return None
-    return __get_hashtags(hts)[CONFIG["word_index"] + 2]
+    return __get_hashtags(hts)[CONFIG["prompt_index"] + 2]
 
 
 def twitter_v1_api() -> tweepy.API:
