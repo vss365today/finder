@@ -36,13 +36,13 @@ def process_tweets(
     uid: str, tweet_id: str = None, recur_count: int = 0
 ) -> Optional[tweepy.Status]:
     # If we recurse too many times, stop searching
-    if recur_count > 7:
+    if recur_count > 4:
         return None
 
     # Get the latest tweets from the prompt Host
     # We need to enable extended mode to get tweets with over 140 characters
     statuses = TWITTER_API.user_timeline(
-        uid, max_id=tweet_id, count=20, tweet_mode="extended"
+        uid, max_id=tweet_id, count=15, tweet_mode="extended"
     )
 
     # Start by collecting _only_ the prompter's original tweets
