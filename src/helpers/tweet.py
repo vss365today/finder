@@ -17,7 +17,7 @@ Hashtags = NewType("Hashtags", list[dict])
 
 def __filter_hashtags(hts: list[str]) -> list[str]:
     """Filter out any hashtags that should not be considered a prompt."""
-    return [ht for ht in hts if ht not in CONFIG["filter"]]
+    return [ht for ht in hts if ht.lower() not in CONFIG["filter"]]
 
 
 def __get_hashtags(hashtags: Hashtags) -> list[str]:
