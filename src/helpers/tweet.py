@@ -1,4 +1,4 @@
-from typing import NewType, Optional
+from typing import Optional
 
 import tweepy
 import sys_vars
@@ -12,20 +12,17 @@ __all__ = ["confirm_prompt", "get_prompt", "twitter_v1_api"]
 CONFIG = config.load()
 
 
-Hashtags = NewType("Hashtags", list[dict])
-
-
 def __filter_hashtags(hts: list[str]) -> list[str]:
     """Filter out any hashtags that should not be considered a prompt."""
     return [ht for ht in hts if ht.lower() not in CONFIG["filter"]]
 
 
-def __get_hashtags(hashtags: Hashtags) -> list[str]:
+def __get_hashtags(hts: list[dict]) -> list[str]:
     """Extract all hashtags from the tweet."""
-    return [ht["text"] for ht in hashtags]
+    return [ht["text"] for ht in hts]
 
 
-def confirm_prompt(hts: Hashtags) -> bool:
+def confirm_prompt(hts: list[dict]) -> bool:
     """Confirm this is the Prompt tweet."""
     return (
         len(hts) >= 3
@@ -35,7 +32,7 @@ def confirm_prompt(hts: Hashtags) -> bool:
 
 
 def get_prompt(tweet: tweepy.Status) -> Optional[str]:
-    hts = Hashtags(tweet.entities["hashtags"])
+    hts = tweet.entities["hashtags"]
     if not confirm_prompt(hts):
         return None
     return __filter_hashtags(__get_hashtags(hts))[CONFIG["prompt_index"] + 2]
