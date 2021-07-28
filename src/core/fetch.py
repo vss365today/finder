@@ -17,7 +17,7 @@ __all__ = ["main"]
 TWITTER_API = tweet.twitter_v1_api()
 
 
-def __is_hosts_own_tweet(status: tweepy.Status) -> bool:
+def __is_hosts_own_tweet(status: tweepy.models.Status) -> bool:
     """Identify if this tweet is original to the prompter.
 
     Currently, this means removing both retweets and
@@ -28,7 +28,7 @@ def __is_hosts_own_tweet(status: tweepy.Status) -> bool:
 
 def process_tweets(
     uid: str, tweet_id: str = None, recur_count: int = 0
-) -> Optional[tweepy.Status]:
+) -> Optional[tweepy.models.Status]:
     # If we recurse too many times, stop searching
     if recur_count > 4:
         return None

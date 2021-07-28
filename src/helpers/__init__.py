@@ -14,7 +14,7 @@ __all__ = [
 CONFIG = config.load()
 
 
-def get_tweet_media(tweet: tweepy.Status) -> Tuple[str, None]:
+def get_tweet_media(tweet: tweepy.models.Status) -> Tuple[str, None]:
     """Get the tweet's media if it exists."""
     media_url = ""
     tweet_media = None
@@ -31,7 +31,7 @@ def get_tweet_media(tweet: tweepy.Status) -> Tuple[str, None]:
     return (media_url, tweet_media)
 
 
-def get_tweet_text(tweet: tweepy.Status, media_url: str) -> str:
+def get_tweet_text(tweet: tweepy.models.Status, media_url: str) -> str:
     """Get the tweet's complete text."""
     # Because we're accessing "extended" tweets (> 140 chars),
     # we need to be sure to access the full_text property

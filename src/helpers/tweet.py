@@ -31,7 +31,7 @@ def confirm_prompt(hts: list[dict]) -> bool:
     )
 
 
-def get_prompt(tweet: tweepy.Status) -> Optional[str]:
+def get_prompt(tweet: tweepy.models.Status) -> Optional[str]:
     hts = tweet.entities["hashtags"]
     if not confirm_prompt(hts):
         return None
