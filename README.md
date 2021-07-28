@@ -2,13 +2,14 @@
 
 > [#vss365 today](https://vss365today.com/) prompt tweet finder service
 
-## Required Configuration
+## Required Secrets
 
-- Running instance of [#vss365 today API](https://github.com/le717/vss365today-api/) (`API_DOMAIN`)
+- Running instance of [#vss365 today API](https://github.com/le717/vss365today-api) (`API_DOMAIN`)
   - API key for protected endpoint access (`API_AUTH_TOKEN`)
 - Twitter API v1 consumer key and consumer secret, read-only (`TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`)
+- Twitter API v2 bearer token (`TWITTER_BEARER`)
 
-## Install
+## Development
 
 1. Install Python 3.9+ and [Poetry](https://python-poetry.org/) 1.1.0+
 1. Create secret files in appropriate place (default: `secrets`)
