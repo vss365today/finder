@@ -8,7 +8,7 @@ from src.helpers import (
     get_tweet_media,
     get_tweet_text,
 )
-from src.helpers import api, tweet
+from src.helpers import api, tweet, tweet2
 from src.helpers.date import create_datetime
 
 
@@ -36,6 +36,9 @@ def main() -> bool:
     tweet_duplicate_date = input(
         "Has a Prompt already been recored for this day? (y/N) "
     ).strip()
+    should_send_emails = input(
+        "Should notification emails be sent for this Prompt? (y/N) "
+    ).strip()
     tweet_id = __get_tweet_id(tweet_url)
 
     # It's not a Twitter URL
@@ -53,11 +56,6 @@ def main() -> bool:
     media_url, tweet_media = get_tweet_media(prompt_tweet)
     tweet_text = get_tweet_text(prompt_tweet, media_url)
 
-    # Determine if this has been explictly marked as a duplicate Prompt
-    is_duplicate_date = (
-        tweet_duplicate_date.lower() == "y" if tweet_duplicate_date else False
-    )
-
     # Construct a tweet object
     prompt = {
         "id": tweet_id,
@@ -66,7 +64,7 @@ def main() -> bool:
         "word": tweet.get_prompt(prompt_tweet),
         "content": tweet_text,
         "media": tweet_media,
-        "is_duplicate_date": is_duplicate_date,
+        "is_duplicate_date": tweet_duplicate_date.lower() == "y",
     }
     pprint(prompt)
 
@@ -75,9 +73,10 @@ def main() -> bool:
         print("Adding tweet to database")
         api.post("prompt/", json=prompt)
 
-        # Send the email broadcast
-        print("Sending out notification emails")
-        api.post("broadcast/", params={"date": create_datetime(tweet_date)})
+        # Send the email broadcast if desired
+        if should_send_emails.lower() == "y":
+            print("Sending out notification emails")
+            api.post("broadcast/", params={"date": create_datetime(tweet_date)})
 
     except HTTPError:
         print(f"Cannot add prompt for {tweet_date} to the database!")
