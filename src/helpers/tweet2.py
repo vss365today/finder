@@ -32,10 +32,12 @@ def __get_hashtags(hts: list[dict]) -> list[str]:
     return [ht["tag"] for ht in hts]
 
 
-def confirm_prompt(hts: list[dict]) -> bool:
+def confirm_prompt(tweet: namedtuple) -> bool:
     """Confirm this is the Prompt tweet."""
+    hts = tweet.data.get("entities", {}).get("hashtags")
     return (
-        len(hts) >= 3
+        hts is not None
+        and len(hts) >= 3
         and hts[0]["tag"].lower() == CONFIG["identifiers"][0]
         and hts[1]["tag"].lower() == CONFIG["identifiers"][1]
     )
@@ -77,9 +79,10 @@ def get_media(tweet: namedtuple) -> Optional[str]:
 
 def get_prompt(tweet: namedtuple) -> Optional[str]:
     """Get the prompt word from the tweet."""
-    hts = tweet.data.entities["hashtags"]
-    if not confirm_prompt(hts):
+    if not confirm_prompt(tweet):
         return None
+
+    hts = tweet.data.entities["hashtags"]
     return __filter_hashtags(__get_hashtags(hts))[CONFIG["prompt_index"] + 2]
 
 
