@@ -26,8 +26,8 @@ def confirm_prompt(hts: list[dict]) -> bool:
     """Confirm this is the Prompt tweet."""
     return (
         len(hts) >= 3
-        and hts[0]["text"] == CONFIG["identifiers"][0]
-        and hts[1]["text"] == CONFIG["identifiers"][1]
+        and hts[0]["text"].lower() == CONFIG["identifiers"][0]
+        and hts[1]["text"].lower() == CONFIG["identifiers"][1]
     )
 
 
