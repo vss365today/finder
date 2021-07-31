@@ -119,31 +119,31 @@ def main() -> bool:
     # del media_url
 
     # Attempt to extract the prompt word and back out if we can't
-    # prompt_word = tweet.get_prompt(prompt_tweet)
-    # if prompt_word is None:
-    #     print(f"Cannot find Prompt word in tweet {prompt_tweet.id_str}")
-    #     return False
+    prompt_word = tweet2.get_prompt(prompt_tweet)
+    if prompt_word is None:
+        print(f"Cannot find Prompt word in tweet {prompt_tweet.id}")
+        return False
 
     # Construct a dictionary with only the info we need
     prompt = {
-        #     "id": prompt_tweet.id_str,
-        #     "uid": prompt_tweet.author.id_str,
-        #     "date": tweet_date.isoformat(),
-        #     "word": prompt_word,
-        #     "content": tweet_text,
-        #     "media": tweet_media,
+        "id": str(prompt_tweet.id),
+        "uid": str(prompt_tweet.author_id),
+        "date": tweet_date.isoformat(),
+        "word": prompt_word,
+        "content": tweet2.get_text(prompt_tweet),
+        # "media": tweet2.get_media(prompt_tweet),
     }
     pprint(prompt)
+    print()
+    try:
+        # Add the tweet to the database
+        print("Adding Prompt to database")
+        #     api.post("prompt/", json=prompt)
 
-    # try:
-    #     # Add the tweet to the database
-    #     print("Adding Prompt to database")
-    #     api.post("prompt/", json=prompt)
-
-    #     # Send the email broadcast
-    #     print("Sending out notification emails")
+        # Send the email broadcast
+        print("Sending out notification emails")
     #     api.post("broadcast/", params={"date": tweet_date.isoformat()})
 
-    # except HTTPError:
-    #     print(f"Cannot add Prompt for {tweet_date} to the database!")
+    except HTTPError:
+        print(f"Cannot add Prompt for {tweet_date} to the database!")
     return True
