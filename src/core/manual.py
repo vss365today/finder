@@ -1,82 +1,61 @@
 from pprint import pprint
-from typing import Optional
-from urllib3.util.url import parse_url
 
 from requests.exceptions import HTTPError
 
-from src.helpers import (
-    get_tweet_media,
-    get_tweet_text,
-)
-from src.helpers import api, tweet, tweet2
+from src.helpers import api, tweet2
 from src.helpers.date import create_datetime
 
 
 __all__ = ["main"]
 
 
-def __get_tweet_id(url: str) -> Optional[str]:
-    # Parse the URL into its components
-    parsed = parse_url(url.strip())
-
-    # This is not a Twitter URL or an individual tweet
-    if "twitter.com" not in parsed.host and "status" not in parsed.path:
-        return None
-
-    # Break up the URL path and pull out the tweet id
-    url_path = parsed.path.split("/")
-    return url_path[3]
-
-
 def main() -> bool:
     """Manually specify and record a Prompt."""
-    # Get the tweet date and url info from the url
-    tweet_date = input("Enter the Prompt date (YYYY-MM-DD): ")
+    # Get the information we need
+    tweet_date = create_datetime(input("Enter the Prompt date (YYYY-MM-DD): "))
     tweet_url = input("Enter the Prompt url: ")
     tweet_duplicate_date = input(
-        "Has a Prompt already been recored for this day? (y/N) "
+        "Has a Prompt already been recorded for this day? (y/N) "
     ).strip()
     should_send_emails = input(
         "Should notification emails be sent for this Prompt? (y/N) "
     ).strip()
-    tweet_id = __get_tweet_id(tweet_url)
 
     # It's not a Twitter URL
-    if not tweet_id:
+    if not tweet2.is_url(tweet_url):
         return False
 
-    # Connect to the Twitter API to get the tweet itself
-    twitter_api = tweet.twitter_v1_api()
+    # Connect to the Twitter API to get the prompt tweet
+    twitter_api = tweet2.twitter_v2_api()
     print("Successfully connected to the Twitter API")
-    prompt_tweet = twitter_api.get_status(
-        tweet_id, include_my_retweet=False, tweet_mode="extended"
+    prompt_tweet = twitter_api.get_tweet(
+        tweet2.get_id(tweet_url),
+        expansions=["attachments.media_keys", "author_id"],
+        tweet_fields=["created_at", "entities"],
+        media_fields=["preview_image_url", "url"],
     )
 
-    # Extract the tweet content
-    media_url, tweet_media = get_tweet_media(prompt_tweet)
-    tweet_text = get_tweet_text(prompt_tweet, media_url)
-
-    # Construct a tweet object
+    # Construct an API request object
     prompt = {
-        "id": tweet_id,
-        "uid": prompt_tweet.author.id_str,
-        "date": prompt_tweet.created_at.isoformat(),
-        "word": tweet.get_prompt(prompt_tweet),
-        "content": tweet_text,
-        "media": tweet_media,
+        "id": str(prompt_tweet.data.id),
+        "uid": str(prompt_tweet.data.author_id),
+        "date": tweet_date.isoformat(),
+        "word": tweet2.get_prompt(prompt_tweet),
+        "content": tweet2.get_text(prompt_tweet),
+        "media": tweet2.get_media(prompt_tweet),
         "is_duplicate_date": tweet_duplicate_date.lower() == "y",
     }
     pprint(prompt)
 
     try:
         # Add the tweet to the database
-        print("Adding tweet to database")
+        print("Adding prompt to database")
         api.post("prompt/", json=prompt)
 
         # Send the email broadcast if desired
         if should_send_emails.lower() == "y":
             print("Sending out notification emails")
-            api.post("broadcast/", params={"date": create_datetime(tweet_date)})
+            api.post("broadcast/", params={"date": tweet_date})
 
     except HTTPError:
         print(f"Cannot add prompt for {tweet_date} to the database!")
