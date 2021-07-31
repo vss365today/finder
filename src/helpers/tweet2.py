@@ -10,9 +10,11 @@ from src.core import config
 
 __all__ = [
     "confirm_prompt",
-    "extract_id_from_url",
+    "is_url",
+    "get_id",
     "get_media",
     "get_prompt",
+    "get_text",
     "twitter_v2_api",
 ]
 
@@ -39,14 +41,16 @@ def confirm_prompt(hts: list[dict]) -> bool:
     )
 
 
-def extract_id_from_url(url: str) -> Optional[str]:
+def is_url(url: str) -> bool:
+    """Determine if this is a tweet URL."""
+    parsed = parse_url(url.strip())
+    return "twitter.com" in parsed.host and "status" in parsed.path
+
+
+def get_id(url: str) -> str:
     """Confirm this is a tweet url and get its ID."""
     # Parse the URL into its components
     parsed = parse_url(url.strip())
-
-    # This is not a Twitter URL or an individual tweet
-    if "twitter.com" not in parsed.host and "status" not in parsed.path:
-        return None
 
     # Break up the URL path and pull out the tweet id
     url_path = parsed.path.split("/")
