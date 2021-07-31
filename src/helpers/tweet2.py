@@ -62,8 +62,12 @@ def get_id(url: str) -> str:
 def get_media(tweet: namedtuple) -> Optional[str]:
     """Get any media in the tweet."""
     # This tweet has no media in it
-    if tweet.data.attachments is None:
-        return None
+    try:
+        if tweet.data.attachments is None:
+            return None
+    except AttributeError:
+        if tweet.attachments is None:
+            return None
 
     # Shortcut to the media (because it's pretty buried in the response)
     media = tweet.includes["media"][0].data
@@ -82,13 +86,16 @@ def get_prompt(tweet: namedtuple) -> Optional[str]:
     if not confirm_prompt(tweet):
         return None
 
-    hts = tweet.data.entities["hashtags"]
+    hts = tweet.data.get("entities").get("hashtags")
     return __filter_hashtags(__get_hashtags(hts))[CONFIG["prompt_index"] + 2]
 
 
 def get_text(tweet: namedtuple) -> str:
     """Get the full tweet text."""
-    return tweet.data.text
+    try:
+        return tweet.data.text
+    except AttributeError:
+        return tweet.text
 
 
 def twitter_v2_api() -> tweepy.Client:
