@@ -3,10 +3,8 @@ from pprint import pprint
 from typing import Optional
 
 from requests.exceptions import HTTPError
-import tweepy
 from tweepy.tweet import Tweet
 
-from src.helpers import get_tweet_media, get_tweet_text
 from src.helpers import api, tweet2
 from src.helpers.date import create_datetime
 
@@ -21,6 +19,7 @@ TWITTER_API = tweet2.twitter_v2_api()
 def find_prompt_tweet(
     uid: str, tweet_id: str = None, recur_count: int = 0
 ) -> Optional[Tweet]:
+    # TODO Use tweepy.Paginator instead of recursion
     # If we recurse too many times, stop searching
     if recur_count > 4:
         return None
@@ -112,11 +111,6 @@ def main() -> bool:
     ):
         print(f"The latest Prompt for {tweet_date} has already found. Aborting...")
         return False
-
-    # Pull out the tweet media and text content
-    # media_url, tweet_media = get_tweet_media(prompt_tweet)
-    # tweet_text = get_tweet_text(prompt_tweet, media_url)
-    # del media_url
 
     # Attempt to extract the prompt word and back out if we can't
     prompt_word = tweet2.get_prompt(prompt_tweet)
