@@ -1,9 +1,9 @@
+from collections import namedtuple
 from datetime import datetime, timedelta
 from pprint import pprint
 from typing import Optional
 
 from requests.exceptions import HTTPError
-from tweepy.tweet import Tweet
 
 from src.helpers import api, tweet2
 from src.helpers.date import create_datetime
@@ -18,7 +18,7 @@ TWITTER_API = tweet2.twitter_v2_api()
 
 def find_prompt_tweet(
     uid: str, tweet_id: str = None, recur_count: int = 0
-) -> Optional[Tweet]:
+) -> Optional[namedtuple]:
     # TODO Use tweepy.Paginator instead of recursion
     # If we recurse too many times, stop searching
     if recur_count > 4:
@@ -134,11 +134,11 @@ def main() -> bool:
     try:
         # Add the tweet to the database
         print("Adding Prompt to database")
-        #     api.post("prompt/", json=prompt)
+        api.post("prompt/", json=prompt)
 
         # Send the email broadcast
         print("Sending out notification emails")
-    #     api.post("broadcast/", params={"date": tweet_date.isoformat()})
+        api.post("broadcast/", params={"date": tweet_date.isoformat()})
 
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
