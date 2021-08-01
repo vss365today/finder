@@ -30,9 +30,7 @@ def find_prompt_tweet(
         until_id=tweet_id,
         max_results=30,
         exclude=["replies", "retweets"],
-        expansions=["attachments.media_keys", "author_id"],
-        tweet_fields=["created_at", "entities"],
-        media_fields=["preview_image_url", "url"],
+        tweet_fields=["entities"],
     )
 
     found_tweet = None
@@ -48,8 +46,10 @@ def find_prompt_tweet(
     # We didn't find the prompt tweet, so we need to search again,
     # but this time, older than the oldest tweet we currently have
     if found_tweet is None:
-        return find_prompt_tweet(uid, statuses.data[-1].data.id, recur_count + 1)
-    return found_tweet
+        return find_prompt_tweet(uid, statuses.data[-1].id, recur_count + 1)
+
+    # Return a proper Response object
+    return tweet2.get_tweet(TWITTER_API, found_tweet.id)
 
 
 def main() -> bool:
@@ -96,10 +96,12 @@ def main() -> bool:
     # time zone difference. Tweet datetimes are always expressed
     # in UTC, so attempt to get to tomorrow's date
     # and see if it matches the expected tweet date
-    tweet_date = prompt_tweet.created_at
+    tweet_date = prompt_tweet.data.created_at
     if tweet_date.day - TODAY.day < 0:
-        next_day_hour_difference = 24 - prompt_tweet.created_at.hour
-        tweet_date = prompt_tweet.created_at + timedelta(hours=next_day_hour_difference)
+        next_day_hour_difference = 24 - prompt_tweet.data.created_at.hour
+        tweet_date = prompt_tweet.data.created_at + timedelta(
+            hours=next_day_hour_difference
+        )
 
     # We already have the latest tweet, don't do anything
     # This condition is hit when it is _technnically_ the next day
@@ -115,20 +117,20 @@ def main() -> bool:
     # Attempt to extract the prompt word and back out if we can't
     prompt_word = tweet2.get_prompt(prompt_tweet)
     if prompt_word is None:
-        print(f"Cannot find Prompt word in tweet {prompt_tweet.id}")
+        print(f"Cannot find Prompt word in tweet {prompt_tweet.data.id}")
         return False
 
-    # Construct a dictionary with only the info we need
+    # Construct an API request object
     prompt = {
-        "id": str(prompt_tweet.id),
-        "uid": str(prompt_tweet.author_id),
+        "id": str(prompt_tweet.data.id),
+        "uid": str(prompt_tweet.data.author_id),
         "date": tweet_date.isoformat(),
         "word": prompt_word,
         "content": tweet2.get_text(prompt_tweet),
-        # "media": tweet2.get_media(prompt_tweet),
+        "media": tweet2.get_media(prompt_tweet),
     }
     pprint(prompt)
-    print()
+
     try:
         # Add the tweet to the database
         print("Adding Prompt to database")
