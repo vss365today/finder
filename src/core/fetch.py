@@ -36,7 +36,7 @@ def process_tweets(
     # Get the latest tweets from the prompt Host
     # We need to enable extended mode to get tweets with over 140 characters
     statuses = TWITTER_API.user_timeline(
-        uid, max_id=tweet_id, count=15, tweet_mode="extended"
+        user_id=uid, max_id=tweet_id, count=15, tweet_mode="extended"
     )
 
     # Start by collecting _only_ the prompter's original tweets
