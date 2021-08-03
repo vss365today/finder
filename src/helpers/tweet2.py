@@ -10,12 +10,13 @@ from src.core import config
 
 __all__ = [
     "confirm_prompt",
-    "is_url",
+    "fetch_fields",
     "get_id",
     "get_media",
     "get_prompt",
     "get_text",
     "get_tweet",
+    "is_url",
     "twitter_v2_api",
 ]
 
@@ -44,10 +45,13 @@ def confirm_prompt(tweet: namedtuple) -> bool:
     )
 
 
-def is_url(url: str) -> bool:
-    """Determine if this is a tweet URL."""
-    parsed = parse_url(url.strip())
-    return "twitter.com" in parsed.host and "status" in parsed.path
+def fetch_fields() -> dict[str, list[str]]:
+    """Specify the expansions and fields for needed information."""
+    return {
+        "expansions": ["attachments.media_keys", "author_id"],
+        "tweet_fields": ["created_at", "entities"],
+        "media_fields": ["preview_image_url", "url"],
+    }
 
 
 def get_id(url: str) -> str:
@@ -92,14 +96,10 @@ def get_text(tweet: namedtuple) -> str:
     return tweet.data.text
 
 
-def get_tweet(api: tweepy.Client, tweet_id: str) -> namedtuple:
-    """Get a single Tweet."""
-    return api.get_tweet(
-        tweet_id,
-        expansions=["attachments.media_keys", "author_id"],
-        tweet_fields=["created_at", "entities"],
-        media_fields=["preview_image_url", "url"],
-    )
+def is_url(url: str) -> bool:
+    """Determine if this is a tweet URL."""
+    parsed = parse_url(url.strip())
+    return "twitter.com" in parsed.host and "status" in parsed.path
 
 
 def twitter_v2_api() -> tweepy.Client:

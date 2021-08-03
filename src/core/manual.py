@@ -28,7 +28,9 @@ def main() -> bool:
     # Connect to the Twitter API to get the prompt tweet
     twitter_api = tweet2.twitter_v2_api()
     print("Successfully connected to the Twitter API")
-    prompt_tweet = tweet2.get_tweet(twitter_api, tweet2.get_id(tweet_url))
+    prompt_tweet = twitter_api.get_tweet(
+        tweet2.get_id(tweet_url), **tweet2.fetch_fields()
+    )
 
     # Construct an API request object
     prompt = {

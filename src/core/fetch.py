@@ -49,7 +49,7 @@ def find_prompt_tweet(
         return find_prompt_tweet(uid, statuses.data[-1].id, recur_count + 1)
 
     # Return a proper Response object
-    return tweet2.get_tweet(TWITTER_API, found_tweet.id)
+    return TWITTER_API.get_tweet(found_tweet.id, **tweet2.fetch_fields())
 
 
 def main() -> bool:
@@ -134,11 +134,11 @@ def main() -> bool:
     try:
         # Add the tweet to the database
         print("Adding Prompt to database")
-        api.post("prompt/", json=prompt)
+        # api.post("prompt/", json=prompt)
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post("broadcast/", params={"date": tweet_date.isoformat()})
+        # api.post("broadcast/", params={"date": tweet_date.isoformat()})
 
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
