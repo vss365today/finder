@@ -4,6 +4,7 @@ from pprint import pprint
 from typing import Optional
 
 from requests.exceptions import HTTPError
+from tweepy import Paginator
 
 from src.helpers import api, tweet
 from src.helpers.date import create_datetime
@@ -16,39 +17,28 @@ __all__ = ["main"]
 TWITTER_API = tweet.twitter_v2_api()
 
 
-def find_prompt_tweet(
-    uid: str, tweet_id: str = None, recur_count: int = 0
-) -> Optional[namedtuple]:
-    # TODO Use tweepy.Paginator instead of recursion
-    # If we recurse too many times, stop searching
-    if recur_count > 4:
-        return None
+def find_prompt(uid: str) -> Optional[namedtuple]:
+    found_tweet = None
 
-    # Get the latest tweets from the prompt Host
-    statuses = TWITTER_API.get_users_tweets(
+    # Get the tweets from the Host for the prompt
+    for response in Paginator(
+        TWITTER_API.get_users_tweets,
         id=uid,
-        until_id=tweet_id,
-        max_results=30,
+        max_results=50,
         exclude=["replies", "retweets"],
         tweet_fields=["entities"],
-    )
+    ).flatten():
+        # Found the prompt!
+        if tweet.confirm_prompt(response):
+            found_tweet = response
+            break
 
-    found_tweet = None
-    for twt in statuses.data:
-        # Try to find the prompt tweet among the pulled tweets
-        if not tweet.confirm_prompt(twt):
-            continue
-
-        # Found it!!
-        found_tweet = twt
-        break
-
-    # We didn't find the prompt tweet, so we need to search again,
-    # but this time, older than the oldest tweet we currently have
+    # ...We never found the prompt. Sad face day :(
     if found_tweet is None:
-        return find_prompt_tweet(uid, statuses.data[-1].id, recur_count + 1)
+        return None
 
-    # Return a proper Response object
+    # ...OOOOORRRRRRRR we did, so rseturn a proper Response object.
+    # People these days. You just never know if they'll say what you want! /s
     return TWITTER_API.get_tweet(found_tweet.id, **tweet.fetch_fields())
 
 
@@ -85,7 +75,7 @@ def main() -> bool:
 
     # Attempt to find the prompt
     print("Searching for the latest prompt")
-    prompt_tweet = find_prompt_tweet(CURRENT_HOST["uid"])
+    prompt_tweet = find_prompt(CURRENT_HOST["uid"])
 
     # The tweet was not found at all :(
     if prompt_tweet is None:
@@ -134,11 +124,11 @@ def main() -> bool:
     try:
         # Add the tweet to the database
         print("Adding Prompt to database")
-        # api.post("prompt/", json=prompt)
+        api.post("prompt/", json=prompt)
 
         # Send the email broadcast
         print("Sending out notification emails")
-        # api.post("broadcast/", params={"date": tweet_date.isoformat()})
+        api.post("broadcast/", params={"date": tweet_date.isoformat()})
 
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
