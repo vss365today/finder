@@ -2,7 +2,7 @@ from pprint import pprint
 
 from requests.exceptions import HTTPError
 
-from src.helpers import api, tweet2
+from src.helpers import api, tweet
 from src.helpers.date import create_datetime
 
 
@@ -22,17 +22,14 @@ def main() -> bool:
     ).strip()
 
     # It's not a Twitter URL
-    if not tweet2.is_url(tweet_url):
+    if not tweet.is_url(tweet_url):
         return False
 
     # Connect to the Twitter API to get the prompt tweet
-    twitter_api = tweet2.twitter_v2_api()
+    twitter_api = tweet.twitter_v2_api()
     print("Successfully connected to the Twitter API")
     prompt_tweet = twitter_api.get_tweet(
-        tweet2.get_id(tweet_url),
-        expansions=["attachments.media_keys", "author_id"],
-        tweet_fields=["created_at", "entities"],
-        media_fields=["preview_image_url", "url"],
+        tweet.get_id(tweet_url), **tweet.fetch_fields()
     )
 
     # Construct an API request object
@@ -40,16 +37,16 @@ def main() -> bool:
         "id": str(prompt_tweet.data.id),
         "uid": str(prompt_tweet.data.author_id),
         "date": tweet_date.isoformat(),
-        "word": tweet2.get_prompt(prompt_tweet),
-        "content": tweet2.get_text(prompt_tweet),
-        "media": tweet2.get_media(prompt_tweet),
+        "word": tweet.get_prompt(prompt_tweet),
+        "content": tweet.get_text(prompt_tweet),
+        "media": tweet.get_media(prompt_tweet),
         "is_duplicate_date": tweet_duplicate_date.lower() == "y",
     }
     pprint(prompt)
 
     try:
         # Add the tweet to the database
-        print("Adding prompt to database")
+        print("Adding Prompt to database")
         api.post("prompt/", json=prompt)
 
         # Send the email broadcast if desired
@@ -58,6 +55,6 @@ def main() -> bool:
             api.post("broadcast/", params={"date": tweet_date})
 
     except HTTPError:
-        print(f"Cannot add prompt for {tweet_date} to the database!")
+        print(f"Cannot add Prompt for {tweet_date} to the database!")
         return False
     return True

@@ -1,11 +1,11 @@
+from collections import namedtuple
 from datetime import datetime, timedelta
 from pprint import pprint
 from typing import Optional
 
 from requests.exceptions import HTTPError
-import tweepy
+from tweepy import Paginator
 
-from src.helpers import get_tweet_media, get_tweet_text
 from src.helpers import api, tweet
 from src.helpers.date import create_datetime
 
@@ -14,47 +14,32 @@ __all__ = ["main"]
 
 
 # Connect to the Twitter API
-TWITTER_API = tweet.twitter_v1_api()
+TWITTER_API = tweet.twitter_v2_api()
 
 
-def __is_hosts_own_tweet(status: tweepy.models.Status) -> bool:
-    """Identify if this tweet is original to the prompter.
+def find_prompt(uid: str) -> Optional[namedtuple]:
+    found_tweet = None
 
-    Currently, this means removing both retweets and
-    retweeted quote tweets of the prompter's tweets.
-    """
-    return not status.retweeted and not hasattr(status, "retweeted_status")
+    # Get the tweets from the Host for the prompt
+    for response in Paginator(
+        TWITTER_API.get_users_tweets,
+        id=uid,
+        max_results=50,
+        exclude=["replies", "retweets"],
+        tweet_fields=["entities"],
+    ).flatten():
+        # Found the prompt!
+        if tweet.confirm_prompt(response):
+            found_tweet = response
+            break
 
-
-def process_tweets(
-    uid: str, tweet_id: str = None, recur_count: int = 0
-) -> Optional[tweepy.models.Status]:
-    # If we recurse too many times, stop searching
-    if recur_count > 4:
+    # ...We never found the prompt. Sad face day :(
+    if found_tweet is None:
         return None
 
-    # Get the latest tweets from the prompt Host
-    # We need to enable extended mode to get tweets with over 140 characters
-    statuses = TWITTER_API.user_timeline(
-        user_id=uid, max_id=tweet_id, count=15, tweet_mode="extended"
-    )
-
-    # Start by collecting _only_ the prompter's original tweets
-    own_tweets = [status for status in statuses if __is_hosts_own_tweet(status)]
-
-    found_tweet = None
-    for twt in own_tweets:
-        # Try to find the prompt tweet among the pulled tweets
-        if tweet.confirm_prompt(twt.entities["hashtags"]):
-            found_tweet = twt
-            break
-        continue
-
-    # We didn't find the prompt tweet, so we need to search again,
-    # but this time, older than the oldest tweet we currently have
-    if found_tweet is None:
-        return process_tweets(uid, own_tweets[-1].id_str, recur_count + 1)
-    return found_tweet
+    # ...OOOOORRRRRRRR we did, so rseturn a proper Response object.
+    # People these days. You just never know if they'll say what you want! /s
+    return TWITTER_API.get_tweet(found_tweet.id, **tweet.fetch_fields())
 
 
 def main() -> bool:
@@ -90,7 +75,7 @@ def main() -> bool:
 
     # Attempt to find the prompt
     print("Searching for the latest prompt")
-    prompt_tweet = process_tweets(CURRENT_HOST["uid"])
+    prompt_tweet = find_prompt(CURRENT_HOST["uid"])
 
     # The tweet was not found at all :(
     if prompt_tweet is None:
@@ -101,10 +86,12 @@ def main() -> bool:
     # time zone difference. Tweet datetimes are always expressed
     # in UTC, so attempt to get to tomorrow's date
     # and see if it matches the expected tweet date
-    tweet_date = prompt_tweet.created_at
+    tweet_date = prompt_tweet.data.created_at
     if tweet_date.day - TODAY.day < 0:
-        next_day_hour_difference = 24 - prompt_tweet.created_at.hour
-        tweet_date = prompt_tweet.created_at + timedelta(hours=next_day_hour_difference)
+        next_day_hour_difference = 24 - prompt_tweet.data.created_at.hour
+        tweet_date = prompt_tweet.data.created_at + timedelta(
+            hours=next_day_hour_difference
+        )
 
     # We already have the latest tweet, don't do anything
     # This condition is hit when it is _technnically_ the next day
@@ -117,25 +104,20 @@ def main() -> bool:
         print(f"The latest Prompt for {tweet_date} has already found. Aborting...")
         return False
 
-    # Pull out the tweet media and text content
-    media_url, tweet_media = get_tweet_media(prompt_tweet)
-    tweet_text = get_tweet_text(prompt_tweet, media_url)
-    del media_url
-
     # Attempt to extract the prompt word and back out if we can't
     prompt_word = tweet.get_prompt(prompt_tweet)
     if prompt_word is None:
-        print(f"Cannot find Prompt word in tweet {prompt_tweet.id_str}")
+        print(f"Cannot find Prompt word in tweet {prompt_tweet.data.id}")
         return False
 
-    # Construct a dictionary with only the info we need
+    # Construct an API request object
     prompt = {
-        "id": prompt_tweet.id_str,
-        "uid": prompt_tweet.author.id_str,
+        "id": str(prompt_tweet.data.id),
+        "uid": str(prompt_tweet.data.author_id),
         "date": tweet_date.isoformat(),
         "word": prompt_word,
-        "content": tweet_text,
-        "media": tweet_media,
+        "content": tweet.get_text(prompt_tweet),
+        "media": tweet.get_media(prompt_tweet),
     }
     pprint(prompt)
 
