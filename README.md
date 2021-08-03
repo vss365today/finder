@@ -4,21 +4,26 @@
 
 ## Required Secrets
 
-- Running instance of [#vss365 today API](https://github.com/le717/vss365today-api) (`API_DOMAIN`)
-  - API key for protected endpoint access (`API_AUTH_TOKEN`)
-- Twitter API v1 consumer key and consumer secret, read-only (`TWITTER_CONSUMER_KEY`, `TWITTER_CONSUMER_SECRET`)
 - Twitter API v2 bearer token (`TWITTER_BEARER`)
+- Running instance of [#vss365 today API](https://github.com/le717/vss365today-api)
+  - Operating domain (`API_DOMAIN`)
+  - API key with `has_archive`, `has_broadcast`, `has_host`, `has_prompt`, `has_settings`, and `has_subscription` permissions (`API_AUTH_TOKEN`)
 
 ## Development
 
-1. Install Python 3.9+ and [Poetry](https://python-poetry.org/) 1.1.0+
-1. Create secret files in appropriate place (default: `secrets`)
+1. Install [Python](https://www.python.org/) 3.9+, [Poetry](https://poetry.eustace.io/) 1.1.0+, and VS Code
+1. Create required secret keys in appropriate place (default: `secrets`)
+1. Modify `configuration/default.json` as required
 1. Run `poetry install`
+1. Launch the app using the provided VS Code launch configuration
+
 
 ## Build
 
-1. Modify `configuration/default.json` as required
-1. `$ docker build -t vss365today-finder:latest .`
+Creating a Docker image will install all required components.
+Creating an image is a one-line command:
+
+1. `docker build -t vss365today-finder:latest .`
 
 ## License
 
