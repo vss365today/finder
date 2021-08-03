@@ -98,8 +98,8 @@ def get_text(tweet: namedtuple) -> str:
 
 def is_url(url: str) -> bool:
     """Determine if this is a tweet URL."""
-    parsed = parse_url(url.strip())
-    return "twitter.com" in parsed.host and "status" in parsed.path
+    url = url.lower()
+    return "twitter.com/" in url and "/status/" in url
 
 
 def twitter_v2_api() -> tweepy.Client:
