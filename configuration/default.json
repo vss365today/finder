@@ -4,10 +4,11 @@
     "prompt"
   ],
   "filter": [
-    "writingcommunity",
     "flashdogs",
+    "promptword",
+    "vss365",
     "vsspoem",
-    "promptword"
+    "writingcommunity"
   ],
   "prompt_index": 0
 }
