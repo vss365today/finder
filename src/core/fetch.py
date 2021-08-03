@@ -5,7 +5,7 @@ from typing import Optional
 
 from requests.exceptions import HTTPError
 
-from src.helpers import api, tweet2
+from src.helpers import api, tweet
 from src.helpers.date import create_datetime
 
 
@@ -13,7 +13,7 @@ __all__ = ["main"]
 
 
 # Connect to the Twitter API
-TWITTER_API = tweet2.twitter_v2_api()
+TWITTER_API = tweet.twitter_v2_api()
 
 
 def find_prompt_tweet(
@@ -36,7 +36,7 @@ def find_prompt_tweet(
     found_tweet = None
     for twt in statuses.data:
         # Try to find the prompt tweet among the pulled tweets
-        if not tweet2.confirm_prompt(twt):
+        if not tweet.confirm_prompt(twt):
             continue
 
         # Found it!!
@@ -49,7 +49,7 @@ def find_prompt_tweet(
         return find_prompt_tweet(uid, statuses.data[-1].id, recur_count + 1)
 
     # Return a proper Response object
-    return TWITTER_API.get_tweet(found_tweet.id, **tweet2.fetch_fields())
+    return TWITTER_API.get_tweet(found_tweet.id, **tweet.fetch_fields())
 
 
 def main() -> bool:
@@ -115,7 +115,7 @@ def main() -> bool:
         return False
 
     # Attempt to extract the prompt word and back out if we can't
-    prompt_word = tweet2.get_prompt(prompt_tweet)
+    prompt_word = tweet.get_prompt(prompt_tweet)
     if prompt_word is None:
         print(f"Cannot find Prompt word in tweet {prompt_tweet.data.id}")
         return False
@@ -126,8 +126,8 @@ def main() -> bool:
         "uid": str(prompt_tweet.data.author_id),
         "date": tweet_date.isoformat(),
         "word": prompt_word,
-        "content": tweet2.get_text(prompt_tweet),
-        "media": tweet2.get_media(prompt_tweet),
+        "content": tweet.get_text(prompt_tweet),
+        "media": tweet.get_media(prompt_tweet),
     }
     pprint(prompt)
 
