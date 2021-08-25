@@ -57,6 +57,19 @@
       "args": [
         "--archive"
       ]
+    },
+    {
+      "name": "Finder (email)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/finder.py",
+      "console": "internalConsole",
+      "env": {
+        "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
+      },
+      "args": [
+        "--email"
+      ]
     }
   ]
 }
