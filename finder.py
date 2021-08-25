@@ -87,8 +87,3 @@ if __name__ == "__main__":
         logging.info("Running archive...")
         archive.main()
         raise SystemExit(0)
-
-    # No arguments were passed
-    else:
-        parser.print_help()
-        raise SystemExit(0)
