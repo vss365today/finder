@@ -31,6 +31,12 @@ group.add_argument(
     help="schedule recording the latest prompt according to ENV values.",
     action="store_true",
 )
+group.add_argument(
+    "-e",
+    "--email",
+    help="manually send out a prompt broadcast.",
+    action="store_true",
+)
 args = parser.parse_args()
 
 # Create a logger to print all logging output to stdout
@@ -43,6 +49,14 @@ logger.addHandler(handler)
 
 
 if __name__ == "__main__":
+    # Manually send out a prompt broadcast
+    if args.email:
+        from src.core import email
+
+        logging.info("Running email...")
+        email.main()
+        raise SystemExit(0)
+
     # Manually enter a prompt
     if args.manual:
         from src.core import manual
