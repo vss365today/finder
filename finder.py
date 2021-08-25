@@ -6,32 +6,29 @@ from typing import Dict
 
 # Handle app arguments
 parser = argparse.ArgumentParser()
-parser.add_argument(
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument(
     "-a",
     "--archive",
-    help="kick-off the word archive generator. "
-    "Cannot be combined with other arguments",
+    help="kick-off the word archive generator.",
     action="store_true",
 )
-parser.add_argument(
+group.add_argument(
     "-f",
     "--fetch",
-    help="attempt to automatically record the latest prompt. "
-    "Cannot be combined with other arguments",
+    help="attempt to automatically record the latest prompt.",
     action="store_true",
 )
-parser.add_argument(
+group.add_argument(
     "-m",
     "--manual",
-    help="manually record a specific prompt. "
-    "Cannot be combined with other arguments",
+    help="manually record a specific prompt.",
     action="store_true",
 )
-parser.add_argument(
+group.add_argument(
     "-s",
     "--schedule",
-    help="schedule recording the latest prompt according to ENV values. "
-    "Cannot be combined with other arguments",
+    help="schedule recording the latest prompt according to ENV values.",
     action="store_true",
 )
 args = parser.parse_args()
@@ -46,19 +43,6 @@ logger.addHandler(handler)
 
 
 if __name__ == "__main__":
-    # Find out which arguments were passed
-    argument_values: Dict[str, bool] = vars(args)
-    number_of_args_passed = len([v for v in argument_values.values() if v])
-
-    # More than one arguments was passed and that is not allowed
-    if number_of_args_passed >= 2:
-        print(
-            f"{__file__}: error: cannot combine arguments. "
-            "Only a single argument is permitted"
-        )
-        parser.print_help()
-        raise SystemExit(1)
-
     # Manually enter a prompt
     if args.manual:
         from src.core import manual
