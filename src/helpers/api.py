@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, Callable
 
 import requests
 import sys_vars
@@ -18,19 +18,20 @@ def __create_auth_token() -> dict:
     return {"Authorization": f"Bearer {sys_vars.get('API_AUTH_TOKEN')}"}
 
 
-def get(*args: str, **kwargs: Any) -> Union[list, dict]:
+def __make_request(method: Callable, *args: str, **kwargs: Any) -> dict:
+    """Make a request to the API."""
+    kwargs["headers"] = __create_auth_token()
+    url = __create_api_url(*args)
+    r = method(url, **kwargs)
+    r.raise_for_status()
+    return r.json() if r.text else {}
+
+
+def get(*args: str, **kwargs: Any) -> dict:
     """Helper function for performing a GET request."""
-    kwargs["headers"] = __create_auth_token()
-    url = __create_api_url(*args)
-    r = requests.get(url, **kwargs)
-    r.raise_for_status()
-    return r.json() if r.text else {}
+    return __make_request(requests.get, *args, **kwargs)
 
 
-def post(*args: str, **kwargs: Any) -> Union[list, dict]:
+def post(*args: str, **kwargs: Any) -> dict:
     """Helper function for performing a POST request."""
-    kwargs["headers"] = __create_auth_token()
-    url = __create_api_url(*args)
-    r = requests.post(url, **kwargs)
-    r.raise_for_status()
-    return r.json() if r.text else {}
+    return __make_request(requests.post, *args, **kwargs)
