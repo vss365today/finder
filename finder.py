@@ -1,17 +1,13 @@
 import argparse
 import logging
-import sys
 
 from src.core import archive, email, fetch, manual, schedule
+from src.helpers import logger
 
 
-# Create a logger to print all logging output to stdout
-logger = logging.getLogger("vss365today-finder")
-logger.setLevel(logging.INFO)
-LOG_FORMAT = logging.Formatter("[%(asctime)s - %(levelname)s]: %(message)s")
-handler = logging.StreamHandler(sys.stdout)
-handler.setFormatter(LOG_FORMAT)
-logger.addHandler(handler)
+# Create a logger
+log = logging.getLogger("vss365today-finder")
+log.addHandler(logger.file_handler())
 
 
 def handle_prompt_command(args: argparse.Namespace) -> bool:
