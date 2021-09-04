@@ -10,7 +10,7 @@ __all__ = ["main"]
 def main() -> bool:
     # Generate a new archive file
     try:
-        api.post("archive")
+        api.post("archive/")
     # The generation failed. We don't need to move on
     except HTTPError as exc:
         print("Unable to create archive file!")
