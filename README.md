@@ -23,7 +23,7 @@
 Creating a Docker image will install all required components.
 Creating an image is a one-line command:
 
-1. `docker build -t finder:latest .`
+1. `docker build -t vss365today-finder:latest .`
 
 ## License
 
