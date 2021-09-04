@@ -36,7 +36,7 @@ parser_archive = subparsers.add_parser("archive", help="archive help")
 parser_archive.add_argument(
     "-r",
     "--regenerate",
-    help="regenerate an existing word archive",
+    help="regenerate an existing Prompt archive",
     action="store_true",
 )
 parser_archive.set_defaults(func=archive.main)
@@ -51,13 +51,13 @@ group_prompt = parser_prompt.add_mutually_exclusive_group()
 group_prompt.add_argument(
     "-m",
     "--manual",
-    help="manually record a specific prompt.",
+    help="manually record a specific Prompt.",
     action="store_true",
 )
 group_prompt.add_argument(
     "-s",
     "--schedule",
-    help="schedule recording the latest prompt according to ENV values.",
+    help="schedule recording the latest Prompt according to ENV values.",
     action="store_true",
 )
 parser_prompt.set_defaults(func=handle_prompt_command)
