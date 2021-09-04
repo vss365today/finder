@@ -30,7 +30,7 @@ def main() -> bool:
 
     # Delete all the old archive files
     for old_file in files_to_delete:
-        print(f"Deleting old file {old_file}") 
+        print(f"Deleting old file {old_file}")
         old_file.unlink()
     print("Archive file successfully created")
     return True
