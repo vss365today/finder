@@ -1,10 +1,12 @@
+from argparse import Namespace
 from typing import List
 
-from apscheduler.schedulers.blocking import BlockingScheduler
 import sys_vars
+from apscheduler.schedulers.blocking import BlockingScheduler
 from pytz import utc
 
 from src.core import archive, fetch
+
 
 __all__ = ["main"]
 
@@ -34,7 +36,7 @@ def main():
     minute = str(int(minute) + 5)
     scheduler.add_job(
         archive.main,
-        args=[],
+        args=[Namespace(regenerate=False)],
         trigger="cron",
         hour=hour,
         minute=minute,
