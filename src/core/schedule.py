@@ -2,6 +2,7 @@ from typing import List
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 import sys_vars
+from pytz import utc
 
 from src.core import archive, fetch
 
@@ -24,6 +25,7 @@ def main():
             hour=hour,
             minute=minute,
             day_of_week="*",
+            timezone=utc,
         )
 
     # Schedule the word archive generation to
@@ -37,6 +39,7 @@ def main():
         hour=hour,
         minute=minute,
         day_of_week="*",
+        timezone=utc,
     )
 
     # Start the scheduler
