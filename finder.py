@@ -2,7 +2,7 @@ import argparse
 import logging
 import sys
 
-from src.core import archive, email
+from src.core import archive, email, fetch, manual, schedule
 
 
 # Create a logger to print all logging output to stdout
@@ -16,18 +16,12 @@ logger.addHandler(handler)
 
 def handle_prompt_command(args: argparse.Namespace) -> bool:
     if args.schedule:
-        from src.core import schedule
-
         logging.info("Starting scheduled Prompt...")
         return schedule.main()
 
     if args.manual:
-        from src.core import manual
-
         logging.info("Running manual Prompt...")
         return manual.main()
-
-    from src.core import fetch
 
     logging.info("Running fetch Prompt...")
     return fetch.main()
