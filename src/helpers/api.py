@@ -4,7 +4,7 @@ import requests
 import sys_vars
 
 
-__all__ = ["get", "post"]
+__all__ = ["get", "post", "put"]
 
 
 def __create_api_url(*args: str) -> str:
@@ -35,3 +35,8 @@ def get(*args: str, **kwargs: Any) -> dict:
 def post(*args: str, **kwargs: Any) -> dict:
     """Helper function for performing a POST request."""
     return __make_request(requests.post, *args, **kwargs)
+
+
+def put(*args: str, **kwargs: Any) -> dict:
+    """Helper function for performing a POST request."""
+    return __make_request(requests.put, *args, **kwargs)
