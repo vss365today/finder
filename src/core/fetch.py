@@ -37,7 +37,7 @@ def find_prompt(uid: str) -> Optional[namedtuple]:
     if found_tweet is None:
         return None
 
-    # ...OOOOORRRRRRRR we did, so rseturn a proper Response object.
+    # ...OOOOORRRRRRRR we did, so return a proper Response object.
     # People these days. You just never know if they'll say what you want! /s
     return TWITTER_API.get_tweet(found_tweet.id, **tweet.fetch_fields())
 
