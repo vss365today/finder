@@ -1,3 +1,4 @@
+from argparse import Namespace
 from requests.exceptions import HTTPError
 
 from src.helpers import api
@@ -7,7 +8,7 @@ from src.helpers.date import create_datetime
 __all__ = ["main"]
 
 
-def main() -> bool:
+def main(_: Namespace) -> bool:
     # Ask for the prompt date
     prompt_date = create_datetime(input("Enter the Prompt date (YYYY-MM-DD): "))
 

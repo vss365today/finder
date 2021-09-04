@@ -15,7 +15,6 @@ __all__ = [
     "get_media",
     "get_prompt",
     "get_text",
-    "get_tweet",
     "is_url",
     "twitter_v2_api",
 ]

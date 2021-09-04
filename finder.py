@@ -1,43 +1,9 @@
 import argparse
 import logging
 import sys
-from typing import Dict
 
+from src.core import archive, email
 
-# Handle app arguments
-parser = argparse.ArgumentParser()
-group = parser.add_mutually_exclusive_group(required=True)
-group.add_argument(
-    "-a",
-    "--archive",
-    help="kick-off the word archive generator.",
-    action="store_true",
-)
-group.add_argument(
-    "-f",
-    "--fetch",
-    help="attempt to automatically record the latest prompt.",
-    action="store_true",
-)
-group.add_argument(
-    "-m",
-    "--manual",
-    help="manually record a specific prompt.",
-    action="store_true",
-)
-group.add_argument(
-    "-s",
-    "--schedule",
-    help="schedule recording the latest prompt according to ENV values.",
-    action="store_true",
-)
-group.add_argument(
-    "-e",
-    "--email",
-    help="manually send out a prompt broadcast.",
-    action="store_true",
-)
-args = parser.parse_args()
 
 # Create a logger to print all logging output to stdout
 logger = logging.getLogger("vss365today-finder")
@@ -48,42 +14,63 @@ handler.setFormatter(LOG_FORMAT)
 logger.addHandler(handler)
 
 
-if __name__ == "__main__":
-    # Manually send out a prompt broadcast
-    if args.email:
-        from src.core import email
-
-        logging.info("Running email...")
-        email.main()
-        raise SystemExit(0)
-
-    # Manually enter a prompt
-    if args.manual:
-        from src.core import manual
-
-        logging.info("Running manual...")
-        manual.main()
-        raise SystemExit(0)
-
-    # Attempt to automatically find the latest prompt right now
-    if args.fetch:
-        from src.core import fetch
-
-        logging.info("Running fetch...")
-        fetch.main()
-        raise SystemExit(0)
-
-    # Schedule finding the latest prompt
+def handle_prompt_command(args: argparse.Namespace) -> bool:
     if args.schedule:
         from src.core import schedule
 
-        logging.info("Starting scheduler...")
-        schedule.main()
+        logging.info("Starting scheduled Prompt...")
+        return schedule.main()
 
-    # Manually kick-off the archive generation
-    if args.archive:
-        from src.core import archive
+    if args.manual:
+        from src.core import manual
 
-        logging.info("Running archive...")
-        archive.main()
-        raise SystemExit(0)
+        logging.info("Running manual Prompt...")
+        return manual.main()
+
+    from src.core import fetch
+
+    logging.info("Running fetch Prompt...")
+    return fetch.main()
+
+
+# Handle app arguments
+parser = argparse.ArgumentParser()
+subparsers = parser.add_subparsers()
+
+# Archive file generation
+parser_archive = subparsers.add_parser("archive", help="archive help")
+parser_archive.add_argument(
+    "-r",
+    "--regenerate",
+    help="regenerate an existing word archive",
+    action="store_true",
+)
+parser_archive.set_defaults(func=archive.main)
+
+# Notif email sending
+parser_email = subparsers.add_parser("email", help="email help")
+parser_email.set_defaults(func=email.main)
+
+# Prompt recording actions
+parser_prompt = subparsers.add_parser("prompt", help="prompt help")
+group_prompt = parser_prompt.add_mutually_exclusive_group()
+group_prompt.add_argument(
+    "-m",
+    "--manual",
+    help="manually record a specific prompt.",
+    action="store_true",
+)
+group_prompt.add_argument(
+    "-s",
+    "--schedule",
+    help="schedule recording the latest prompt according to ENV values.",
+    action="store_true",
+)
+parser_prompt.set_defaults(func=handle_prompt_command)
+
+# Run the proper commands
+try:
+    args = parser.parse_args()
+    args.func(args)
+except AttributeError:
+    parser.print_help()

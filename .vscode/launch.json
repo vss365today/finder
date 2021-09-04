@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Finder (auto)",
+      "name": "Prompt (auto)",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/finder.py",
@@ -14,11 +14,11 @@
         "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
       },
       "args": [
-        "--fetch"
+        "prompt"
       ]
     },
     {
-      "name": "Finder (manual)",
+      "name": "Prompt (manual)",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/finder.py",
@@ -27,11 +27,12 @@
         "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
       },
       "args": [
+        "prompt",
         "--manual"
       ]
     },
     {
-      "name": "Finder (schedule)",
+      "name": "Prompt (schedule)",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/finder.py",
@@ -41,11 +42,12 @@
         "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
       },
       "args": [
+        "prompt",
         "--schedule"
       ]
     },
     {
-      "name": "Finder (archive)",
+      "name": "Archive (generate)",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/finder.py",
@@ -55,11 +57,26 @@
         "DOWNLOADS_PATH": "${workspaceFolder}/../static/downloads"
       },
       "args": [
-        "--archive"
+        "archive"
       ]
     },
     {
-      "name": "Finder (email)",
+      "name": "Archive (regenerate)",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/finder.py",
+      "console": "internalConsole",
+      "env": {
+        "SYS_VARS_PATH": "${workspaceFolder}/../secrets",
+        "DOWNLOADS_PATH": "${workspaceFolder}/../static/downloads"
+      },
+      "args": [
+        "archive",
+        "-r"
+      ]
+    },
+    {
+      "name": "Email",
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/finder.py",
@@ -68,7 +85,7 @@
         "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
       },
       "args": [
-        "--email"
+        "email"
       ]
     }
   ]

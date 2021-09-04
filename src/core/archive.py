@@ -1,3 +1,4 @@
+from argparse import Namespace
 import sys_vars
 from requests.exceptions import HTTPError
 
@@ -7,10 +8,11 @@ from src.helpers import api
 __all__ = ["main"]
 
 
-def main() -> bool:
+def main(args: Namespace) -> bool:
     # Generate a new archive file
     try:
-        api.post("archive/")
+        action = api.put if args.regenerate else api.post
+        action("archive/")
     # The generation failed. We don't need to move on
     except HTTPError as exc:
         print("Unable to create archive file!")
