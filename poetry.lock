@@ -309,8 +309,8 @@ test = ["mock (>=1.0.1)", "nose (>=1.3.3)", "vcrpy (>=1.10.3)"]
 [package.source]
 type = "git"
 url = "https://github.com/tweepy/tweepy.git"
-reference = "145d7cfb902ed7bd10143e201ea89af41ba7d628"
-resolved_reference = "145d7cfb902ed7bd10143e201ea89af41ba7d628"
+reference = "16a208cbdd9a01704ed182086b812fb2d6abb7bd"
+resolved_reference = "16a208cbdd9a01704ed182086b812fb2d6abb7bd"
 
 [[package]]
 name = "types-pytz"
@@ -355,7 +355,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "b63d08310371c8ef3af6151f1f1158662f6b1bd9ebb487f66efe0ac5e0efbbea"
+content-hash = "9e90650be8b13f06c090a5ccbfa35cca9f714b147ed79ddd686db9c5b53e785c"
 
 [metadata.files]
 apscheduler = [
