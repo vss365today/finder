@@ -33,6 +33,16 @@ def __get_hashtags(hts: list[dict]) -> list[str]:
     return [ht["tag"] for ht in hts]
 
 
+def __get_media_obj(tweet: namedtuple) -> Optional[dict]:
+    """Get the media object from the tweet."""
+    # This tweet has no media in it
+    if tweet.data.attachments is None:
+        return None
+
+    # Shortcut to the media (because it's pretty buried in the response)
+    return tweet.includes["media"][0].data
+
+
 def confirm_prompt(tweet: namedtuple) -> bool:
     """Confirm this is the Prompt tweet."""
     hts = tweet.data.get("entities", {}).get("hashtags")
@@ -49,7 +59,7 @@ def fetch_fields() -> dict[str, list[str]]:
     return {
         "expansions": ["attachments.media_keys", "author_id"],
         "tweet_fields": ["created_at", "entities"],
-        "media_fields": ["preview_image_url", "url"],
+        "media_fields": ["alt_text", "preview_image_url", "url"],
     }
 
 
@@ -65,12 +75,7 @@ def get_id(url: str) -> str:
 
 def get_media(tweet: namedtuple) -> Optional[str]:
     """Get any media in the tweet."""
-    # This tweet has no media in it
-    if tweet.data.attachments is None:
-        return None
-
-    # Shortcut to the media (because it's pretty buried in the response)
-    media = tweet.includes["media"][0].data
+    media = __get_media_obj(tweet)
 
     # Single, still image
     if media["type"] == "photo":
@@ -79,6 +84,13 @@ def get_media(tweet: namedtuple) -> Optional[str]:
     # Animated gif/video
     elif media["type"] in ("animated_gif", "video"):
         return media["preview_image_url"]
+
+
+def get_media_alt_text(tweet: namedtuple) -> Optional[str]:
+    """Get the alt text for a tweet's media."""
+    if media := __get_media_obj(tweet):
+        return media["alt_text"]
+    return None
 
 
 def get_prompt(tweet: namedtuple) -> Optional[str]:

@@ -118,6 +118,7 @@ def main() -> bool:
         "word": prompt_word,
         "content": tweet.get_text(prompt_tweet),
         "media": tweet.get_media(prompt_tweet),
+        "media_alt_text": tweet.get_media_alt_text(prompt_tweet),
     }
     pprint(prompt)
 

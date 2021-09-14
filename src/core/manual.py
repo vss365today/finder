@@ -40,6 +40,7 @@ def main() -> bool:
         "word": tweet.get_prompt(prompt_tweet),
         "content": tweet.get_text(prompt_tweet),
         "media": tweet.get_media(prompt_tweet),
+        "media_alt_text": tweet.get_media_alt_text(prompt_tweet),
         "is_duplicate_date": tweet_duplicate_date.lower() == "y",
     }
     pprint(prompt)
