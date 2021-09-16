@@ -89,7 +89,7 @@ def get_media(tweet: namedtuple) -> Optional[str]:
 def get_media_alt_text(tweet: namedtuple) -> Optional[str]:
     """Get the alt text for a tweet's media."""
     if media := __get_media_obj(tweet):
-        return media["alt_text"]
+        return media.get("alt_text")
     return None
 
 
