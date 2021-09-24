@@ -6,7 +6,7 @@ authors = ["Caleb Ely <le717@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-apscheduler = "^3.7.0"
+apscheduler = "^3.8.0"
 requests = "^2.26.0"
 tweepy = {git = "https://github.com/tweepy/tweepy.git", rev = "16a208cbdd9a01704ed182086b812fb2d6abb7bd"}
 sys-vars = "^4.0.3"
