@@ -75,7 +75,8 @@ def get_id(url: str) -> str:
 
 def get_media(tweet: namedtuple) -> Optional[str]:
     """Get any media in the tweet."""
-    media = __get_media_obj(tweet)
+    if not (media := __get_media_obj(tweet)):
+        return None
 
     # Single, still image
     if media["type"] == "photo":
