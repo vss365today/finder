@@ -23,14 +23,14 @@ __all__ = [
 CONFIG = config.load()
 
 
-def __filter_hashtags(hts: list[str]) -> list[str]:
+def __filter_hashtags(hts: set[str]) -> list[str]:
     """Filter out any hashtags that should not be considered a prompt."""
-    return [ht for ht in hts if ht.lower() not in CONFIG["filter"]]
+    return list(hts - set(CONFIG["filter"]))
 
 
-def __get_hashtags(hts: list[dict]) -> list[str]:
+def __get_hashtags(hts: list[dict]) -> set[str]:
     """Extract all hashtags from the tweet."""
-    return [ht["tag"] for ht in hts]
+    return set(ht["tag"] for ht in hts)
 
 
 def __get_media_obj(tweet: namedtuple) -> Optional[dict]:
@@ -46,12 +46,8 @@ def __get_media_obj(tweet: namedtuple) -> Optional[dict]:
 def confirm_prompt(tweet: namedtuple) -> bool:
     """Confirm this is the Prompt tweet."""
     hts = tweet.data.get("entities", {}).get("hashtags")
-    return (
-        hts is not None
-        and len(hts) >= 3
-        and hts[0]["tag"].lower() == CONFIG["identifiers"][0]
-        and hts[1]["tag"].lower() == CONFIG["identifiers"][1]
-    )
+    hts = __get_hashtags(hts)
+    return hts is not None and len(hts) >= 3 and set(CONFIG["identifiers"]) <= set(hts)
 
 
 def fetch_fields() -> dict[str, list[str]]:
@@ -100,7 +96,8 @@ def get_prompt(tweet: namedtuple) -> Optional[str]:
         return None
 
     hts = tweet.data.entities["hashtags"]
-    return __filter_hashtags(__get_hashtags(hts))[CONFIG["prompt_index"] + 1]
+    hts = __filter_hashtags(__get_hashtags(hts))
+    return hts[CONFIG["prompt_index"]]
 
 
 def get_text(tweet: namedtuple) -> str:
