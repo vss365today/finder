@@ -97,7 +97,6 @@ def get_prompt(tweet: namedtuple) -> Optional[str]:
 
     hts = tweet.data.entities["hashtags"]
     hts = __filter_hashtags(__get_hashtags(hts))
-    print(hts)
     return hts[CONFIG["prompt_index"] + 1]
 
 
