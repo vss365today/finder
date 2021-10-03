@@ -28,9 +28,9 @@ def __filter_hashtags(hts: set[str]) -> list[str]:
     return [ht for ht in hts if ht.lower() not in CONFIG["filter"]]
 
 
-def __get_hashtags(hts: list[dict]) -> set[str]:
+def __get_hashtags(hts: list[dict]) -> list[str]:
     """Extract all hashtags from the tweet."""
-    return set(ht["tag"] for ht in hts)
+    return [ht["tag"] for ht in hts]
 
 
 def __get_media_obj(tweet: namedtuple) -> Optional[dict]:
