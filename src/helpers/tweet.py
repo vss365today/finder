@@ -23,7 +23,7 @@ __all__ = [
 CONFIG = config.load()
 
 
-def __filter_hashtags(hts: set[str]) -> list[str]:
+def __filter_hashtags(hts: list[str]) -> list[str]:
     """Filter out any hashtags that should not be considered a prompt."""
     return [ht for ht in hts if ht.lower() not in CONFIG["filter"]]
 
@@ -97,6 +97,7 @@ def get_prompt(tweet: namedtuple) -> Optional[str]:
 
     hts = tweet.data.entities["hashtags"]
     hts = __filter_hashtags(__get_hashtags(hts))
+    print(hts)
     return hts[CONFIG["prompt_index"] + 1]
 
 
