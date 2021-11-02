@@ -25,12 +25,12 @@ CONFIG = config.load()
 
 def __filter_hashtags(hts: list[str]) -> list[str]:
     """Filter out any hashtags that should not be considered a prompt."""
-    return [ht for ht in hts if ht.lower() not in CONFIG["filter"]]
+    return [ht for ht in hts if ht not in CONFIG["filter"]]
 
 
 def __get_hashtags(hts: list[dict]) -> list[str]:
     """Extract all hashtags from the tweet."""
-    return [ht["tag"] for ht in hts]
+    return [ht["tag"].lower() for ht in hts]
 
 
 def __get_media_obj(tweet: namedtuple) -> Optional[dict]:
@@ -97,7 +97,6 @@ def get_prompt(tweet: namedtuple) -> Optional[str]:
 
     hts = tweet.data.entities["hashtags"]
     hts = __filter_hashtags(__get_hashtags(hts))
-    print(hts)
     return hts[CONFIG["prompt_index"] + 1]
 
 
