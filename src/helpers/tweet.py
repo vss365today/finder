@@ -28,8 +28,10 @@ def __filter_hashtags(hts: list[str]) -> list[str]:
     return [ht for ht in hts if ht not in CONFIG["filter"]]
 
 
-def __get_hashtags(hts: list[dict]) -> list[str]:
+def __get_hashtags(hts: Optional[list[dict]]) -> Optional[list[str]]:
     """Extract all hashtags from the tweet."""
+    if hts is None:
+        return None
     return [ht["tag"].lower() for ht in hts]
 
 
