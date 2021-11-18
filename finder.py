@@ -1,7 +1,8 @@
 import argparse
 import logging
+from importlib import import_module
+from typing import Callable
 
-from src.core import archive, email, fetch, manual, schedule
 from src.helpers import logger
 
 
@@ -10,17 +11,22 @@ log = logging.getLogger("vss365today-finder")
 log.addHandler(logger.file_handler())
 
 
+def get_task_main(module_name: str) -> Callable:
+    """Get a task's entrypoint function."""
+    return import_module(f"src.core.{module_name}").main  # type: ignore
+
+
 def handle_prompt_command(args: argparse.Namespace) -> bool:
     if args.schedule:
         logging.info("Starting scheduled Prompt...")
-        return schedule.main()
+        return get_task_main("schedule")()
 
     if args.manual:
         logging.info("Running manual Prompt...")
-        return manual.main()
+        return get_task_main("schedule")()
 
     logging.info("Running fetch Prompt...")
-    return fetch.main()
+    return get_task_main("fetch")()
 
 
 # Handle app arguments
@@ -35,11 +41,11 @@ parser_archive.add_argument(
     help="regenerate an existing Prompt archive",
     action="store_true",
 )
-parser_archive.set_defaults(func=archive.main)
+parser_archive.set_defaults(func=get_task_main("archive"))
 
 # Notif email sending
 parser_email = subparsers.add_parser("email", help="email help")
-parser_email.set_defaults(func=email.main)
+parser_email.set_defaults(func=get_task_main("email"))
 
 # Prompt recording actions
 parser_prompt = subparsers.add_parser("prompt", help="prompt help")
