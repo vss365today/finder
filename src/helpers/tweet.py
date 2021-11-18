@@ -1,11 +1,10 @@
-from collections import namedtuple
-from typing import Optional
+from json import loads
+from pathlib import Path
+from typing import NamedTuple, Optional
 
 import sys_vars
 import tweepy
 from urllib3.util.url import parse_url
-
-from src.core import config
 
 
 __all__ = [
@@ -20,7 +19,7 @@ __all__ = [
 ]
 
 
-CONFIG = config.load()
+CONFIG = loads((Path("configuration") / "default.json").read_text())
 
 
 def __filter_hashtags(hts: list[str]) -> list[str]:
@@ -35,7 +34,7 @@ def __get_hashtags(hts: Optional[list[dict]]) -> Optional[list[str]]:
     return [ht["tag"].lower() for ht in hts]
 
 
-def __get_media_obj(tweet: namedtuple) -> Optional[dict]:
+def __get_media_obj(tweet: NamedTuple) -> Optional[dict]:
     """Get the media object from the tweet."""
     # This tweet has no media in it
     if tweet.data.attachments is None:
@@ -45,7 +44,7 @@ def __get_media_obj(tweet: namedtuple) -> Optional[dict]:
     return tweet.includes["media"][0].data
 
 
-def confirm_prompt(tweet: namedtuple) -> bool:
+def confirm_prompt(tweet: NamedTuple) -> bool:
     """Confirm this is the Prompt tweet."""
     hts = tweet.data.get("entities", {}).get("hashtags")
     hts = __get_hashtags(hts)
@@ -71,7 +70,7 @@ def get_id(url: str) -> str:
     return url_path[3]
 
 
-def get_media(tweet: namedtuple) -> Optional[str]:
+def get_media(tweet: NamedTuple) -> Optional[str]:
     """Get any media in the tweet."""
     if not (media := __get_media_obj(tweet)):
         return None
@@ -85,14 +84,14 @@ def get_media(tweet: namedtuple) -> Optional[str]:
         return media["preview_image_url"]
 
 
-def get_media_alt_text(tweet: namedtuple) -> Optional[str]:
+def get_media_alt_text(tweet: NamedTuple) -> Optional[str]:
     """Get the alt text for a tweet's media."""
     if media := __get_media_obj(tweet):
         return media.get("alt_text")
     return None
 
 
-def get_prompt(tweet: namedtuple) -> Optional[str]:
+def get_prompt(tweet: NamedTuple) -> Optional[str]:
     """Get the prompt word from the tweet."""
     if not confirm_prompt(tweet):
         return None
@@ -102,7 +101,7 @@ def get_prompt(tweet: namedtuple) -> Optional[str]:
     return hts[CONFIG["prompt_index"] + 1]
 
 
-def get_text(tweet: namedtuple) -> str:
+def get_text(tweet: NamedTuple) -> str:
     """Get the full tweet text."""
     return tweet.data.text
 
