@@ -4,6 +4,9 @@
 
 ## Required Secrets
 
+- Path to archive downloads directory (`DOWNLOADS_PATH`)
+- Path to static prompt images directory (`IMAGES_DIR`)
+- Crontab-formatted list of finder run times (`SCHEDULE_TIMES`)
 - Twitter API v2 bearer token (`TWITTER_BEARER`)
 - Running instance of [#vss365 today API](https://github.com/le717/vss365today-api)
   - Operating domain (`API_DOMAIN`)
