@@ -43,6 +43,9 @@ parser_archive.add_argument(
 )
 parser_archive.set_defaults(func=get_task_main("archive"))
 
+parser_backup = subparsers.add_parser("backup", help="backup help")
+parser_backup.set_defaults(func=get_task_main("backup"))
+
 # Notif email sending
 parser_email = subparsers.add_parser("email", help="email help")
 parser_email.set_defaults(func=get_task_main("email"))
