@@ -9,7 +9,7 @@ __all__ = ["main"]
 
 
 def main(args: Namespace) -> bool:
-    # Generate a new archive file
+    """Generate a Prompt archive file."""
     try:
         action = api.put if args.regenerate else api.post
         action("archive/")
