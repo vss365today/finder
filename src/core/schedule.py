@@ -30,19 +30,5 @@ def main():
             timezone=utc,
         )
 
-    # Schedule the word archive generation to
-    # run time to be 5 minutes after the last scheduled one
-    minute, hour = schedule_times[-1].split()
-    minute = str(int(minute) + 5)
-    scheduler.add_job(
-        archive.main,
-        args=[Namespace(regenerate=False)],
-        trigger="cron",
-        hour=hour,
-        minute=minute,
-        day_of_week="*",
-        timezone=utc,
-    )
-
     # Start the scheduler
     scheduler.start()

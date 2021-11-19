@@ -131,6 +131,10 @@ def main() -> bool:
         print("Sending out notification emails")
         api.post("broadcast/", params={"date": tweet_date.isoformat()})
 
+        # Generate a new Prompt archive
+        print("Creating new Prompt archive")
+        api.post("archive/")
+
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
     return True

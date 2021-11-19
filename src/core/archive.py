@@ -13,6 +13,7 @@ def main(args: Namespace) -> bool:
     try:
         action = api.put if args.regenerate else api.post
         action("archive/")
+
     # The generation failed. We don't need to move on
     except HTTPError as exc:
         print("Unable to create archive file!")
