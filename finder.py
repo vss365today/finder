@@ -1,7 +1,7 @@
 import argparse
 import logging
 from importlib import import_module
-from typing import Callable
+from types import ModuleType
 
 from src.helpers import logger
 
@@ -11,22 +11,30 @@ log = logging.getLogger("vss365today-finder")
 log.addHandler(logger.file_handler())
 
 
-def get_task_main(module_name: str) -> Callable:
-    """Get a task's entrypoint function."""
-    return import_module(f"src.core.{module_name}").main  # type: ignore
+def get_task_main(module_name: str) -> ModuleType:
+    """Import a task module."""
+    return import_module(f"src.core.{module_name}")
 
 
 def handle_prompt_command(args: argparse.Namespace) -> bool:
-    if args.schedule:
-        logging.info("Starting scheduled Prompt...")
-        return get_task_main("schedule")()
-
     if args.manual:
         logging.info("Running manual Prompt...")
-        return get_task_main("manual")()
+        return get_task_main("manual").main()  # type: ignore
 
     logging.info("Running fetch Prompt...")
-    return get_task_main("fetch")()
+    return get_task_main("fetch").main()  # type: ignore
+
+
+def handle_schedule_command(args: argparse.Namespace) -> bool:
+    if args.prompt:
+        logging.info("Starting scheduled Prompt fetch...")
+        return get_task_main("schedule").main()  # type: ignore
+
+    if args.backup:
+        logging.info("Starting scheduled Prompt static image backup...")
+        return get_task_main("backup").main()  # type: ignore
+
+    return False
 
 
 # Handle app arguments
@@ -41,14 +49,14 @@ parser_archive.add_argument(
     help="regenerate an existing Prompt archive",
     action="store_true",
 )
-parser_archive.set_defaults(func=get_task_main("archive"))
+parser_archive.set_defaults(func=get_task_main("archive").main())  # type: ignore
 
 parser_backup = subparsers.add_parser("backup", help="backup help")
-parser_backup.set_defaults(func=get_task_main("backup"))
+parser_backup.set_defaults(func=get_task_main("backup").main())  # type: ignore
 
 # Notif email sending
 parser_email = subparsers.add_parser("email", help="email help")
-parser_email.set_defaults(func=get_task_main("email"))
+parser_email.set_defaults(func=get_task_main("email").main())  # type: ignore
 
 # Prompt recording actions
 parser_prompt = subparsers.add_parser("prompt", help="prompt help")
@@ -59,13 +67,24 @@ group_prompt.add_argument(
     help="manually record a specific Prompt.",
     action="store_true",
 )
-group_prompt.add_argument(
-    "-s",
-    "--schedule",
+parser_prompt.set_defaults(func=handle_prompt_command)
+
+# Scheduled tasks
+parser_schedule = subparsers.add_parser("schedule", help="schedule help")
+group_schedule = parser_prompt.add_mutually_exclusive_group()
+group_schedule.add_argument(
+    "-p",
+    "--prompt",
     help="schedule recording the latest Prompt according to ENV values.",
     action="store_true",
 )
-parser_prompt.set_defaults(func=handle_prompt_command)
+group_schedule.add_argument(
+    "-b",
+    "--backup",
+    help="schedule a backup of Prompt static images.",
+    action="store_true",
+)
+parser_prompt.set_defaults(func=handle_schedule_command)
 
 # Run the proper commands
 try:

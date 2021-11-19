@@ -42,8 +42,8 @@
         "SCHEDULE_TIMES": "[\"*/2 *\", \"*/7 *\"]"
       },
       "args": [
-        "prompt",
-        "--schedule"
+        "schedule",
+        "--prompt"
       ]
     },
     {
@@ -85,7 +85,8 @@
         "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
       },
       "args": [
-        "backup"
+        "schedule",
+        "--backup"
       ]
     },
     {

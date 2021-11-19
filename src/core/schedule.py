@@ -5,7 +5,7 @@ import sys_vars
 from apscheduler.schedulers.blocking import BlockingScheduler
 from pytz import utc
 
-from src.core import archive, fetch
+from src.core import fetch
 
 
 __all__ = ["main"]
