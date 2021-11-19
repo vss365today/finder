@@ -23,7 +23,7 @@ def handle_prompt_command(args: argparse.Namespace) -> bool:
 
     if args.manual:
         logging.info("Running manual Prompt...")
-        return get_task_main("schedule")()
+        return get_task_main("manual")()
 
     logging.info("Running fetch Prompt...")
     return get_task_main("fetch")()
