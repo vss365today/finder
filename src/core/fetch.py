@@ -3,6 +3,9 @@ from datetime import datetime, timedelta
 from pprint import pprint
 from typing import Optional
 
+import sys_vars
+from apscheduler.schedulers.blocking import BlockingScheduler
+from pytz import utc
 from requests.exceptions import HTTPError
 from tweepy import Paginator
 
@@ -10,7 +13,7 @@ from src.helpers import api, tweet
 from src.helpers.date import create_datetime
 
 
-__all__ = ["main"]
+__all__ = ["main", "schedule"]
 
 
 # Connect to the Twitter API
@@ -138,3 +141,27 @@ def main() -> bool:
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
     return True
+
+
+def schedule() -> None:
+    """Schedule the Prompt fetch process."""
+    scheduler = BlockingScheduler()
+
+    # Get the scheduled times
+    schedule_times: list[str] = sys_vars.get_json("SCHEDULE_TIMES")
+    for time in schedule_times:
+        minute, hour = time.split()
+
+        # Create a job for each time
+        scheduler.add_job(
+            main,
+            args=[],
+            trigger="cron",
+            hour=hour,
+            minute=minute,
+            day_of_week="*",
+            timezone=utc,
+        )
+
+    # Start the scheduler
+    scheduler.start()
