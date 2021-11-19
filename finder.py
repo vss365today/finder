@@ -28,10 +28,10 @@ def handle_prompt_command(args: argparse.Namespace) -> bool:
 def handle_schedule_command(args: argparse.Namespace) -> bool:
     if args.prompt:
         logging.info("Starting scheduled Prompt fetch...")
-        return get_task_main("schedule").main()  # type: ignore
+        return get_task_main("fetch").schedule()  # type: ignore
 
     if args.backup:
-        logging.info("Starting scheduled Prompt static image backup...")
+        logging.info("Starting scheduled Prompt images backup...")
         return get_task_main("backup").main()  # type: ignore
 
     return False
@@ -81,7 +81,7 @@ group_schedule.add_argument(
 group_schedule.add_argument(
     "-b",
     "--backup",
-    help="schedule a backup of Prompt static images.",
+    help="schedule a backup of Prompt images.",
     action="store_true",
 )
 parser_prompt.set_defaults(func=handle_schedule_command)
