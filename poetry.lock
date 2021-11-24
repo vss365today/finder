@@ -443,7 +443,7 @@ test = ["vcrpy (>=1.10.3)"]
 
 [[package]]
 name = "types-pytz"
-version = "2021.3.0"
+version = "2021.3.1"
 description = "Typing stubs for pytz"
 category = "dev"
 optional = false
@@ -497,7 +497,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "09380ec054690281f0651cfa8a51d568cbcbf2863fd0a0a088208ff8af4ac09e"
+content-hash = "caabbc61af38d4fa168675729a9f678ed2218350313606f1cfd55efc3956d433"
 
 [metadata.files]
 apscheduler = [
@@ -1036,8 +1036,8 @@ tweepy = [
     {file = "tweepy-4.4.0.tar.gz", hash = "sha256:8d4b4520271b796fa7efc4c5d5ef3228af4d79f6a4d3ace3900b2778ed8f6f1c"},
 ]
 types-pytz = [
-    {file = "types-pytz-2021.3.0.tar.gz", hash = "sha256:86a61967834dceeaaf98b6902ed8357efdd262bb8afcaf4bc8ccecf748592778"},
-    {file = "types_pytz-2021.3.0-py3-none-any.whl", hash = "sha256:b5027e5de50a4c978cd60ca16849d934d44c44ebd7d29cf13ada009efaa9feef"},
+    {file = "types-pytz-2021.3.1.tar.gz", hash = "sha256:dffd77f3efecd3b1555f187a9bf3a638d55fac296700b829c41bd51ec72a6eb7"},
+    {file = "types_pytz-2021.3.1-py3-none-any.whl", hash = "sha256:d58a0688094b768d8e21c044e45861cbcaecba0494fd5b9c5feb3e1739211606"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.2-py2-none-any.whl", hash = "sha256:d8226d10bc02a29bcc81df19a26e56a9647f8b0a6d4a83924139f4a8b01f17b7"},
