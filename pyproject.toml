@@ -16,7 +16,7 @@ py7zr = "^0.16.4"
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
 mypy = "^0.910"
-black = "^21.11b1"
+black = "^21.12b0"
 types-pytz = "^2021.3.1"
 
 [build-system]
