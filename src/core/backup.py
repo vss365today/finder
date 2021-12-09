@@ -11,7 +11,7 @@ from pytz import utc
 __all__ = ["main", "schedule"]
 
 
-def main(_: Namespace) -> bool:
+def main(*args: Namespace) -> bool:
     """Create an archive backup of all Prompt images."""
     print("Creating backup of Prompt images...")
     # Create the archive name
