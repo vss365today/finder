@@ -71,7 +71,7 @@ parser_prompt.set_defaults(func=handle_prompt_command)
 
 # Scheduled tasks
 parser_schedule = subparsers.add_parser("schedule", help="schedule help")
-group_schedule = parser_prompt.add_mutually_exclusive_group()
+group_schedule = parser_schedule.add_mutually_exclusive_group()
 group_schedule.add_argument(
     "-p",
     "--prompt",
@@ -84,7 +84,7 @@ group_schedule.add_argument(
     help="schedule a backup of Prompt images.",
     action="store_true",
 )
-group_schedule.set_defaults(func=handle_schedule_command)
+parser_schedule.set_defaults(func=handle_schedule_command)
 
 # Run the proper commands
 try:
