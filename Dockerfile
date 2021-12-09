@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.10-slim
 
 # Set any env values we need
 ENV PYTHONPATH=/app
@@ -9,13 +9,11 @@ COPY [ "get-requirements.py", "poetry.lock", "pyproject.toml", "/app/" ]
 WORKDIR /app
 
 # Install required deps
-RUN apk add --no-cache g++ && \
-    python3 -m pip install pip --upgrade && \
+RUN python3 -m pip install pip --upgrade && \
     pip3 install --no-cache-dir toml && \
     python3 ./get-requirements.py && \
     pip3 install --no-cache-dir -r requirements.txt && \
-    rm ./requirements.txt && \
-    apk del g++
+    rm ./requirements.txt
 
 # Start the app
 ENTRYPOINT [ "python", "./finder.py" ]
