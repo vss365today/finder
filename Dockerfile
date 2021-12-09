@@ -9,11 +9,13 @@ COPY [ "get-requirements.py", "poetry.lock", "pyproject.toml", "/app/" ]
 WORKDIR /app
 
 # Install required deps
-RUN python3 -m pip install pip --upgrade && \
+RUN apk add --no-cache g++ && \
+    python3 -m pip install pip --upgrade && \
     pip3 install --no-cache-dir toml && \
     python3 ./get-requirements.py && \
     pip3 install --no-cache-dir -r requirements.txt && \
-    rm ./requirements.txt
+    rm ./requirements.txt && \
+    apk del g++
 
 # Start the app
 ENTRYPOINT [ "python", "./finder.py" ]
