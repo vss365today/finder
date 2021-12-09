@@ -32,7 +32,7 @@ def handle_schedule_command(args: argparse.Namespace) -> bool:
 
     if args.backup:
         logging.info("Starting scheduled Prompt images backup...")
-        return get_task_main("backup").main()  # type: ignore
+        return get_task_main("backup").schedule()  # type: ignore
 
     return False
 
