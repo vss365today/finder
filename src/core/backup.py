@@ -16,8 +16,9 @@ def main(*args: Namespace) -> bool:
     print("Creating backup of Prompt images...")
     # Create the archive name
     now = datetime.now().isoformat().replace(":", "-")
-    backup_dir = (sys_vars.get_path("BACKUP_DIR") / "images").mkdir(exist_ok=True)
-    backup_file = (backup_dir / f"vss365today_images_{now}.7z").resolve()
+    backup_file = (
+        sys_vars.get_path("BACKUP_DIR") / f"vss365today_images_{now}.7z"
+    ).resolve()
 
     try:
         # Attempt to create the archive
