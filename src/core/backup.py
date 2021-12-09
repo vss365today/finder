@@ -45,7 +45,7 @@ def schedule() -> None:
         trigger="cron",
         hour="0",
         minute="0",
-        day_of_week="*",
+        day_of_week="0",
         timezone=utc,
     )
     scheduler.start()
