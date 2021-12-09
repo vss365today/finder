@@ -49,14 +49,14 @@ parser_archive.add_argument(
     help="regenerate an existing Prompt archive",
     action="store_true",
 )
-parser_archive.set_defaults(func=get_task_main("archive").main())  # type: ignore
+parser_archive.set_defaults(func=get_task_main("archive").main)  # type: ignore
 
 parser_backup = subparsers.add_parser("backup", help="backup help")
-parser_backup.set_defaults(func=get_task_main("backup").main())  # type: ignore
+parser_backup.set_defaults(func=get_task_main("backup").main)  # type: ignore
 
 # Notif email sending
 parser_email = subparsers.add_parser("email", help="email help")
-parser_email.set_defaults(func=get_task_main("email").main())  # type: ignore
+parser_email.set_defaults(func=get_task_main("email").main)  # type: ignore
 
 # Prompt recording actions
 parser_prompt = subparsers.add_parser("prompt", help="prompt help")
@@ -84,7 +84,7 @@ group_schedule.add_argument(
     help="schedule a backup of Prompt images.",
     action="store_true",
 )
-parser_prompt.set_defaults(func=handle_schedule_command)
+group_schedule.set_defaults(func=handle_schedule_command)
 
 # Run the proper commands
 try:
