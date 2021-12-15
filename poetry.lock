@@ -220,7 +220,7 @@ test = ["appdirs (==1.4.4)", "pytest (>=6)", "pytest-cov (>=2.7)", "pytest-mock 
 
 [[package]]
 name = "py7zr"
-version = "0.17.0"
+version = "0.17.2"
 description = "Pure python 7-zip library"
 category = "main"
 optional = false
@@ -238,8 +238,9 @@ texttable = "*"
 
 [package.extras]
 check = ["mypy (>=0.812)", "mypy-extensions (>=0.4.1)", "check-manifest", "flake8", "flake8-black", "flake8-deprecated", "isort (>=5.0.3)", "pygments", "readme-renderer", "twine"]
+debug = ["pytest", "pytest-leaks", "pytest-profiling"]
 docs = ["sphinx (>=2.3)", "sphinx-py3doc-enhanced-theme", "sphinx-a4doc", "docutils"]
-test = ["pytest", "pytest-benchmark", "pytest-cov", "pytest-timeout", "pytest-remotedata", "pytest-profiling", "pyannotate", "py-cpuinfo", "coverage[toml] (>=5.2)", "coveralls (>=2.1.1)"]
+test = ["pytest", "pytest-benchmark", "pytest-cov", "pytest-remotedata", "pytest-timeout", "pyannotate", "py-cpuinfo", "coverage[toml] (>=5.2)", "coveralls (>=2.1.1)"]
 test_compat = ["libarchive-c"]
 
 [[package]]
@@ -496,7 +497,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "ec3096b0f18b0c1fba3b1aae208d7538eea0588f21e70ff5f757bd60f29af79c"
+content-hash = "ec31ae7ba81f0711a38eb1813e91559c21ff7eccda45abc44ad0d6cbd6e54d00"
 
 [metadata.files]
 apscheduler = [
@@ -714,8 +715,8 @@ platformdirs = [
     {file = "platformdirs-2.4.0.tar.gz", hash = "sha256:367a5e80b3d04d2428ffa76d33f124cf11e8fff2acdaa9b43d545f5c7d661ef2"},
 ]
 py7zr = [
-    {file = "py7zr-0.17.0-py3-none-any.whl", hash = "sha256:de38a504ed6fceee7975a1f486f014d2e6ea937a5b9987ba746583693433a5ab"},
-    {file = "py7zr-0.17.0.tar.gz", hash = "sha256:a06fba6ab9ac15228b4dd23f5f00e7c4578807bc07ccb9c851f5f5e54cfa0d57"},
+    {file = "py7zr-0.17.2-py3-none-any.whl", hash = "sha256:6856a6a38a0d48df84c30e69b33f1b0854ea87eafe2d3261cb553adba6f12ac4"},
+    {file = "py7zr-0.17.2.tar.gz", hash = "sha256:58b200cfddf91b92e1f8d092db2b7ad2a09e39e9217e7b5c1a7c86a4ff7d772b"},
 ]
 pybcj = [
     {file = "pybcj-0.5.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:506a53d1ae7adf0e51aa27b694eebf8629b7cf9d1a38ded1a476907fe847cbec"},
