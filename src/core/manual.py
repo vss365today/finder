@@ -20,6 +20,10 @@ def main() -> bool:
     should_send_emails = input(
         "Should notification emails be sent for this Prompt? (y/N) "
     ).strip()
+    should_generate_archive = input(
+        "Should an archive spreadsheet be generated with this Prompt? (y/N) "
+    ).strip()
+    tweet_is_not_new = tweet_duplicate_date.lower() == "y"
 
     # It's not a Twitter URL
     if not tweet.is_url(tweet_url):
@@ -41,7 +45,7 @@ def main() -> bool:
         "content": tweet.get_text(prompt_tweet),
         "media": tweet.get_media(prompt_tweet),
         "media_alt_text": tweet.get_media_alt_text(prompt_tweet),
-        "is_duplicate_date": tweet_duplicate_date.lower() == "y",
+        "is_duplicate_date": tweet_is_not_new,
     }
     pprint(prompt)
 
@@ -54,6 +58,13 @@ def main() -> bool:
         if should_send_emails.lower() == "y":
             print("Sending out notification emails")
             api.post("broadcast/", params={"date": tweet_date})
+
+        # Generate an archive file if desired
+        if should_generate_archive.lower() == "y":
+            # Handle if this is a newly recorded tweet
+            print("Generating new archive spreadsheet")
+            action = api.put if tweet_is_not_new else api.post
+            action("archive/")
 
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
