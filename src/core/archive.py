@@ -35,5 +35,6 @@ def main(args: Namespace) -> bool:
     for old_file in files_to_delete:
         print(f"Deleting old file {old_file}")
         old_file.unlink()
-    print("Archive file successfully created")
+
+    print(f"Successfully created Archive file {dir_contents[0]}")
     return True
