@@ -6,7 +6,7 @@ authors = ["Caleb Ely <le717@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-apscheduler = "^3.9.0"
+apscheduler = "^3.9.1"
 requests = "^2.27.1"
 tweepy = "^4.6.0"
 sys-vars = "^4.0.3"
