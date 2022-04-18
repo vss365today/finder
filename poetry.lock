@@ -216,7 +216,7 @@ test = ["appdirs (==1.4.4)", "pytest (>=6)", "pytest-cov (>=2.7)", "pytest-mock 
 
 [[package]]
 name = "py7zr"
-version = "0.18.3"
+version = "0.18.4"
 description = "Pure python 7-zip library"
 category = "main"
 optional = false
@@ -506,7 +506,7 @@ python-versions = ">=3.6"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "dcb720155be88015e0a1384049508b87d57cbd800aa8ff15767c513ff8e0088d"
+content-hash = "f89ddb0b24a2ccafe5f4ab2b1e0d231182d6b633898d4d4cc908a78945e91df7"
 
 [metadata.files]
 apscheduler = [
@@ -760,8 +760,8 @@ platformdirs = [
     {file = "platformdirs-2.5.1.tar.gz", hash = "sha256:7535e70dfa32e84d4b34996ea99c5e432fa29a708d0f4e394bbcb2a8faa4f16d"},
 ]
 py7zr = [
-    {file = "py7zr-0.18.3-py3-none-any.whl", hash = "sha256:778938a0cccbf16d74d11285921232f0a2fcbf6d3cdcc7ab0358e03a4e973c19"},
-    {file = "py7zr-0.18.3.tar.gz", hash = "sha256:d5bdc81536316f209a3ca4e1ce6e2ef11d8a519d613be47bcdd084bf655f400f"},
+    {file = "py7zr-0.18.4-py3-none-any.whl", hash = "sha256:eb8ecfb077513528bb2a0713480afcf0d2e4712767aef67d36036bbe3a5b1d5f"},
+    {file = "py7zr-0.18.4.tar.gz", hash = "sha256:6986e90ca4ca1f4999d57987a54d891673c9f8befa02c9c6cd8201893a17442c"},
 ]
 pybcj = [
     {file = "pybcj-0.5.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:506a53d1ae7adf0e51aa27b694eebf8629b7cf9d1a38ded1a476907fe847cbec"},
