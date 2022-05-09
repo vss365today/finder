@@ -2,7 +2,8 @@ from pprint import pprint
 
 from requests.exceptions import HTTPError
 
-from src.helpers import api, tweet
+from src.core import api
+from src.helpers import tweet
 from src.helpers.date import create_datetime
 
 

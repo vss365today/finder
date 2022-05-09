@@ -1,7 +1,7 @@
 from argparse import Namespace
 from requests.exceptions import HTTPError
 
-from src.helpers import api
+from src.core import api
 from src.helpers.date import create_datetime
 
 
