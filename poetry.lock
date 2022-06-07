@@ -227,7 +227,7 @@ test = ["ipaddress", "mock", "unittest2", "enum34", "pywin32", "wmi"]
 
 [[package]]
 name = "py7zr"
-version = "0.18.7"
+version = "0.18.9"
 description = "Pure python 7-zip library"
 category = "main"
 optional = false
@@ -248,7 +248,7 @@ zipfile-deflate64 = ">=0.2.0"
 [package.extras]
 check = ["mypy (>=0.940)", "mypy_extensions (>=0.4.1)", "check-manifest", "flake8", "flake8-black", "flake8-deprecated", "isort (>=5.0.3)", "pygments", "readme-renderer", "twine"]
 debug = ["pytest", "pytest-leaks", "pytest-profiling"]
-docs = ["sphinx (>=2.3)", "sphinx-py3doc-enhanced-theme", "sphinx-a4doc", "docutils"]
+docs = ["sphinx (>=5.0)", "sphinx-py3doc-enhanced-theme", "sphinx-a4doc", "docutils"]
 test = ["pytest", "pytest-benchmark", "pytest-cov", "pytest-remotedata", "pytest-timeout", "pyannotate", "py-cpuinfo", "coverage[toml] (>=5.2)", "coveralls (>=2.1.1)"]
 test_compat = ["libarchive-c"]
 
@@ -518,7 +518,7 @@ python-versions = ">=3.6"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "b0dd7852e9efb4de17fec84d281e6a73a5ab2caecc23e78a6c41fd78e6b8fa9a"
+content-hash = "f967d1000e7a4e6a5c6a1d8196cf11217790a34bd5d08c4c912ba9c10fc834e0"
 
 [metadata.files]
 apscheduler = [
@@ -806,7 +806,7 @@ psutil = [
     {file = "psutil-5.9.0.tar.gz", hash = "sha256:869842dbd66bb80c3217158e629d6fceaecc3a3166d3d1faee515b05dd26ca25"},
 ]
 py7zr = [
-    {file = "py7zr-0.18.7.tar.gz", hash = "sha256:25c98d5407453949dbe10808e18488a35e9c1ca2a59d6098fedc45714187ec3f"},
+    {file = "py7zr-0.18.9.tar.gz", hash = "sha256:ac2401d639fb9e5ee1bdb327d62d4fe6717712eec5778601e315bb2981b43441"},
 ]
 pybcj = [
     {file = "pybcj-0.6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:1289fb7e6b9a9135a49319655f39a79f055df1cdf0d380e224e344db39933ebf"},

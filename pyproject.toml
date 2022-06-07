@@ -11,7 +11,7 @@ requests = "^2.27.1"
 tweepy = "^4.10.0"
 sys-vars = "^4.0.3"
 pytz = "^2022.1"
-py7zr = "^0.18.7"
+py7zr = "^0.18.9"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
