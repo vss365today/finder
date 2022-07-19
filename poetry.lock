@@ -450,7 +450,7 @@ test = ["vcrpy (>=1.10.3)"]
 
 [[package]]
 name = "types-pytz"
-version = "2022.1.1"
+version = "2022.1.2"
 description = "Typing stubs for pytz"
 category = "dev"
 optional = false
@@ -523,7 +523,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "92edc7084d54f9f0f2a71d959e4aab7f12429d4d76a1cd5b882e1ff17aaa7d81"
+content-hash = "6d4305cf8034be9168eed646047f5149ead20f7c0f5ecdedc9c9b8bdf67bbaeb"
 
 [metadata.files]
 apscheduler = [
@@ -728,6 +728,9 @@ idna = [
     {file = "idna-3.3.tar.gz", hash = "sha256:9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"},
 ]
 inflate64 = [
+    {file = "inflate64-0.1.3-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:1d9eee2c57aac26d39d19c08d9b7d7cca0c6b1ad66956a7cdea44fae404986b6"},
+    {file = "inflate64-0.1.3-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:5498bbe6b27edaeabf5163d4e68dd93d2519af39b8edc2ac87ddf22311828bde"},
+    {file = "inflate64-0.1.3-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:3f5120bb9154224962f4c8b37563764930f5ef5ffd72397dd9e42e31373974f4"},
     {file = "inflate64-0.1.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ecb0f99a421b3b355bc1b88dfc9a82b43ad839683eee2f1de075167c523d0c6f"},
     {file = "inflate64-0.1.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:32a3fa2f1c1a024c461dca534b8cc215cd9c5cbb43881a266eec505dd18d2c28"},
     {file = "inflate64-0.1.3-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:9d4100963d53d164297f20c723a8a13c935bdbc7afcadc9b7545e390eb998af3"},
@@ -1165,8 +1168,8 @@ tweepy = [
     {file = "tweepy-4.10.0.tar.gz", hash = "sha256:7f92574920c2f233663fff154745fc2bb0d10aedc23617379a912d8e4fefa399"},
 ]
 types-pytz = [
-    {file = "types-pytz-2022.1.1.tar.gz", hash = "sha256:4e7add70886dc2ee6ee7535c8184a26eeb0ac9dbafae9962cb882d74b9f67330"},
-    {file = "types_pytz-2022.1.1-py3-none-any.whl", hash = "sha256:581467742f32f15fff1098698b11fd511057a2a8a7568d33b604083f2b03c24f"},
+    {file = "types-pytz-2022.1.2.tar.gz", hash = "sha256:1a8b25c225c5e6bd8468aa9eb45ddd3b337f6716d4072ad0aa4ef1e41478eebc"},
+    {file = "types_pytz-2022.1.2-py3-none-any.whl", hash = "sha256:8aa9fd2af9dee5f5bd7221c6804c9addeafa7ebc0008f544d4ace02b066818a4"},
 ]
 types-requests = [
     {file = "types-requests-2.28.1.tar.gz", hash = "sha256:acd8ed78509d27bdf04cddcc05f7066dfde4d30dd7dba67b808cdb1141d62ffe"},
