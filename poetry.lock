@@ -458,7 +458,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-requests"
-version = "2.28.2"
+version = "2.28.3"
 description = "Typing stubs for requests"
 category = "dev"
 optional = false
@@ -523,7 +523,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "15c95a0f4332e62f58996955b73340ed711d99d1fa965303d1bae5dfc1b5abe9"
+content-hash = "b96727dc6fb64ef3d80f833d5064f058d06d50c986a6030b12e7d3c6bd59e041"
 
 [metadata.files]
 apscheduler = [
@@ -1172,8 +1172,8 @@ types-pytz = [
     {file = "types_pytz-2022.1.2-py3-none-any.whl", hash = "sha256:8aa9fd2af9dee5f5bd7221c6804c9addeafa7ebc0008f544d4ace02b066818a4"},
 ]
 types-requests = [
-    {file = "types-requests-2.28.2.tar.gz", hash = "sha256:398f88cd9302c796cb63d1021af2a1fb7ae507741a3d508edf8e0746d8c16a04"},
-    {file = "types_requests-2.28.2-py3-none-any.whl", hash = "sha256:c164696bfdce0123901165c5f097a6cc4f6326268c65815d4b6a57eacfec5e81"},
+    {file = "types-requests-2.28.3.tar.gz", hash = "sha256:fb9ea69311766967f9e91861211ec7449f6484025b766ea709689c0dbb29d7ba"},
+    {file = "types_requests-2.28.3-py3-none-any.whl", hash = "sha256:66f0e427708588d4dac2f365a0b2c1ad8f31780429fd8ad193fec93139b22112"},
 ]
 types-urllib3 = [
     {file = "types-urllib3-1.26.14.tar.gz", hash = "sha256:2a2578e4b36341ccd240b00fccda9826988ff0589a44ba4a664bbd69ef348d27"},
