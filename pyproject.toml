@@ -17,7 +17,7 @@ py7zr = "^0.20.0"
 flake8 = "^5.0.4"
 mypy = "^0.971"
 black = "^22.6"
-types-pytz = "^2022.1.2"
+types-pytz = "^2022.2.1"
 types-requests = "^2.28.8"
 
 [build-system]
