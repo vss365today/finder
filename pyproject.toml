@@ -16,7 +16,7 @@ py7zr = "^0.20.0"
 [tool.poetry.dev-dependencies]
 flake8 = "^5.0.4"
 mypy = "^0.971"
-black = "^22.6"
+black = "^22.8"
 types-pytz = "^2022.2.1"
 types-requests = "^2.28.9"
 
