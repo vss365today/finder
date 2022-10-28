@@ -445,7 +445,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "tweepy"
-version = "4.11.0"
+version = "4.12.0"
 description = "Twitter library for Python"
 category = "main"
 optional = false
@@ -537,7 +537,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "3d7071cad3bac145adaa74d6ac47b0563204965758e6bb14d182d51e9d2f55a6"
+content-hash = "f3fc4c105b8406d31ced284ee484300dee0cb1115aa65474e9763eb63ab38f6b"
 
 [metadata.files]
 apscheduler = [
@@ -1183,8 +1183,8 @@ tomli = [
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
 tweepy = [
-    {file = "tweepy-4.11.0-py3-none-any.whl", hash = "sha256:bec6a4583484f9a16706bb24120423e247b62604a2749e42444bd9aabe72da64"},
-    {file = "tweepy-4.11.0.tar.gz", hash = "sha256:34009393c4b88df09311a0951d87fb15c583dc6eaab65fc04cce64118a46fb16"},
+    {file = "tweepy-4.12.0-py3-none-any.whl", hash = "sha256:c463fa147f75016e3a5ed3713580c7339a301b58f90895e696bfae068556d7cc"},
+    {file = "tweepy-4.12.0.tar.gz", hash = "sha256:274f91dfee6d4aed83d9178fbe338bbfd3c06a4220cfe14438159685db7569b7"},
 ]
 types-pytz = [
     {file = "types-pytz-2022.5.0.0.tar.gz", hash = "sha256:0c163b15d3e598e6cc7074a99ca9ec72b25dc1b446acc133b827667af0b7b09a"},
