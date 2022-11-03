@@ -241,7 +241,7 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "unittest2", "wmi"]
 
 [[package]]
 name = "py7zr"
-version = "0.20.1"
+version = "0.20.2"
 description = "Pure python 7-zip library"
 category = "main"
 optional = false
@@ -537,7 +537,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d7a363a30c53e8b3a865b6da88c16a2659caf6850bca82ff7d39bde07d57cf93"
+content-hash = "7991a9bba54109ce31d5034641209d15ef93b4aa1b52e241bf1993c3c2f8acfd"
 
 [metadata.files]
 apscheduler = [
@@ -895,8 +895,8 @@ psutil = [
     {file = "psutil-5.9.0.tar.gz", hash = "sha256:869842dbd66bb80c3217158e629d6fceaecc3a3166d3d1faee515b05dd26ca25"},
 ]
 py7zr = [
-    {file = "py7zr-0.20.1-py3-none-any.whl", hash = "sha256:523e174a630a73753d45e379969ecb3602c0ae75a94b3c78f984b66c6a6734ca"},
-    {file = "py7zr-0.20.1.tar.gz", hash = "sha256:dd47635900ac3cf02ee20988a68515d4fbe3f254663f2139874f645caf32c127"},
+    {file = "py7zr-0.20.2-py3-none-any.whl", hash = "sha256:f6615a5bb07a9252034f23e518affcf4f62725c3632f23b7cfee86aef8bae779"},
+    {file = "py7zr-0.20.2.tar.gz", hash = "sha256:791ef912a295b61b91c5fe0c23adeddb80bf13500308062c082b8fec6c8c9653"},
 ]
 pybcj = [
     {file = "pybcj-0.6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:1289fb7e6b9a9135a49319655f39a79f055df1cdf0d380e224e344db39933ebf"},
