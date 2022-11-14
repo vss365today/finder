@@ -446,7 +446,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "tweepy"
-version = "4.12.0"
+version = "4.12.1"
 description = "Twitter library for Python"
 category = "main"
 optional = false
@@ -460,6 +460,7 @@ requests-oauthlib = ">=1.2.0,<2"
 [package.extras]
 async = ["aiohttp (>=3.7.3,<4)", "async-lru (>=1.0.3,<2)"]
 dev = ["coverage (>=4.4.2)", "coveralls (>=2.1.0)", "tox (>=3.21.0)"]
+docs = ["myst-parser (==0.15.2)", "readthedocs-sphinx-search (==0.1.1)", "sphinx (==4.2.0)", "sphinx-hoverxref (==0.7b1)", "sphinx-rtd-theme (==1.0.0)", "sphinx-tabs (==3.2.0)"]
 socks = ["requests[socks] (>=2.27.0,<3)"]
 test = ["vcrpy (>=1.10.3)"]
 
@@ -538,7 +539,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "bd50c218e9c8e7a11b8851175e21c7902531068057475f8d3e590a57b4db3b81"
+content-hash = "d079ae7d77f1c07e2a3351f7c910cf76aca83cc00004df63386809cae865eb34"
 
 [metadata.files]
 apscheduler = [
@@ -1190,8 +1191,8 @@ tomli = [
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
 tweepy = [
-    {file = "tweepy-4.12.0-py3-none-any.whl", hash = "sha256:c463fa147f75016e3a5ed3713580c7339a301b58f90895e696bfae068556d7cc"},
-    {file = "tweepy-4.12.0.tar.gz", hash = "sha256:274f91dfee6d4aed83d9178fbe338bbfd3c06a4220cfe14438159685db7569b7"},
+    {file = "tweepy-4.12.1-py3-none-any.whl", hash = "sha256:86d4f6738cbd5a57f86dff7ae0caf52f66004d5777626bf5da970aa8c8aa35df"},
+    {file = "tweepy-4.12.1.tar.gz", hash = "sha256:5e4c5b5d22f9e5dd9678a708fae4e40e6eeb1a860a89891a5de3040d5f3da8fe"},
 ]
 types-pytz = [
     {file = "types-pytz-2022.6.0.1.tar.gz", hash = "sha256:d078196374d1277e9f9984d49373ea043cf2c64d5d5c491fbc86c258557bd46f"},
