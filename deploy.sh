@@ -3,7 +3,7 @@
 git pull
 
 # Build a new container
-docker build -t 0 vss365today-finder:latest
+docker build -t vss365today-finder:latest .
 
 # Restart the service
 cd ../server

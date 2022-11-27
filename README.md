@@ -30,6 +30,6 @@ Creating an image is a one-line command:
 
 ## License
 
-2020-2021 Caleb Ely
+2020-2022 Caleb Ely
 
 [MIT](LICENSE)
