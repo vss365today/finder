@@ -5,8 +5,8 @@ git pull
 # Build a new container
 docker build -t vss365today-finder:latest .
 
-# Restart the service
+# Restart the services
 cd ../server
-docker stop -t 0 finder
-docker-compose up -d finder
+docker stop -t 0 finder image_backup
+docker-compose up -d finder image_backup
 cd ../finder
