@@ -10,6 +10,7 @@ from requests.exceptions import HTTPError
 from tweepy import Paginator
 
 from src.core import api
+from src.core.api import v2
 from src.helpers import tweet
 from src.helpers.date import create_datetime
 
@@ -69,17 +70,16 @@ def main() -> bool:
     # Start by searching for the Host for this exact day
     print("Identifying the current Host")
     try:
-        CURRENT_HOST = api.get("host", "date", params={"date": TODAY})
+        current_host = v2.get("hosts", "current")
 
-    # If that fails, determine the Host for this hosting period
+    # If that fails, we don't have an assigned Host for this period and must stop
     except HTTPError:
-        host_start_date = api.get("settings", "hosting", params={"date": TODAY})[0]
-        hosting_period = datetime.now().replace(day=host_start_date)
-        CURRENT_HOST = api.get("host", "date", params={"date": hosting_period})
+        print("No Host found for the current Hosting Period! Aborting...")
+        return False
 
     # Attempt to find the prompt
     print("Searching for the latest prompt")
-    prompt_tweet = find_prompt(CURRENT_HOST["uid"])
+    prompt_tweet = find_prompt(current_host["twitter_uid"])
 
     # The tweet was not found at all :(
     if prompt_tweet is None:
@@ -98,7 +98,7 @@ def main() -> bool:
         )
 
     # We already have the latest tweet, don't do anything
-    # This condition is hit when it is _technnically_ the next day
+    # This condition is hit when it is _technically_ the next day
     # but the newest tweet hasn't been sent out
     if (
         tweet_date.year == LATEST_TWEET["date"].year
