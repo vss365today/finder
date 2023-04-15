@@ -63,7 +63,7 @@ def main() -> bool:
         # Create any media that is attached to the tweet
         if prompt_media:
             print("Recording Prompt Media...")
-            prompt_id = r.json()["_id"]
+            prompt_id = r["_id"]
             v2.post("prompts", str(prompt_id), "media", json=prompt_media)
 
         # Send the email broadcast if desired
