@@ -10,7 +10,7 @@
 - Twitter API v2 bearer token (`TWITTER_BEARER`)
 - Running instance of [#vss365 today API v2](https://github.com/le717/vss365today-api)
   - Operating domain (`API_DOMAIN`)
-  - API key with `has_archive`, `has_broadcast`, `has_host`, `has_prompt`, and `has_settings` permissions (`API_AUTH_TOKEN`)
+  - API key with `has_archive`, `has_notifications`, `has_hosts`, and `has_prompts` permissions (`API_AUTH_TOKEN`)
 
 ## Development
 

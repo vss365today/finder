@@ -1,8 +1,9 @@
 from argparse import Namespace
+
 import sys_vars
 from requests.exceptions import HTTPError
 
-from src.core import api
+from src.core.api import v2
 
 
 __all__ = ["main"]
@@ -11,8 +12,7 @@ __all__ = ["main"]
 def main(args: Namespace) -> bool:
     """Generate a Prompt archive file."""
     try:
-        action = api.put if args.regenerate else api.post
-        action("archive/")
+        v2.post("archive/")
 
     # The generation failed. We don't need to move on
     except HTTPError as exc:
