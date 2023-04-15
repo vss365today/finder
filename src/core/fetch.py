@@ -1,6 +1,4 @@
-from collections import namedtuple
 from datetime import date, datetime, timedelta
-from pprint import pprint
 
 import sys_vars
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -124,25 +122,24 @@ def main() -> bool:
     prompt_media = {}
     if media_url is not None:
         prompt_media = {"items": [{"alt_text": media_alt_text, "url": media_url}]}
-        pprint(prompt_media)
-    pprint(prompt)
 
     try:
         # Add the tweet to the database
-        print("Adding Prompt to database")
+        print("Adding Prompt to database...")
         r = v2.post("prompts/", json=prompt)
 
         # Create any media that is attached to the tweet
         if prompt_media:
+            print("Recording Prompt Media...")
             prompt_id = r.json()["_id"]
             v2.post("prompts", str(prompt_id), "media", json=prompt_media)
 
         # Send the email broadcast
-        print("Sending out notification emails")
+        print("Sending out notification emails...")
         v2.post("notifications", tweet_date.date().isoformat())
 
         # Generate a new Prompt archive
-        print("Creating new Prompt archive")
+        print("Creating new Prompt archive...")
         v2.post("archive/")
 
     except HTTPError:
