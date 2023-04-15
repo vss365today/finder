@@ -1,6 +1,6 @@
 from json import loads
 from pathlib import Path
-from typing import NamedTuple, Optional
+from typing import cast
 
 import sys_vars
 import tweepy
@@ -27,14 +27,14 @@ def __filter_hashtags(hts: list[str]) -> list[str]:
     return [ht for ht in hts if ht not in CONFIG["filter"]]
 
 
-def __get_hashtags(hts: Optional[list[dict]]) -> Optional[list[str]]:
+def __get_hashtags(hts: list[dict] | None) -> list[str] | None:
     """Extract all hashtags from the tweet."""
     if hts is None:
         return None
     return [ht["tag"].lower() for ht in hts]
 
 
-def __get_media_obj(tweet: NamedTuple) -> Optional[dict]:
+def __get_media_obj(tweet: tuple) -> dict | None:
     """Get the media object from the tweet."""
     # This tweet has no media in it
     if tweet.data.attachments is None:
@@ -44,7 +44,7 @@ def __get_media_obj(tweet: NamedTuple) -> Optional[dict]:
     return tweet.includes["media"][0].data
 
 
-def confirm_prompt(tweet: NamedTuple) -> bool:
+def confirm_prompt(tweet: tuple) -> bool:
     """Confirm this is the Prompt tweet."""
     hts = tweet.data.get("entities", {}).get("hashtags")
     hts = __get_hashtags(hts)
@@ -70,7 +70,7 @@ def get_id(url: str) -> str:
     return url_path[3]
 
 
-def get_media(tweet: NamedTuple) -> Optional[str]:
+def get_media(tweet: tuple) -> str | None:
     """Get any media in the tweet."""
     if not (media := __get_media_obj(tweet)):
         return None
@@ -82,26 +82,28 @@ def get_media(tweet: NamedTuple) -> Optional[str]:
     # Animated gif/video
     elif media["type"] in ("animated_gif", "video"):
         return media["preview_image_url"]
+    return None
 
 
-def get_media_alt_text(tweet: NamedTuple) -> Optional[str]:
+def get_media_alt_text(tweet: tuple) -> str | None:
     """Get the alt text for a tweet's media."""
     if media := __get_media_obj(tweet):
         return media.get("alt_text")
     return None
 
 
-def get_prompt(tweet: NamedTuple) -> Optional[str]:
+def get_prompt(tweet: tuple) -> str | None:
     """Get the prompt word from the tweet."""
     if not confirm_prompt(tweet):
         return None
 
+    tweet = cast(tuple, tweet)
     hts = tweet.data.entities["hashtags"]
     hts = __filter_hashtags(__get_hashtags(hts))
     return hts[CONFIG["prompt_index"] + 1]
 
 
-def get_text(tweet: NamedTuple) -> str:
+def get_text(tweet: tuple) -> str:
     """Get the full tweet text."""
     return tweet.data.text
 

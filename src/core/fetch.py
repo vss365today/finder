@@ -1,7 +1,6 @@
 from collections import namedtuple
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pprint import pprint
-from typing import Optional
 
 import sys_vars
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -9,10 +8,8 @@ from pytz import utc
 from requests.exceptions import HTTPError
 from tweepy import Paginator
 
-from src.core import api
 from src.core.api import v2
 from src.helpers import tweet
-from src.helpers.date import create_datetime
 
 
 __all__ = ["main", "schedule"]
@@ -22,7 +19,7 @@ __all__ = ["main", "schedule"]
 TWITTER_API = tweet.twitter_v2_api()
 
 
-def find_prompt(uid: str) -> Optional[namedtuple]:
+def find_prompt(uid: str):
     found_tweet = None
 
     # Get the tweets from the Host for the prompt
@@ -50,24 +47,22 @@ def find_prompt(uid: str) -> Optional[namedtuple]:
 def main() -> bool:
     # Start by getting today's date because it's surprising
     # how often we actually need this info
-    TODAY = datetime.now()
+    today = datetime.now()
 
     # Get the latest recorded prompt to see if we need to do anything
-    LATEST_TWEET = api.get("prompt")[0]
-    LATEST_TWEET["date"] = create_datetime(LATEST_TWEET["date"])
+    latest_tweet = v2.get("prompts")[0]
+    latest_tweet["date"] = date.fromisoformat(latest_tweet["date"])
 
     # We already have latest tweet, don't do anything
     if (
-        LATEST_TWEET["date"].year == TODAY.year
-        and LATEST_TWEET["date"].month == TODAY.month
-        and LATEST_TWEET["date"].day == TODAY.day
+        latest_tweet["date"].year == today.year
+        and latest_tweet["date"].month == today.month
+        and latest_tweet["date"].day == today.day
     ):
-        print(f"Prompt for {TODAY} already found. Aborting...")
+        print(f"Prompt for {today} already found. Aborting...")
         return False
 
-    # Hosts serve for 15 days (2 Hosts/mo)
-    # Determine which one is hosting right now
-    # Start by searching for the Host for this exact day
+    # Hosts serve for 15 days (2 Hosts/mo). Ask the API who is currently hosting
     print("Identifying the current Host")
     try:
         current_host = v2.get("hosts", "current")
@@ -90,8 +85,8 @@ def main() -> bool:
     # time zone difference. Tweet datetimes are always expressed
     # in UTC, so attempt to get to tomorrow's date
     # and see if it matches the expected tweet date
-    tweet_date = prompt_tweet.data.created_at
-    if tweet_date.day - TODAY.day < 0:
+    tweet_date: datetime = prompt_tweet.data.created_at
+    if tweet_date.day - today.day < 0:
         next_day_hour_difference = 24 - prompt_tweet.data.created_at.hour
         tweet_date = prompt_tweet.data.created_at + timedelta(
             hours=next_day_hour_difference
@@ -101,9 +96,9 @@ def main() -> bool:
     # This condition is hit when it is _technically_ the next day
     # but the newest tweet hasn't been sent out
     if (
-        tweet_date.year == LATEST_TWEET["date"].year
-        and tweet_date.month == LATEST_TWEET["date"].month
-        and tweet_date.day == LATEST_TWEET["date"].day
+        tweet_date.year == latest_tweet["date"].year
+        and tweet_date.month == latest_tweet["date"].month
+        and tweet_date.day == latest_tweet["date"].day
     ):
         print(f"The latest Prompt for {tweet_date} has already found. Aborting...")
         return False
@@ -116,28 +111,39 @@ def main() -> bool:
 
     # Construct an API request object
     prompt = {
-        "id": str(prompt_tweet.data.id),
-        "uid": str(prompt_tweet.data.author_id),
-        "date": tweet_date.isoformat(),
-        "word": prompt_word,
         "content": tweet.get_text(prompt_tweet),
-        "media": tweet.get_media(prompt_tweet),
-        "media_alt_text": tweet.get_media_alt_text(prompt_tweet),
+        "date": tweet_date.date().isoformat(),
+        "host_handle": prompt_tweet[1]["users"][0].username,
+        "twitter_id": str(prompt_tweet.data.id),
+        "word": prompt_word,
     }
+
+    # Pull out any possible media
+    media_alt_text = tweet.get_media_alt_text(prompt_tweet)
+    media_url = tweet.get_media(prompt_tweet)
+    prompt_media = {}
+    if media_url is not None:
+        prompt_media = {"items": [{"alt_text": media_alt_text, "url": media_url}]}
+        pprint(prompt_media)
     pprint(prompt)
 
     try:
         # Add the tweet to the database
         print("Adding Prompt to database")
-        api.post("prompt/", json=prompt)
+        r = v2.post("prompts/", json=prompt)
+
+        # Create any media that is attached to the tweet
+        if prompt_media:
+            prompt_id = r.json()["_id"]
+            v2.post("prompts", str(prompt_id), "media", json=prompt_media)
 
         # Send the email broadcast
         print("Sending out notification emails")
-        api.post("broadcast/", params={"date": tweet_date.isoformat()})
+        v2.post("notifications", tweet_date.date().isoformat())
 
         # Generate a new Prompt archive
         print("Creating new Prompt archive")
-        api.post("archive/")
+        v2.post("archive/")
 
     except HTTPError:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
