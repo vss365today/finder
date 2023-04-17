@@ -127,12 +127,11 @@ def get_prompt(tweet: tweepy.Response) -> str | None:
     # According to the #vss365 charter, a Prompt must contain the hashtags
     # `#vss365 #prompt #[prompt]`, in that order. Confirm that those hashtags
     # are in that order and if they are, use that ordering to extract the word
-    vss_idx = hts.index("vss365")
     try:
-        if hts[vss_idx + 1].lower() != "prompt":
-            return None
+        vss_idx = hts.index("vss365")
+        assert hts[vss_idx + 1].lower() == "prompt"
         return hts[vss_idx + 2]
-    except (IndexError, ValueError):
+    except (AssertionError, IndexError, ValueError):
         return None
 
 
