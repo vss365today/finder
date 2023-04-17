@@ -1,14 +1,14 @@
 from json import loads
 from pathlib import Path
-from typing import cast
+from typing import TypedDict
 
 import sys_vars
 import tweepy
-from urllib3.util.url import parse_url
+from urllib3.util.url import Url, parse_url
 
 
 __all__ = [
-    "confirm_prompt",
+    "is_prompt_tweet",
     "fetch_fields",
     "get_id",
     "get_media",
@@ -19,22 +19,23 @@ __all__ = [
 ]
 
 
+class Hashtags(TypedDict):
+    start: int
+    end: int
+    tag: str
+
+
 CONFIG = loads((Path("configuration") / "default.json").read_text())
 
 
 def __filter_hashtags(hts: list[str]) -> list[str]:
     """Filter out any hashtags that should not be considered a prompt."""
-    return [ht for ht in hts if ht not in CONFIG["filter"]]
+    # This cannot use set math as it will change the order of the hashtags,
+    # which makes it impossible to determine the prompt word
+    return [ht for ht in hts if ht.lower() not in CONFIG["filter"]]
 
 
-def __get_hashtags(hts: list[dict] | None) -> list[str] | None:
-    """Extract all hashtags from the tweet."""
-    if hts is None:
-        return None
-    return [ht["tag"].lower() for ht in hts]
-
-
-def __get_media_obj(tweet: tuple) -> dict | None:
+def __get_media_obj(tweet: tweepy.Response) -> dict | None:
     """Get the media object from the tweet."""
     # This tweet has no media in it
     if tweet.data.attachments is None:
@@ -44,11 +45,30 @@ def __get_media_obj(tweet: tuple) -> dict | None:
     return tweet.includes["media"][0].data
 
 
-def confirm_prompt(tweet: tuple) -> bool:
+def __extract_hashtags(tweet: tweepy.Tweet) -> list[str]:
+    """Extract the hashtags from a tweet, if present."""
+    # There are no entities (whatever that means) in this tweet at all
+    if tweet.entities is None:
+        return []
+
+    # There are no hashtags in this tweet
+    if "hashtags" not in tweet.entities:
+        return []
+
+    hts: list[Hashtags] = tweet.entities["hashtags"]
+    return [ht["tag"] for ht in hts]
+
+
+def is_prompt_tweet(hts: list[str]) -> bool:
     """Confirm this is the Prompt tweet."""
-    hts = tweet.data.get("entities", {}).get("hashtags")
-    hts = __get_hashtags(hts)
-    return hts is not None and len(hts) >= 3 and set(CONFIG["identifiers"]) <= set(hts)
+    # No hashtags were provided
+    if not hts:
+        return False
+
+    # Make sure at least hashtags are present in the tweet AND
+    # the prompt identifying hashtags are present (via subset set math)
+    hts = [ht.lower() for ht in hts]
+    return len(hts) >= 3 and set(CONFIG["identifiers"]) <= set(hts)
 
 
 def fetch_fields() -> dict[str, list[str]]:
@@ -63,14 +83,14 @@ def fetch_fields() -> dict[str, list[str]]:
 def get_id(url: str) -> str:
     """Confirm this is a tweet url and get its ID."""
     # Parse the URL into its components
-    parsed = parse_url(url.strip())
+    parsed: Url = parse_url(url.strip())
 
     # Break up the URL path and pull out the tweet id
     url_path = parsed.path.split("/")
     return url_path[3]
 
 
-def get_media(tweet: tuple) -> str | None:
+def get_media(tweet: tweepy.Response) -> str | None:
     """Get any media in the tweet."""
     if not (media := __get_media_obj(tweet)):
         return None
@@ -85,25 +105,38 @@ def get_media(tweet: tuple) -> str | None:
     return None
 
 
-def get_media_alt_text(tweet: tuple) -> str | None:
+def get_media_alt_text(tweet: tweepy.Response) -> str | None:
     """Get the alt text for a tweet's media."""
     if media := __get_media_obj(tweet):
         return media.get("alt_text")
     return None
 
 
-def get_prompt(tweet: tuple) -> str | None:
+def get_prompt(tweet: tweepy.Response) -> str | None:
     """Get the prompt word from the tweet."""
-    if not confirm_prompt(tweet):
+    # Pull out any hashtags from the tweet
+    hts = __extract_hashtags(tweet.data)
+
+    # This is not the prompt tweet
+    if not is_prompt_tweet(hts):
         return None
 
-    tweet = cast(tuple, tweet)
-    hts = tweet.data.entities["hashtags"]
-    hts = __filter_hashtags(__get_hashtags(hts))
-    return hts[CONFIG["prompt_index"] + 1]
+    # Remove any hashtags that cannot be prompt words
+    hts = __filter_hashtags(hts)
+
+    # According to the #vss365 charter, a Prompt must contain the hashtags
+    # `#vss365 #prompt #[prompt]`, in that order. Confirm that those hashtags
+    # are in that order and if they are, use that ordering to extract the word
+    vss_idx = hts.index("vss365")
+    try:
+        if hts[vss_idx + 1].lower() != "prompt":
+            return None
+        return hts[vss_idx + 2]
+    except (IndexError, ValueError):
+        return None
 
 
-def get_text(tweet: tuple) -> str:
+def get_text(tweet: tweepy.Response) -> str:
     """Get the full tweet text."""
     return tweet.data.text
 

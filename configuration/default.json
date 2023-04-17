@@ -6,9 +6,7 @@
   "filter": [
     "flashdogs",
     "promptword",
-    "vss365",
     "vsspoem",
     "writingcommunity"
-  ],
-  "prompt_index": 0
+  ]
 }

@@ -29,7 +29,7 @@ def find_prompt(uid: str):
         tweet_fields=["entities"],
     ).flatten():
         # Found the prompt!
-        if tweet.confirm_prompt(response):
+        if tweet.is_prompt_tweet(response):
             found_tweet = response
             break
 
