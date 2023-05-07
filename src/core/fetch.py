@@ -29,7 +29,7 @@ def find_prompt(uid: str):
         tweet_fields=["entities"],
     ).flatten():
         # Found the prompt!
-        if tweet.is_prompt_tweet(response):
+        if tweet.is_likely_prompt_tweet(response):
             found_tweet = response
             break
 
@@ -71,7 +71,8 @@ def main() -> bool:
         return False
 
     # Attempt to find the prompt
-    print("Searching for the latest prompt")
+    print(f"The current Host is {current_host['handle']}.")
+    print("Searching for the latest Prompt")
     prompt_tweet = find_prompt(current_host["twitter_uid"])
 
     # The tweet was not found at all :(
@@ -143,7 +144,7 @@ def main() -> bool:
         v2.post("archive/")
 
     except HTTPError:
-        print(f"Cannot add Prompt for {tweet_date} to the database!")
+        print(f"Cannot add Prompt for {tweet_date.isoformat()} to the database!")
     return True
 
 

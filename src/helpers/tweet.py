@@ -9,6 +9,7 @@ from urllib3.util.url import Url, parse_url
 
 __all__ = [
     "is_prompt_tweet",
+    "is_likely_prompt_tweet",
     "fetch_fields",
     "get_id",
     "get_media",
@@ -71,6 +72,11 @@ def is_prompt_tweet(hts: list[str]) -> bool:
     return len(hts) >= 3 and set(CONFIG["identifiers"]) <= set(hts)
 
 
+def is_likely_prompt_tweet(tweet: tweepy.Tweet):
+    hts = __extract_hashtags(tweet)
+    return is_prompt_tweet(hts)
+
+
 def fetch_fields() -> dict[str, list[str]]:
     """Specify the expansions and fields for needed information."""
     return {
@@ -112,7 +118,7 @@ def get_media_alt_text(tweet: tweepy.Response) -> str | None:
     return None
 
 
-def get_prompt(tweet: tweepy.Response) -> str | None:
+def get_prompt(tweet: tweepy.Tweet) -> str | None:
     """Get the prompt word from the tweet."""
     # Pull out any hashtags from the tweet
     hts = __extract_hashtags(tweet.data)
