@@ -12,6 +12,7 @@ tweepy = "^4.14.0"
 sys-vars = "^5.0.0"
 pytz = "^2023.3"
 py7zr = "^0.20.4"
+httpx = "^0.24.1"
 
 [tool.poetry.group.dev]
 optional = true
