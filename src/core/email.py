@@ -59,6 +59,7 @@ def main(_: Namespace) -> bool:
         return True
 
     # A broadcast for that day couldn't be sent
-    except HTTPError:
+    except HTTPError as exc:
         print(f"Unable to send email broadcast for {prompt_date}!")
+        print(exc)
     return False
