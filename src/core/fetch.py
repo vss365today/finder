@@ -47,7 +47,7 @@ def main() -> bool:
     today = datetime.now()
 
     # Get the latest recorded prompt to see if we need to do anything
-    latest_tweet = v2.get("prompts")[0]
+    latest_tweet = v2.get("prompts/")[0]
     latest_tweet["date"] = date.fromisoformat(latest_tweet["date"])
 
     # We already have latest tweet, don't do anything
