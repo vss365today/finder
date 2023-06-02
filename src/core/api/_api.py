@@ -1,6 +1,7 @@
+from functools import partial
 from typing import Any, Callable
 
-import requests
+import httpx
 import sys_vars
 
 
@@ -15,26 +16,28 @@ def __create_auth_token() -> dict:
 def __make_request(method: Callable, url: str, **kwargs: Any) -> dict:
     """Make a request to the API."""
     kwargs["headers"] = __create_auth_token()
-    r = method(url, **kwargs)
+    r = method(url=url, **kwargs)
     r.raise_for_status()
     return r.json() if r.text else {}
 
 
 def delete(url: str, **kwargs: Any) -> dict:
     """Helper function for performing a DELETE request."""
-    return __make_request(requests.delete, url, **kwargs)
+    func = partial(httpx.request, method="DELETE")
+    func.__name__ = "delete"
+    return __make_request(func, url, **kwargs)
 
 
 def get(url: str, **kwargs: Any) -> dict:
     """Helper function for performing a GET request."""
-    return __make_request(requests.get, url, **kwargs)
+    return __make_request(httpx.get, url, **kwargs)
 
 
 def post(url: str, **kwargs: Any) -> dict:
     """Helper function for performing a POST request."""
-    return __make_request(requests.post, url, **kwargs)
+    return __make_request(httpx.post, url, **kwargs)
 
 
 def put(url: str, **kwargs: Any) -> dict:
     """Helper function for performing a PUT request."""
-    return __make_request(requests.put, url, **kwargs)
+    return __make_request(httpx.put, url, **kwargs)

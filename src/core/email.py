@@ -1,10 +1,9 @@
 from argparse import Namespace
 from datetime import date
 
-from requests.exceptions import HTTPError
+from httpx import HTTPError
 
 from src.core.api import v2
-
 
 __all__ = ["main"]
 

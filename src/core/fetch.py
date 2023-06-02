@@ -2,13 +2,12 @@ from datetime import date, datetime, timedelta
 
 import sys_vars
 from apscheduler.schedulers.blocking import BlockingScheduler
+from httpx import HTTPError
 from pytz import utc
-from requests.exceptions import HTTPError
 from tweepy import Paginator
 
 from src.core.api import v2
 from src.helpers import tweet
-
 
 __all__ = ["main", "schedule"]
 

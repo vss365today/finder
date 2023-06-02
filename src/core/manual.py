@@ -1,10 +1,9 @@
 from datetime import date
 
-from requests.exceptions import HTTPError
+from httpx import HTTPError
 
 from src.core.api import v2
 from src.helpers import tweet
-
 
 __all__ = ["main"]
 
