@@ -94,7 +94,7 @@
       "type": "python",
       "request": "launch",
       "program": "${workspaceFolder}/finder.py",
-      "console": "internalConsole",
+      "console": "integratedTerminal",
       "env": {
         "SYS_VARS_PATH": "${workspaceFolder}/../secrets"
       },

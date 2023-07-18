@@ -136,7 +136,7 @@ def main() -> bool:
 
         # Send the email broadcast
         print("Sending out notification emails...")
-        v2.post("notifications", tweet_date.date().isoformat())
+        # v2.post("notifications", tweet_date.date().isoformat())
 
         # Generate a new Prompt archive
         print("Creating new Prompt archive...")
