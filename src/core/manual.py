@@ -68,7 +68,7 @@ def main() -> bool:
         # Send the email broadcast if desired
         if should_send_emails.lower() == "y":
             print("Sending out notification emails...")
-            v2.post("notifications", tweet_date.date().isoformat())
+            v2.post("notifications", tweet_date.isoformat())
 
         # Generate an archive file if desired
         if should_generate_archive.lower() == "y":

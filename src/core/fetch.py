@@ -51,6 +51,7 @@ def main() -> bool:
     latest_tweet["date"] = date.fromisoformat(latest_tweet["date"])
 
     # We already have latest tweet, don't do anything
+    # TODO: Can this be simplified by making `today` always a date and doing direct ==?
     if (
         latest_tweet["date"].year == today.year
         and latest_tweet["date"].month == today.month
@@ -86,19 +87,22 @@ def main() -> bool:
     tweet_date: datetime = prompt_tweet.data.created_at
     if tweet_date.day - today.day < 0:
         next_day_hour_difference = 24 - prompt_tweet.data.created_at.hour
-        tweet_date = prompt_tweet.data.created_at + timedelta(
+        tweet_date: datetime = prompt_tweet.data.created_at + timedelta(
             hours=next_day_hour_difference
         )
 
     # We already have the latest tweet, don't do anything
     # This condition is hit when it is _technically_ the next day
     # but the newest tweet hasn't been sent out
+    # TODO: Can this be simplified by making `tweet_date` always a date and doing direct ==?
     if (
         tweet_date.year == latest_tweet["date"].year
         and tweet_date.month == latest_tweet["date"].month
         and tweet_date.day == latest_tweet["date"].day
     ):
-        print(f"The latest Prompt for {tweet_date} has already found. Aborting...")
+        print(
+            f"The latest Prompt for {tweet_date.date()} has already found. Aborting..."
+        )
         return False
 
     # Attempt to extract the prompt word and back out if we can't
@@ -143,7 +147,7 @@ def main() -> bool:
         v2.post("archive/")
 
     except HTTPError:
-        print(f"Cannot add Prompt for {tweet_date.isoformat()} to the database!")
+        print(f"Cannot add Prompt for {tweet_date.date().isoformat()} to the database!")
     return True
 
 
