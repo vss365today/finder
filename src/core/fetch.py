@@ -136,7 +136,7 @@ def main() -> bool:
         if prompt_media:
             print("Recording Prompt Media...")
             prompt_id = r["_id"]
-            v2.post("prompts", str(prompt_id), "media", json=prompt_media)
+            v2.post("prompts", str(prompt_id), "media/", json=prompt_media)
 
         # Send the email broadcast
         print("Sending out notification emails...")
@@ -146,8 +146,10 @@ def main() -> bool:
         print("Creating new Prompt archive...")
         v2.post("archive/")
 
-    except HTTPError:
+    except HTTPError as exc:
         print(f"Cannot add Prompt for {tweet_date.date().isoformat()} to the database!")
+        print(exc)
+        return False
     return True
 
 
