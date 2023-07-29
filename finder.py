@@ -43,12 +43,6 @@ subparsers = parser.add_subparsers()
 
 # Archive file generation
 parser_archive = subparsers.add_parser("archive", help="archive help")
-parser_archive.add_argument(
-    "-r",
-    "--regenerate",
-    help="regenerate an existing Prompt archive",
-    action="store_true",
-)
 parser_archive.set_defaults(func=get_task_main("archive").main)  # type: ignore
 
 # Static file backup
