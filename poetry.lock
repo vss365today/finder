@@ -745,13 +745,13 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
 
 [[package]]
 name = "py7zr"
-version = "0.20.5"
+version = "0.20.6"
 description = "Pure python 7-zip library"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "py7zr-0.20.5-py3-none-any.whl", hash = "sha256:17fe8bb9379ef1d416e6e400f29158ad71dc409869c7206d880441c70806f07f"},
-    {file = "py7zr-0.20.5.tar.gz", hash = "sha256:6fb4889c0fa32581818a3366984083253585d6c794e82c3242b8a12d6aeaabd3"},
+    {file = "py7zr-0.20.6-py3-none-any.whl", hash = "sha256:c7cfb7183fb8f48038f1036a116ca89dc8bd57979d05b75567f00e88a5afe698"},
+    {file = "py7zr-0.20.6.tar.gz", hash = "sha256:d036dee11fce69ad8d4fa86025ccfc4a3511ec27ee1c6b5bd8d6759313dbd077"},
 ]
 
 [package.dependencies]
@@ -1354,4 +1354,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "f9548d3518d0469bf897428e83aa6df8e6dc75951a8fcaa1b8d0392eee102dce"
+content-hash = "ce8335562f495641a0759c9440f7c907f2fb7864487d3d6fbd43c2f20dedf1f9"
