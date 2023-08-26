@@ -51,12 +51,7 @@ def main() -> bool:
     latest_tweet["date"] = date.fromisoformat(latest_tweet["date"])
 
     # We already have latest tweet, don't do anything
-    # TODO: Can this be simplified by making `today` always a date and doing direct ==?
-    if (
-        latest_tweet["date"].year == today.year
-        and latest_tweet["date"].month == today.month
-        and latest_tweet["date"].day == today.day
-    ):
+    if latest_tweet["date"] == today.date():
         print(f"Prompt for {today} already found. Aborting...")
         return False
 
@@ -72,7 +67,7 @@ def main() -> bool:
 
     # Attempt to find the prompt
     print(f"The current Host is {current_host['handle']}.")
-    print("Searching for the latest Prompt")
+    print("Searching for the latest Prompt...")
     prompt_tweet = find_prompt(current_host["twitter_uid"])
 
     # The tweet was not found at all :(
@@ -91,17 +86,15 @@ def main() -> bool:
             hours=next_day_hour_difference
         )
 
+    # Discard the time data. We don't need it
+    tweet_date: date = tweet_date.date()
+
     # We already have the latest tweet, don't do anything
     # This condition is hit when it is _technically_ the next day
     # but the newest tweet hasn't been sent out
-    # TODO: Can this be simplified by making `tweet_date` always a date and doing direct ==?
-    if (
-        tweet_date.year == latest_tweet["date"].year
-        and tweet_date.month == latest_tweet["date"].month
-        and tweet_date.day == latest_tweet["date"].day
-    ):
+    if tweet_date == latest_tweet["date"]:
         print(
-            f"The latest Prompt for {tweet_date.date()} has already found. Aborting..."
+            f"The latest Prompt for {tweet_date.isoformat()} has already found. Aborting..."
         )
         return False
 
@@ -114,7 +107,7 @@ def main() -> bool:
     # Construct an API request object
     prompt = {
         "content": tweet.get_text(prompt_tweet),
-        "date": tweet_date.date().isoformat(),
+        "date": tweet_date.isoformat(),
         "host_handle": prompt_tweet[1]["users"][0].username,
         "twitter_id": str(prompt_tweet.data.id),
         "word": prompt_word,
@@ -140,14 +133,14 @@ def main() -> bool:
 
         # Send the email broadcast
         print("Sending out notification emails...")
-        v2.post("notifications", tweet_date.date().isoformat())
+        v2.post("notifications", tweet_date.isoformat())
 
         # Generate a new Prompt archive
         print("Creating new Prompt archive...")
         v2.post("archive/")
 
     except HTTPError as exc:
-        print(f"Cannot add Prompt for {tweet_date.date().isoformat()} to the database!")
+        print(f"Cannot add Prompt for {tweet_date.isoformat()} to the database!")
         print(exc)
         return False
     return True
