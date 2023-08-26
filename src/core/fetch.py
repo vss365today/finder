@@ -94,7 +94,8 @@ def main() -> bool:
     # but the newest tweet hasn't been sent out
     if tweet_date == latest_tweet["date"]:
         print(
-            f"The latest Prompt for {tweet_date.isoformat()} has already found. Aborting..."
+            f"The latest Prompt for {tweet_date.isoformat()} has already found."
+            " Aborting..."
         )
         return False
 
