@@ -78,6 +78,6 @@ def main() -> bool:
 
     except HTTPError as exc:
         print(f"Cannot add Prompt for {tweet_date} to the database!")
-        print(exc)
+        print(f"{exc.__class__.__name__}: {exc}")
         return False
     return True

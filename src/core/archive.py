@@ -16,7 +16,7 @@ def main(args: Namespace) -> bool:
     # The generation failed. We don't need to move on
     except HTTPError as exc:
         print("Unable to create archive file!")
-        print(exc)
+        print(f"{exc.__class__.__name__}: {exc}")
         return False
 
     # Get the downloads directory content
