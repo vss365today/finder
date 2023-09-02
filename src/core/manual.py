@@ -65,16 +65,16 @@ def main() -> bool:
             prompt_id = r["_id"]
             v2.post("prompts", str(prompt_id), "media/", json=prompt_media)
 
-        # Send the email broadcast if desired
-        if should_send_emails.lower() == "y":
-            print("Sending out notification emails...")
-            v2.post("notifications", tweet_date.isoformat())
-
         # Generate an archive file if desired
         if should_generate_archive.lower() == "y":
             # Handle if this is a newly recorded tweet
             print("Generating new archive spreadsheet...")
             v2.post("archive/")
+
+        # Send the email broadcast if desired
+        if should_send_emails.lower() == "y":
+            print("Sending out notification emails...")
+            v2.post("notifications", tweet_date.isoformat())
 
     except HTTPError as exc:
         print(f"Cannot add Prompt for {tweet_date} to the database!")

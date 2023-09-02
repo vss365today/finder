@@ -132,13 +132,13 @@ def main() -> bool:
             prompt_id = r["_id"]
             v2.post("prompts", str(prompt_id), "media/", json=prompt_media)
 
-        # Send the email broadcast
-        print("Sending out notification emails...")
-        v2.post("notifications", tweet_date.isoformat())
-
         # Generate a new Prompt archive
         print("Creating new Prompt archive...")
         v2.post("archive/")
+
+        # Send the email broadcast
+        print("Sending out notification emails...")
+        v2.post("notifications", tweet_date.isoformat())
 
     except HTTPError as exc:
         print(f"Cannot add Prompt for {tweet_date.isoformat()} to the database!")
