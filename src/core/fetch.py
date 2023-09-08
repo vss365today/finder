@@ -1,8 +1,9 @@
+from contextlib import suppress
 from datetime import date, datetime, timedelta
 
 import sys_vars
 from apscheduler.schedulers.blocking import BlockingScheduler
-from httpx import HTTPError
+from httpx import HTTPError, RemoteProtocolError
 from pytz import utc
 from tweepy import Paginator
 
@@ -136,9 +137,12 @@ def main() -> bool:
         print("Creating new Prompt archive...")
         v2.post("archive/")
 
-        # Send the email broadcast
-        print("Sending out notification emails...")
-        v2.post("notifications", tweet_date.isoformat())
+        # Send the email broadcast.
+        # For some reason, this exception keeps getting raised
+        # despite the emails actually sending out, so suppress it
+        with suppress(RemoteProtocolError):
+            print("Sending out notification emails...")
+            v2.post("notifications", tweet_date.isoformat())
 
     except HTTPError as exc:
         print(f"Cannot add Prompt for {tweet_date.isoformat()} to the database!")

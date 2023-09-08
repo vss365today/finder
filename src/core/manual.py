@@ -1,6 +1,7 @@
+from contextlib import suppress
 from datetime import date
 
-from httpx import HTTPError
+from httpx import HTTPError, RemoteProtocolError
 
 from src.core.api import v2
 from src.helpers import tweet
@@ -74,7 +75,10 @@ def main() -> bool:
         # Send the email broadcast if desired
         if should_send_emails.lower() == "y":
             print("Sending out notification emails...")
-            v2.post("notifications", tweet_date.isoformat())
+            # For some reason, this exception keeps getting raised
+            # despite the emails actually sending out, so suppress it
+            with suppress(RemoteProtocolError):
+                v2.post("notifications", tweet_date.isoformat())
 
     except HTTPError as exc:
         print(f"Cannot add Prompt for {tweet_date} to the database!")

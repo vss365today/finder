@@ -1,7 +1,8 @@
 from argparse import Namespace
+from contextlib import suppress
 from datetime import date
 
-from httpx import HTTPError
+from httpx import HTTPError, RemoteProtocolError
 
 from src.core.api import v2
 
@@ -49,12 +50,15 @@ def main(_: Namespace) -> bool:
             # Properly index the selected Prompt
             prompt_index = int(selected_prompt) - 1
 
-        # Send out the broadcast
-        v2.post(
-            "notifications",
-            prompt_date.isoformat(),
-            params={"which": prompt_index},
-        )
+        # Send the email broadcast.
+        # For some reason, this exception keeps getting raised
+        # despite the emails actually sending out, so suppress it
+        with suppress(RemoteProtocolError):
+            v2.post(
+                "notifications",
+                prompt_date.isoformat(),
+                params={"which": prompt_index},
+            )
         print(f"Email broadcast for {prompt_date} successfully sent")
         return True
 
