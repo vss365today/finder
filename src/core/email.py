@@ -25,7 +25,7 @@ def main(_: Namespace) -> bool:
         num_of_prompts = len(available_prompts)
         if num_of_prompts >= 2:
             print(
-                f"\nThere are {num_of_prompts} Prompts for {prompt_date}",
+                f"\nThere are {num_of_prompts} Prompts for {prompt_date}.",
                 "Which would you like to send a notification for?",
             )
             for i, prompt in enumerate(available_prompts):
