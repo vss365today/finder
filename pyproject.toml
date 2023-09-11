@@ -19,7 +19,7 @@ optional = true
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
 mypy = "^1.5"
-black = "^23.7"
+black = "^23.9"
 types-pytz = "^2023.3.0"
 
 [build-system]
