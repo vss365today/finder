@@ -4,8 +4,7 @@ from typing import TypedDict
 
 import sys_vars
 import tweepy
-from urllib3.util.url import Url, parse_url
-
+from httpx import URL
 
 __all__ = [
     "is_prompt_tweet",
@@ -88,12 +87,9 @@ def fetch_fields() -> dict[str, list[str]]:
 
 def get_id(url: str) -> str:
     """Confirm this is a tweet url and get its ID."""
-    # Parse the URL into its components
-    parsed: Url = parse_url(url.strip())
-
-    # Break up the URL path and pull out the tweet id
-    url_path = parsed.path.split("/")
-    return url_path[3]
+    # Parse the URL into its components and pull out the tweet id
+    parsed: URL = URL(url.strip())
+    return parsed.path.split("/")[3]
 
 
 def get_media(tweet: tweepy.Response) -> str | None:
