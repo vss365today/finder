@@ -47,6 +47,11 @@ def main() -> bool:
     # how often we actually need this info
     today = datetime.now()
 
+    # Cutoff date
+    if today.date() >= date(2024, 1, 1):
+        print("Today is on or after January 1, 2024. Refusing to run.")
+        return True
+
     # Get the latest recorded prompt to see if we need to do anything
     latest_tweet = v2.get("prompts/")[0]
     latest_tweet["date"] = date.fromisoformat(latest_tweet["date"])
