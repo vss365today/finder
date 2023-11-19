@@ -10,6 +10,11 @@ __all__ = ["main"]
 
 
 def main(_: Namespace) -> bool:
+    # Cutoff date
+    if date.today() >= date(2024, 1, 1):
+        print("Today is on or after January 1, 2024. Refusing to run.")
+        return True
+
     # Ask for the prompt date
     prompt_date = date.fromisoformat(
         input("Enter the Prompt date (YYYY-MM-DD): ").strip()
